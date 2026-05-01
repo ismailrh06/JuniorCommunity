@@ -1,0 +1,10 @@
+{
+  "name": "@juniorcode/config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./eslint": "./eslint.config.js",
+    "./typescript/base": "./typescript/base.json",
+    "./typescript/nextjs": "./typescript/nextjs.json"
+  }
+}

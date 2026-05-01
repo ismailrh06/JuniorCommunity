@@ -1,0 +1,23 @@
+{
+  "name": "@juniorcode/db",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./browser": "./src/client.browser.ts",
+    "./server": "./src/client.server.ts",
+    "./types": "./src/database.types.ts"
+  },
+  "peerDependencies": {
+    "next": ">=14"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0",
+    "@supabase/ssr": "^0.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
