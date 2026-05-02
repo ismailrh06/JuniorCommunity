@@ -39,30 +39,6 @@ export default function HomePage() {
     es: ["Proyectos solo para juniors", "Acompañamiento en cada etapa", "Pago seguro", "Valoraciones y reseñas"],
   };
 
-  const timelineByLanguage: Record<Language, Array<{ level: number; title: string; desc: string }>> = {
-    fr: [
-      { level: 0, title: "Onboarding", desc: "Compte, objectif, mini test de niveau." },
-      { level: 1, title: "Fondations", desc: "HTML/CSS, Git, JavaScript appliqué." },
-      { level: 2, title: "Premier projet guidé", desc: "Portfolio, app concrète, retours mentor." },
-      { level: 3, title: "Préparation marché", desc: "Offres, devis, communication client." },
-      { level: 4, title: "Projet réel", desc: "Livraison complète sur mission Junior-Only." },
-    ],
-    en: [
-      { level: 0, title: "Onboarding", desc: "Account setup, objective, mini level test." },
-      { level: 1, title: "Foundations", desc: "HTML/CSS, Git, applied JavaScript." },
-      { level: 2, title: "First guided project", desc: "Portfolio, real app, mentor feedback." },
-      { level: 3, title: "Market readiness", desc: "Offers, quotes, client communication." },
-      { level: 4, title: "Real project", desc: "End-to-end delivery on Junior-only missions." },
-    ],
-    es: [
-      { level: 0, title: "Onboarding", desc: "Cuenta, objetivo y mini prueba de nivel." },
-      { level: 1, title: "Fundamentos", desc: "HTML/CSS, Git y JavaScript aplicado." },
-      { level: 2, title: "Primer proyecto guiado", desc: "Portfolio, app real y feedback mentor." },
-      { level: 3, title: "Preparación al mercado", desc: "Ofertas, presupuesto y comunicación cliente." },
-      { level: 4, title: "Proyecto real", desc: "Entrega completa en misiones Junior-only." },
-    ],
-  };
-
   return (
     <main className="min-h-screen bg-[#070b16] text-white">
       <Navbar />
@@ -190,28 +166,90 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Timeline ── */}
-      <section className="mx-auto max-w-5xl px-4 pb-24">
+      {/* ── Parcours 4 étapes ── */}
+      <section className="mx-auto max-w-5xl px-4 pb-8">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold sm:text-4xl">{messages.home.timelineTitle}</h2>
-          <p className="mt-3 text-white/70">{messages.home.timelineDesc}</p>
+          <p className="mb-3 text-xs uppercase tracking-[0.25em] text-brand-300">Le parcours complet</p>
+          <h2 className="text-3xl font-bold sm:text-4xl">{messages.home.journeyTitle}</h2>
+          <p className="mt-3 max-w-2xl mx-auto text-white/70">{messages.home.journeyDesc}</p>
         </div>
 
-        <div className="space-y-4">
-          {timelineByLanguage[language].map((step) => (
-            <div
-              key={step.level}
-              className="group flex items-start gap-4 rounded-2xl border border-white/15 bg-white/[0.04] p-5 transition hover:border-brand-400/50 hover:bg-white/[0.07]"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-300/40 bg-brand-500/15 text-sm font-bold text-brand-200">
-                N{step.level}
+        {/* Steps grid */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {messages.home.journeySteps.map((step, idx) => {
+            const tagColors: Record<string, string> = {
+              "JC Learn": "bg-learn-500/20 text-learn-200 border-learn-400/30",
+              "Badge": "bg-brand-500/20 text-brand-200 border-brand-400/30",
+              "Marketplace": "bg-market-500/20 text-market-200 border-market-400/30",
+            };
+            const glowColors = ["shadow-learn-500/10", "shadow-learn-500/10", "shadow-brand-500/10", "shadow-market-500/10"];
+            const borderColors = ["border-learn-400/25", "border-learn-400/25", "border-brand-400/35", "border-market-400/25"];
+            return (
+              <div key={step.step} className="relative flex flex-col gap-3">
+                {/* Arrow connector (hidden on last) */}
+                {idx < 3 && (
+                  <div className="absolute right-0 top-8 hidden lg:flex translate-x-1/2 z-10 h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-[#070b16] text-white/50">
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </div>
+                )}
+                <div className={`group h-full rounded-2xl border ${borderColors[idx]} bg-white/[0.04] p-6 transition hover:-translate-y-1 hover:bg-white/[0.07] hover:shadow-xl ${glowColors[idx]}`}>
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="text-3xl">{step.icon}</span>
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-bold">
+                      {step.step}
+                    </div>
+                  </div>
+                  <div className={`mb-3 inline-block rounded-full border px-2 py-0.5 text-xs font-medium ${tagColors[step.tag] ?? "bg-white/10 text-white/50 border-white/15"}`}>
+                    {step.tag}
+                  </div>
+                  <h3 className="mb-2 text-lg font-bold">{step.title}</h3>
+                  <p className="text-sm text-white/65">{step.desc}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-white">{step.title}</h3>
-                <p className="mt-1 text-sm text-white/65">{step.desc}</p>
-              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── Badges = preuves ── */}
+      <section className="mx-auto max-w-5xl px-4 pb-24">
+        <div className="rounded-3xl border border-brand-400/20 bg-gradient-to-br from-brand-500/8 via-white/[0.03] to-market-500/8 p-8 md:p-10">
+          <div className="mb-8 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="mb-1 text-xs uppercase tracking-[0.25em] text-brand-300">Certification</p>
+              <h2 className="text-2xl font-bold sm:text-3xl">{messages.home.badgeProofTitle}</h2>
+              <p className="mt-2 max-w-lg text-sm text-white/65">{messages.home.badgeProofDesc}</p>
             </div>
-          ))}
+            <Link
+              href="/learn"
+              className="mt-4 inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-brand-400/40 bg-brand-500/15 px-4 py-2 text-sm font-medium text-brand-200 transition hover:bg-brand-500/25 sm:mt-0"
+            >
+              <BookOpen className="h-4 w-4" />
+              {messages.home.learnCta}
+            </Link>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            {messages.home.badgeProofItems.map((badge) => (
+              <div
+                key={badge.title}
+                className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition hover:border-brand-400/30 hover:bg-white/[0.07]"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl">{badge.emoji}</span>
+                  <span className="font-semibold">{badge.title}</span>
+                </div>
+                <div className="flex items-start gap-2 rounded-xl border border-white/8 bg-black/20 px-3 py-2">
+                  <span className="mt-0.5 text-xs text-brand-300">✓</span>
+                  <p className="text-xs text-white/70 italic">« {badge.proof} »</p>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-white/40">
+                  <Briefcase className="h-3.5 w-3.5" />
+                  Visible sur ton profil public
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

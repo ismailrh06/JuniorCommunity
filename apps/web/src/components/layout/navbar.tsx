@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { BookOpen, Briefcase, LayoutDashboard, Menu, X, LogIn, User } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { BookOpen, Briefcase, LayoutDashboard, Menu, X, LogIn, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
+import { getMockUserBrowser, clearMockUser, isMockMode } from "@/lib/mock-auth";
 
 const LANGUAGE_LABELS: Record<Language, string> = {
   fr: "FR",
@@ -16,16 +17,32 @@ const LANGUAGE_LABELS: Record<Language, string> = {
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
   const { language, setLanguage, messages } = useI18n();
+
+  useEffect(() => {
+    if (isMockMode()) {
+      const user = getMockUserBrowser();
+      setIsLoggedIn(!!user);
+      setUserName(user?.full_name ?? "");
+    }
+  }, [pathname]);
+
+  const handleLogout = () => {
+    clearMockUser();
+    setIsLoggedIn(false);
+    setUserName("");
+    router.push("/");
+  };
 
   const navLinks = [
     { href: "/learn", label: messages.nav.learn, icon: BookOpen, color: "text-learn-600" },
     { href: "/marketplace", label: messages.nav.marketplace, icon: Briefcase, color: "text-market-600" },
     { href: "/dashboard", label: messages.nav.dashboard, icon: LayoutDashboard, color: "text-brand-600" },
   ];
-
-  const isLoggedIn = false;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
@@ -80,15 +97,25 @@ export function Navbar() {
           </div>
 
           {isLoggedIn ? (
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              <div className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center">
-                <User className="h-4 w-4 text-brand-600" />
-              </div>
-              {messages.nav.profile}
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+              >
+                <div className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center">
+                  <User className="h-4 w-4 text-brand-600" />
+                </div>
+                {userName || messages.nav.profile}
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                {messages.nav.logout}
+              </button>
+            </div>
           ) : (
             <>
               <Link
@@ -159,20 +186,43 @@ export function Navbar() {
               </Link>
             ))}
             <div className="border-t border-gray-100 mt-2 pt-3 flex flex-col gap-2">
-              <Link
-                href="/auth/login"
-                onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 text-sm font-medium text-center text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
-              >
-                {messages.nav.login}
-              </Link>
-              <Link
-                href="/auth/register"
-                onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 text-sm font-medium text-center text-white bg-brand-600 rounded-xl hover:bg-brand-700 transition-colors"
-              >
-                {messages.nav.start}
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <User className="h-4 w-4 text-brand-600" />
+                    {userName || messages.nav.profile}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => { setMobileOpen(false); handleLogout(); }}
+                    className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-red-600 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {messages.nav.logout}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="px-4 py-3 text-sm font-medium text-center text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    {messages.nav.login}
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    onClick={() => setMobileOpen(false)}
+                    className="px-4 py-3 text-sm font-medium text-center text-white bg-brand-600 rounded-xl hover:bg-brand-700 transition-colors"
+                  >
+                    {messages.nav.start}
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>

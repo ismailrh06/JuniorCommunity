@@ -25,6 +25,7 @@ interface Project {
   difficulty: ProjectDifficulty;
   tags: string[];
   juniorOnly: boolean;
+  requiredBadge?: string;
 }
 
 const MOCK_PROJECTS: Project[] = [
@@ -42,6 +43,7 @@ const MOCK_PROJECTS: Project[] = [
     difficulty: "junior",
     tags: ["Next.js", "Tailwind", "Figma"],
     juniorOnly: true,
+    requiredBadge: "🌐 Web Developer L1",
   },
   {
     id: "2",
@@ -57,6 +59,7 @@ const MOCK_PROJECTS: Project[] = [
     difficulty: "junior",
     tags: ["Figma", "UX", "Design System"],
     juniorOnly: false,
+    requiredBadge: "🎨 UI Designer L1",
   },
   {
     id: "3",
@@ -72,6 +75,7 @@ const MOCK_PROJECTS: Project[] = [
     difficulty: "junior",
     tags: ["Python", "Pandas", "Streamlit"],
     juniorOnly: true,
+    requiredBadge: "📊 Data Analyst L1",
   },
   {
     id: "4",
@@ -87,6 +91,7 @@ const MOCK_PROJECTS: Project[] = [
     difficulty: "junior",
     tags: ["Next.js", "SEO", "CMS"],
     juniorOnly: false,
+    requiredBadge: "🌐 Web Developer L1",
   },
 ];
 
@@ -130,6 +135,8 @@ const COPY: Record<Language, {
   noProjects: string;
   byClient: string;
   applyButton: string;
+  requiredBadgeLabel: string;
+  noBadgeNeeded: string;
 }> = {
   fr: {
     badge: "JuniorCode Marketplace",
@@ -148,6 +155,8 @@ const COPY: Record<Language, {
     noProjects: "Aucun projet ne correspond à tes filtres. Essaie une recherche plus large.",
     byClient: "par",
     applyButton: "Postuler",
+    requiredBadgeLabel: "Badge requis",
+    noBadgeNeeded: "Ouvert à tous",
   },
   en: {
     badge: "JuniorCode Marketplace",
@@ -166,6 +175,8 @@ const COPY: Record<Language, {
     noProjects: "No projects match your filters. Try a broader query.",
     byClient: "by",
     applyButton: "Apply",
+    requiredBadgeLabel: "Required badge",
+    noBadgeNeeded: "Open to all",
   },
   es: {
     badge: "JuniorCode Marketplace",
@@ -184,6 +195,8 @@ const COPY: Record<Language, {
     noProjects: "Ningún proyecto coincide con tus filtros. Prueba una búsqueda más amplia.",
     byClient: "por",
     applyButton: "Postular",
+    requiredBadgeLabel: "Badge requerido",
+    noBadgeNeeded: "Abierto a todos",
   },
 };
 
@@ -240,6 +253,14 @@ export default function MarketplacePage({ searchParams }: Readonly<MarketplacePa
           <p className="mt-2 text-white/70">
             {copy.subtitle(filteredProjects.length)}
           </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/profile/alex-martin"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-xs text-white/65 transition hover:bg-white/10"
+            >
+              👤 Voir un exemple de profil junior certifié →
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -404,9 +425,19 @@ export default function MarketplacePage({ searchParams }: Readonly<MarketplacePa
                         ))}
                       </div>
                     </div>
-                    <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                  <div className="flex flex-col items-end gap-2 flex-shrink-0">
                       <span className="font-bold">{project.budget}</span>
                       <span className="text-sm text-white/50">{project.duration[language]}</span>
+                      {project.requiredBadge ? (
+                        <span className="flex items-center gap-1 rounded-full border border-brand-400/40 bg-brand-500/15 px-2.5 py-1 text-xs font-medium text-brand-200">
+                          <span>🏅</span>
+                          <span>{copy.requiredBadgeLabel} : {project.requiredBadge}</span>
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-xs text-white/45">
+                          {copy.noBadgeNeeded}
+                        </span>
+                      )}
                       <button className="mt-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-500">
                         {copy.applyButton}
                       </button>

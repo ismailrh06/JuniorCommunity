@@ -1,22 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import Link from "next/link";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Clock3,
-  BookOpen,
-  Hammer,
-  Zap,
-  CheckCircle2,
-  ExternalLink,
-  Code2,
-  Lightbulb,
-  Target,
-} from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { InteractiveModule } from "@/components/learn/interactive-module";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -25,7 +12,10 @@ type ModuleType = "lesson" | "exercise" | "project";
 interface Step {
   title: string;
   content: string;
+  details?: string[];
+  example?: string;
   code?: string;
+  practice?: string;
   tip?: string;
 }
 
@@ -112,7 +102,138 @@ const PATH_LABELS: Record<string, Record<Language, string>> = {
     en: "Junior Data Analyst",
     es: "Data Analyst Junior",
   },
+  "programming-languages": {
+    fr: "Langages de programmation",
+    en: "Programming Languages",
+    es: "Lenguajes de programación",
+  },
+  "algorithms": {
+    fr: "Algorithmes fondamentaux",
+    en: "Fundamental Algorithms",
+    es: "Algoritmos fundamentales",
+  },
 };
+
+const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
+  fr: {},
+  en: {
+    "html-basics": "HTML — Structure & semantics",
+    "css-basics": "CSS — Styles & layout",
+    "first-landing": "🔨 Project: Your first landing page",
+    "git-basics": "Git & GitHub — The basics",
+    "github-publish": "🔨 Publish on GitHub Pages",
+    "js-basics": "JavaScript — Variables, functions, DOM",
+    "js-dom": "Advanced JavaScript — Events & fetch",
+    "todo-app": "🔨 Complete to-do app",
+    "react-intro": "Introduction to React",
+    "portfolio": "🔨 Personal portfolio with React",
+    "read-offer": "How to read a mission brief",
+    "apply": "Apply and talk to a client",
+    "quote": "Create a simple quote",
+    "marketplace-intro": "Access Junior-Only projects",
+    "design-thinking": "Design Thinking — Core principles",
+    "color-theory": "Color theory & typography",
+    "figma-intro": "Figma — Complete beginner guide",
+    "first-wireframe": "🔨 First wireframe for a mobile app",
+    "ui-components": "Create a Figma component system",
+    "spacing-grid": "Grids, spacing & alignment",
+    "ui-kit": "🔨 Complete design kit (buttons, cards...)",
+    "dark-mode": "🔨 Turn your UI into dark mode",
+    "case-study": "Write a convincing case study",
+    "portfolio-design": "🔨 Behance / Figma Community portfolio",
+    "client-pitch": "Present your design to a client",
+    "python-intro": "Python — Variables, lists, functions",
+    "pandas-intro": "Pandas — Load and explore data",
+    "first-analysis": "🔨 Analyze a real CSV dataset",
+    "data-cleaning": "Data cleaning — Key techniques",
+    "matplotlib": "Matplotlib & Seaborn — Charts",
+    "plotly": "Plotly — Interactive charts",
+    "dashboard": "🔨 Interactive dashboard with Plotly Dash",
+    "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
+    "sql-advanced": "Advanced SQL — Subqueries & windows",
+    "report": "🔨 Complete analysis report",
+    "data-marketplace": "Access data missions",
+    "language-choice": "Choose the right language for your goal",
+    "python-programming": "Python — Automation, scripts & logic",
+    "typescript-programming": "TypeScript — Robust JavaScript",
+    "java-programming": "Java — OOP, backend & applications",
+    "csharp-programming": "C# — Apps, APIs & the .NET ecosystem",
+    "c-programming": "C — Memory, pointers & system basics",
+    "cpp-programming": "C++ — Performance, objects & STL",
+    "algorithmic-thinking": "Algorithmic thinking — Solve before coding",
+    "complexity-big-o": "Big O complexity — Time & memory",
+    "arrays-strings": "Arrays & strings — Traverse, search, transform",
+    "hashmaps-sets": "Hash maps & sets — Find things fast",
+    "stacks-queues": "Stacks & queues — Order, history, lines",
+    "recursion": "Recursion — Break a problem down",
+    "sorting-searching": "Sorting & searching — Useful classics",
+    "trees-graphs": "Trees & graphs — Explore relationships",
+    "dynamic-programming-intro": "Dynamic programming — Simple memoization",
+    "algorithm-challenges": "🔨 Algorithm practice sprint",
+  },
+  es: {
+    "html-basics": "HTML — Estructura y semántica",
+    "css-basics": "CSS — Estilos y maquetación",
+    "first-landing": "🔨 Proyecto: tu primera landing page",
+    "git-basics": "Git y GitHub — Las bases",
+    "github-publish": "🔨 Publicar en GitHub Pages",
+    "js-basics": "JavaScript — Variables, funciones, DOM",
+    "js-dom": "JavaScript avanzado — Eventos y fetch",
+    "todo-app": "🔨 To-do app completa",
+    "react-intro": "Introducción a React",
+    "portfolio": "🔨 Portfolio personal con React",
+    "read-offer": "Cómo leer una oferta de misión",
+    "apply": "Postular y hablar con un cliente",
+    "quote": "Crear un presupuesto simple",
+    "marketplace-intro": "Acceso a proyectos Junior-Only",
+    "design-thinking": "Design Thinking — Principios fundamentales",
+    "color-theory": "Teoría del color y tipografía",
+    "figma-intro": "Figma — Guía completa para empezar",
+    "first-wireframe": "🔨 Primer wireframe de una app móvil",
+    "ui-components": "Crear un sistema de componentes Figma",
+    "spacing-grid": "Grillas, espaciado y alineación",
+    "ui-kit": "🔨 Design kit completo (botones, cards...)",
+    "dark-mode": "🔨 Convertir tu UI a dark mode",
+    "case-study": "Redactar un case study convincente",
+    "portfolio-design": "🔨 Portfolio Behance / Figma Community",
+    "client-pitch": "Presentar tu diseño a un cliente",
+    "python-intro": "Python — Variables, listas, funciones",
+    "pandas-intro": "Pandas — Cargar y explorar datos",
+    "first-analysis": "🔨 Analizar un dataset CSV real",
+    "data-cleaning": "Limpieza de datos — Técnicas clave",
+    "matplotlib": "Matplotlib y Seaborn — Gráficos",
+    "plotly": "Plotly — Gráficos interactivos",
+    "dashboard": "🔨 Dashboard interactivo con Plotly Dash",
+    "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
+    "sql-advanced": "SQL avanzado — Subconsultas y ventanas",
+    "report": "🔨 Reporte de análisis completo",
+    "data-marketplace": "Acceso a misiones data",
+    "language-choice": "Elegir el lenguaje correcto para tu objetivo",
+    "python-programming": "Python — Automatización, scripts y lógica",
+    "typescript-programming": "TypeScript — JavaScript robusto",
+    "java-programming": "Java — POO, backend y aplicaciones",
+    "csharp-programming": "C# — Apps, APIs y ecosistema .NET",
+    "c-programming": "C — Memoria, punteros y bases de sistema",
+    "cpp-programming": "C++ — Rendimiento, objetos y STL",
+    "algorithmic-thinking": "Pensamiento algorítmico — Resolver antes de codificar",
+    "complexity-big-o": "Complejidad Big O — Tiempo y memoria",
+    "arrays-strings": "Arrays y strings — Recorrer, buscar, transformar",
+    "hashmaps-sets": "Hash maps y sets — Encontrar rápido",
+    "stacks-queues": "Stacks y queues — Orden, historial, colas",
+    "recursion": "Recursión — Descomponer un problema",
+    "sorting-searching": "Ordenación y búsqueda — Clásicos útiles",
+    "trees-graphs": "Árboles y grafos — Explorar relaciones",
+    "dynamic-programming-intro": "Programación dinámica — Memoización simple",
+    "algorithm-challenges": "🔨 Sprint de ejercicios algorítmicos",
+  },
+};
+
+function getModuleTitle(module: ModuleContent | null | undefined, language: Language) {
+  if (!module) return "";
+  return MODULE_TITLE_TRANSLATIONS[language][module.id] ?? module.title;
+}
+
+type ModuleContentTranslation = Partial<Pick<ModuleContent, "intro" | "objectives" | "steps" | "resources">>;
 
 // ─── All module content ───────────────────────────────────────────────────────
 const MODULES: Record<string, ModuleContent> = {
@@ -134,6 +255,13 @@ const MODULES: Record<string, ModuleContent> = {
         title: "La structure de base",
         content:
           "Tout document HTML commence par un DOCTYPE et une structure en arbre. Voici le minimum vital pour toute page.",
+        details: [
+          "DOCTYPE indique au navigateur qu'il doit lire la page en HTML moderne.",
+          "head contient les informations invisibles : titre, encodage, responsive, SEO.",
+          "body contient ce que l'utilisateur voit et utilise vraiment.",
+        ],
+        example:
+          "Lis le document de haut en bas : le navigateur prépare d'abord les règles dans head, puis affiche le contenu du body.",
         code: `<!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -146,12 +274,21 @@ const MODULES: Record<string, ModuleContent> = {
     <p>Ceci est mon premier paragraphe.</p>
   </body>
 </html>`,
+        practice:
+          "Crée une page HTML complète, change le titre, ajoute un second paragraphe, puis vérifie que le texte apparaît bien dans le navigateur.",
         tip: "Toujours préciser lang='fr' pour l'accessibilité et le SEO.",
       },
       {
         title: "Les balises sémantiques",
         content:
           "HTML5 a introduit des balises qui donnent du sens au contenu. Utilise-les plutôt que des <div> génériques.",
+        details: [
+          "header introduit une page ou une section.",
+          "main contient le contenu principal unique de la page.",
+          "article représente un contenu autonome, par exemple un post, une carte projet ou une actualité.",
+        ],
+        example:
+          "Imagine la page comme un document : header annonce, main raconte, aside complète, footer conclut.",
         code: `<header>
   <nav>
     <a href="/">Accueil</a>
@@ -173,11 +310,20 @@ const MODULES: Record<string, ModuleContent> = {
 <footer>
   <p>&copy; 2026 MonSite</p>
 </footer>`,
+        practice:
+          "Remplace une structure composée uniquement de div par header, main, section, article et footer. Garde les div seulement pour les besoins de mise en page.",
         tip: "Un seul <main> par page. <header> et <footer> peuvent apparaître plusieurs fois.",
       },
       {
         title: "Liens, images et listes",
         content: "Les éléments les plus courants que tu utiliseras dans chaque projet.",
+        details: [
+          "Un lien doit annoncer clairement où il mène.",
+          "Une image doit avoir un alt utile, sauf si elle est purement décorative.",
+          "Une liste sert à regrouper des éléments de même nature, pas seulement à ajouter des puces.",
+        ],
+        example:
+          "Sur un portfolio, tu utiliseras un lien pour ouvrir un projet, une image pour montrer une capture, et une liste pour présenter les technologies utilisées.",
         code: `<!-- Lien -->
 <a href="https://example.com" target="_blank" rel="noopener">
   Visiter le site
@@ -204,6 +350,8 @@ const MODULES: Record<string, ModuleContent> = {
   <li>Apprendre CSS</li>
   <li>Construire un projet</li>
 </ol>`,
+        practice:
+          "Ajoute à ta page un lien vers ton GitHub, une image avec un alt précis, puis une liste de trois compétences que tu veux mettre en avant.",
         tip: "L'attribut alt est obligatoire pour l'accessibilité. Décris ce que l'image montre.",
       },
     ],
@@ -1862,6 +2010,699 @@ FROM monthly_revenue;`,
     prevModule: "report",
   },
 
+  "language-choice": {
+    id: "language-choice",
+    title: "Choisir le bon langage pour ton objectif",
+    duration: "35 min",
+    type: "lesson",
+    intro:
+      "Un langage n'est pas juste une syntaxe. C'est un outil avec un écosystème, des forces, des limites et des usages métier.",
+    objectives: [
+      "Comparer les langages selon un objectif réel",
+      "Comprendre les familles : scripting, backend, système, typé, compilé",
+      "Choisir un premier langage sans rester bloqué dans l'analyse",
+    ],
+    steps: [
+      {
+        title: "Décider avec un critère métier",
+        content:
+          "Le bon langage dépend du problème : automatiser, créer une API, manipuler des données, construire une app, apprendre la mémoire ou viser la performance.",
+        details: [
+          "Python est excellent pour apprendre, automatiser, analyser des données et prototyper vite.",
+          "Java, C# et TypeScript brillent dans les applications maintenables en équipe.",
+          "C et C++ sont utiles pour comprendre la mémoire, les systèmes et la performance.",
+        ],
+        example:
+          "Si un client demande un script qui renomme 5 000 fichiers, Python est naturel. Si le client veut une API robuste d'entreprise, Java ou C# devient pertinent.",
+        practice:
+          "Écris trois objectifs personnels ou client, puis associe un langage à chacun avec une raison concrète.",
+      },
+      {
+        title: "Comparer les usages",
+        content:
+          "Deux langages peuvent faire la même chose, mais pas avec le même confort. Regarde la syntaxe, les librairies, les outils, la communauté et les offres.",
+        code: `Automatisation simple  -> Python
+Frontend / full-stack  -> TypeScript
+Backend entreprise     -> Java ou C#
+Performance / système  -> C ou C++
+Data / IA              -> Python`,
+        tip: "Ne cherche pas le langage parfait. Cherche le langage utile pour le prochain projet.",
+      },
+    ],
+    nextModule: "python-programming",
+  },
+
+  "python-programming": {
+    id: "python-programming",
+    title: "Python — Automatisation, scripts & logique",
+    duration: "75 min",
+    type: "lesson",
+    intro:
+      "Python est souvent le meilleur langage pour commencer : lisible, polyvalent et très utilisé en automatisation, data, IA et backend.",
+    objectives: [
+      "Manipuler variables, listes, dictionnaires et fonctions",
+      "Écrire un script utile",
+      "Comprendre le style Pythonique : clair, simple, direct",
+    ],
+    steps: [
+      {
+        title: "Les bases qui reviennent partout",
+        content:
+          "Avec Python, tu peux déjà faire beaucoup avec des listes, dictionnaires, boucles et fonctions. La lisibilité compte autant que le résultat.",
+        code: `tasks = ["facture.pdf", "logo.png", "notes.txt"]
+
+def show_files(files):
+    for index, file in enumerate(files, start=1):
+        print(index, file)
+
+show_files(tasks)`,
+        practice:
+          "Crée une liste de 5 fichiers ou tâches, puis écris une fonction qui les affiche avec un numéro.",
+        tip: "En Python, l'indentation fait partie de la syntaxe. Elle structure réellement le programme.",
+      },
+      {
+        title: "Mini-script utile",
+        content:
+          "Un bon exercice Python consiste à transformer une petite donnée brute en résultat propre.",
+        code: `prices = [19.99, 49.90, 12.50]
+total = sum(prices)
+average = total / len(prices)
+
+print(round(total, 2))
+print(round(average, 2))`,
+        practice:
+          "Remplace les prix par des heures de travail, puis calcule le total à facturer avec un taux horaire.",
+      },
+    ],
+    prevModule: "language-choice",
+    nextModule: "typescript-programming",
+  },
+
+  "typescript-programming": {
+    id: "typescript-programming",
+    title: "TypeScript — JavaScript robuste",
+    duration: "75 min",
+    type: "lesson",
+    intro:
+      "TypeScript ajoute des types à JavaScript. Il t'aide à éviter les erreurs avant même d'ouvrir le navigateur.",
+    objectives: [
+      "Comprendre les types simples et les interfaces",
+      "Modéliser des données propres",
+      "Voir pourquoi TypeScript est précieux en équipe",
+    ],
+    steps: [
+      {
+        title: "Décrire les données",
+        content:
+          "Un type sert à dire clairement la forme attendue d'une donnée. C'est une documentation vivante et vérifiée par l'éditeur.",
+        code: `type Mission = {
+  title: string;
+  budget: number;
+  isRemote: boolean;
+};
+
+const mission: Mission = {
+  title: "Landing page restaurant",
+  budget: 450,
+  isRemote: true,
+};`,
+        practice:
+          "Crée un type Profile avec name, skills et hourlyRate, puis crée un objet qui respecte ce type.",
+      },
+      {
+        title: "Fonctions typées",
+        content:
+          "Les paramètres et le retour d'une fonction peuvent être typés pour rendre le comportement plus prévisible.",
+        code: `function formatBudget(amount: number): string {
+  return amount + " EUR";
+}
+
+formatBudget(450);`,
+        tip: "TypeScript n'est pas là pour écrire plus. Il est là pour casser moins.",
+      },
+    ],
+    prevModule: "python-programming",
+    nextModule: "java-programming",
+  },
+
+  "java-programming": {
+    id: "java-programming",
+    title: "Java — POO, backend & applications",
+    duration: "80 min",
+    type: "lesson",
+    intro:
+      "Java est très utilisé dans les entreprises pour des applications backend solides, maintenables et structurées.",
+    objectives: [
+      "Comprendre classes, objets et méthodes",
+      "Lire une structure Java simple",
+      "Voir pourquoi Java est apprécié dans les gros projets",
+    ],
+    steps: [
+      {
+        title: "Penser en objets",
+        content:
+          "Java organise souvent le code autour d'objets : une classe décrit un modèle, un objet est une instance de ce modèle.",
+        code: `class User {
+  String name;
+
+  User(String name) {
+    this.name = name;
+  }
+
+  String greet() {
+    return "Bonjour " + name;
+  }
+}`,
+        practice:
+          "Imagine une classe Product avec name et price, puis liste les méthodes utiles : applyDiscount, getLabel, etc.",
+      },
+      {
+        title: "Pourquoi Java en backend",
+        content:
+          "Java est verbeux, mais cette clarté devient utile quand beaucoup de personnes travaillent sur le même code pendant des années.",
+        details: [
+          "Typage fort : moins d'ambiguïtés.",
+          "Écosystème mature : Spring, Maven, tests, monitoring.",
+          "Bon choix pour APIs, banques, outils internes et applications longues à maintenir.",
+        ],
+      },
+    ],
+    prevModule: "typescript-programming",
+    nextModule: "csharp-programming",
+  },
+
+  "csharp-programming": {
+    id: "csharp-programming",
+    title: "C# — Apps, APIs & écosystème .NET",
+    duration: "75 min",
+    type: "lesson",
+    intro:
+      "C# est un langage moderne, typé et productif pour créer des APIs, applications desktop, jeux Unity et services avec .NET.",
+    objectives: [
+      "Comprendre la syntaxe C# de base",
+      "Identifier les cas d'usage : API, app, Unity, cloud",
+      "Comparer C# avec Java et TypeScript",
+    ],
+    steps: [
+      {
+        title: "Un langage typé et expressif",
+        content:
+          "C# ressemble à Java dans sa structure, mais son écosystème .NET offre beaucoup d'outils modernes pour livrer vite.",
+        code: `public class Invoice
+{
+    public string Client { get; set; }
+    public decimal Amount { get; set; }
+
+    public string Summary()
+    {
+        return Client + ": " + Amount + " EUR";
+    }
+}`,
+        practice:
+          "Décris une classe Mission en C# avec un client, un budget et une méthode Summary.",
+      },
+      {
+        title: "Quand choisir C#",
+        content:
+          "C# est très intéressant si tu veux travailler avec .NET, Azure, APIs d'entreprise ou Unity.",
+        tip: "Pour un junior, C# est un bon choix si ton marché local a des offres .NET ou si tu veux faire Unity.",
+      },
+    ],
+    prevModule: "java-programming",
+    nextModule: "c-programming",
+  },
+
+  "c-programming": {
+    id: "c-programming",
+    title: "C — Mémoire, pointeurs & bases système",
+    duration: "90 min",
+    type: "lesson",
+    intro:
+      "C t'apprend ce qui se passe près de la machine : mémoire, adresses, compilation et contrôle précis.",
+    objectives: [
+      "Comprendre variables, compilation et fonctions",
+      "Découvrir les pointeurs sans panique",
+      "Voir pourquoi C forme très bien la logique système",
+    ],
+    steps: [
+      {
+        title: "Compiler et exécuter",
+        content:
+          "Contrairement à Python, C est compilé : ton code source devient un programme exécutable avant de tourner.",
+        code: `#include <stdio.h>
+
+int main(void) {
+    int score = 10;
+    printf("Score: %d\\n", score);
+    return 0;
+}`,
+        practice:
+          "Repère le rôle de #include, main, printf et return. Explique chaque ligne en une phrase.",
+      },
+      {
+        title: "L'idée des pointeurs",
+        content:
+          "Un pointeur contient une adresse mémoire. C'est puissant, mais cela demande de la rigueur.",
+        code: `int age = 21;
+int *pointer = &age;
+
+printf("%d\\n", age);
+printf("%p\\n", pointer);`,
+        tip: "& récupère l'adresse. * sert à déclarer ou lire via un pointeur selon le contexte.",
+      },
+    ],
+    prevModule: "csharp-programming",
+    nextModule: "cpp-programming",
+  },
+
+  "cpp-programming": {
+    id: "cpp-programming",
+    title: "C++ — Performance, objets & STL",
+    duration: "90 min",
+    type: "lesson",
+    intro:
+      "C++ ajoute au C des abstractions puissantes : objets, templates, containers et outils pour écrire du code performant.",
+    objectives: [
+      "Comprendre le lien entre C et C++",
+      "Utiliser vector, string et fonctions simples",
+      "Voir où C++ est pertinent : jeux, moteurs, finance, embarqué",
+    ],
+    steps: [
+      {
+        title: "Utiliser la STL",
+        content:
+          "La STL fournit des structures prêtes à l'emploi. vector est souvent plus sûr et pratique qu'un tableau brut.",
+        code: `#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> scores = {10, 15, 20};
+
+    for (int score : scores) {
+        std::cout << score << "\\n";
+    }
+}`,
+        practice:
+          "Transforme l'exemple pour stocker des prix, puis calcule le total avec une boucle.",
+      },
+      {
+        title: "Performance avec responsabilité",
+        content:
+          "C++ donne beaucoup de contrôle. Ce contrôle est utile pour la performance, mais il demande des choix simples et mesurés.",
+        tip: "Avant d'optimiser, écris un code clair. Ensuite seulement mesure ce qui est lent.",
+      },
+    ],
+    prevModule: "c-programming",
+  },
+
+  "algorithmic-thinking": {
+    id: "algorithmic-thinking",
+    title: "Pensée algorithmique — Résoudre avant de coder",
+    duration: "45 min",
+    type: "lesson",
+    intro:
+      "Un algorithme est une suite d'étapes pour résoudre un problème. Le code vient après la stratégie.",
+    objectives: [
+      "Transformer un problème flou en étapes claires",
+      "Écrire du pseudo-code",
+      "Tester une solution sur de petits exemples",
+    ],
+    steps: [
+      {
+        title: "Clarifier entrée, sortie, règles",
+        content:
+          "Avant de coder, demande : quelles données j'ai ? Quel résultat je veux ? Quelles règles dois-je respecter ?",
+        example:
+          "Pour trouver le plus grand nombre d'une liste : entrée = liste de nombres, sortie = un nombre, règle = comparer chaque élément.",
+        practice:
+          "Choisis un problème simple et écris entrée, sortie, règles, puis trois cas de test.",
+      },
+      {
+        title: "Écrire en pseudo-code",
+        content:
+          "Le pseudo-code permet de penser sans se battre avec la syntaxe d'un langage.",
+        code: `max = premier élément
+pour chaque nombre dans la liste:
+  si nombre > max:
+    max = nombre
+retourner max`,
+        tip: "Si ton pseudo-code est confus, ton code le sera aussi.",
+      },
+    ],
+    nextModule: "complexity-big-o",
+  },
+
+  "complexity-big-o": {
+    id: "complexity-big-o",
+    title: "Complexité Big O — Temps & mémoire",
+    duration: "60 min",
+    type: "lesson",
+    intro:
+      "Big O sert à estimer comment ton algorithme grandit quand les données grandissent.",
+    objectives: [
+      "Reconnaître O(1), O(n), O(n²) et O(log n)",
+      "Comparer deux solutions simplement",
+      "Éviter les boucles inutiles",
+    ],
+    steps: [
+      {
+        title: "Lire les boucles",
+        content:
+          "Une boucle sur une liste est souvent O(n). Deux boucles imbriquées sur la même liste deviennent souvent O(n²).",
+        code: `// O(n)
+for (const item of items) {
+  console.log(item);
+}
+
+// O(n²)
+for (const a of items) {
+  for (const b of items) {
+    console.log(a, b);
+  }
+}`,
+        practice:
+          "Regarde une fonction que tu as écrite et compte combien de fois elle parcourt les données.",
+      },
+      {
+        title: "Pourquoi ça compte",
+        content:
+          "Sur 10 éléments, tout semble rapide. Sur 100 000 éléments, une mauvaise complexité devient visible.",
+        tip: "Big O n'est pas une obsession mathématique : c'est une alarme pratique.",
+      },
+    ],
+    prevModule: "algorithmic-thinking",
+    nextModule: "arrays-strings",
+  },
+
+  "arrays-strings": {
+    id: "arrays-strings",
+    title: "Tableaux & chaînes — Parcourir, chercher, transformer",
+    duration: "70 min",
+    type: "lesson",
+    intro:
+      "Les tableaux et chaînes sont les structures les plus fréquentes dans les exercices, APIs et interfaces.",
+    objectives: [
+      "Parcourir une collection",
+      "Filtrer, transformer et compter",
+      "Résoudre des problèmes simples sans complexité inutile",
+    ],
+    steps: [
+      {
+        title: "Parcourir avec intention",
+        content:
+          "Ne boucle pas juste pour boucler. Chaque parcours doit chercher, transformer, compter ou valider quelque chose.",
+        code: `const names = ["Ada", "Linus", "Grace"];
+const longNames = names.filter((name) => name.length >= 5);
+const upper = names.map((name) => name.toUpperCase());`,
+        practice:
+          "Crée une liste de mots, filtre ceux de plus de 4 lettres, puis transforme-les en majuscules.",
+      },
+      {
+        title: "Chaînes comme tableaux de caractères",
+        content:
+          "Beaucoup de problèmes de string se résolvent en parcourant les caractères un par un.",
+        code: `function countLetter(word, letter) {
+  let count = 0;
+  for (const char of word) {
+    if (char === letter) count++;
+  }
+  return count;
+}`,
+      },
+    ],
+    prevModule: "complexity-big-o",
+    nextModule: "hashmaps-sets",
+  },
+
+  "hashmaps-sets": {
+    id: "hashmaps-sets",
+    title: "Hash maps & sets — Retrouver vite",
+    duration: "60 min",
+    type: "lesson",
+    intro:
+      "Les maps et sets permettent de retrouver, compter ou dédupliquer des données très efficacement.",
+    objectives: [
+      "Utiliser Set pour les valeurs uniques",
+      "Utiliser Map ou objet pour compter",
+      "Reconnaître les problèmes de fréquence",
+    ],
+    steps: [
+      {
+        title: "Détecter les doublons",
+        content:
+          "Un Set garde une seule copie de chaque valeur. C'est parfait pour vérifier si une donnée est déjà vue.",
+        code: `function hasDuplicate(values) {
+  const seen = new Set();
+  for (const value of values) {
+    if (seen.has(value)) return true;
+    seen.add(value);
+  }
+  return false;
+}`,
+        practice:
+          "Utilise un Set pour vérifier si une liste d'emails contient un doublon.",
+      },
+      {
+        title: "Compter les fréquences",
+        content:
+          "Une map permet d'associer une clé à une valeur, par exemple un mot à son nombre d'apparitions.",
+        tip: "Quand tu vois les mots compter, fréquence ou déjà vu, pense map/set.",
+      },
+    ],
+    prevModule: "arrays-strings",
+    nextModule: "stacks-queues",
+  },
+
+  "stacks-queues": {
+    id: "stacks-queues",
+    title: "Stacks & queues — Ordre, historique, files",
+    duration: "55 min",
+    type: "lesson",
+    intro:
+      "Stack et queue sont deux façons simples d'organiser l'ordre de traitement des données.",
+    objectives: [
+      "Comprendre LIFO et FIFO",
+      "Identifier les cas undo, historique, file d'attente",
+      "Implémenter une stack simple",
+    ],
+    steps: [
+      {
+        title: "Stack : dernier arrivé, premier sorti",
+        content:
+          "Une stack fonctionne comme une pile. Utile pour undo, historique, parenthèses et parcours.",
+        code: `const history = [];
+history.push("home");
+history.push("profile");
+
+const lastPage = history.pop();`,
+        practice:
+          "Simule un historique de navigation avec push et pop.",
+      },
+      {
+        title: "Queue : premier arrivé, premier sorti",
+        content:
+          "Une queue fonctionne comme une file d'attente. Utile pour tâches, messages, commandes et parcours BFS.",
+        code: `const queue = ["task-1", "task-2"];
+const next = queue.shift();`,
+      },
+    ],
+    prevModule: "hashmaps-sets",
+    nextModule: "recursion",
+  },
+
+  "recursion": {
+    id: "recursion",
+    title: "Récursion — Décomposer un problème",
+    duration: "65 min",
+    type: "lesson",
+    intro:
+      "La récursion consiste à résoudre un problème en appelant la même fonction sur une version plus petite du problème.",
+    objectives: [
+      "Comprendre cas de base et appel récursif",
+      "Éviter les boucles infinies",
+      "Reconnaître arbres, dossiers, menus imbriqués",
+    ],
+    steps: [
+      {
+        title: "Cas de base d'abord",
+        content:
+          "Une fonction récursive doit toujours savoir quand s'arrêter. C'est le cas de base.",
+        code: `function factorial(n) {
+  if (n <= 1) return 1;
+  return n * factorial(n - 1);
+}`,
+        practice:
+          "Écris à la main les appels pour factorial(4) jusqu'au cas de base.",
+      },
+      {
+        title: "Quand l'utiliser",
+        content:
+          "La récursion est naturelle pour explorer des structures imbriquées : arbres, commentaires, dossiers, catégories.",
+        tip: "Si le problème contient des sous-problèmes qui ressemblent au problème initial, la récursion peut être adaptée.",
+      },
+    ],
+    prevModule: "stacks-queues",
+    nextModule: "sorting-searching",
+  },
+
+  "sorting-searching": {
+    id: "sorting-searching",
+    title: "Tri & recherche — Les classiques utiles",
+    duration: "75 min",
+    type: "lesson",
+    intro:
+      "Trier et chercher sont deux opérations fondamentales. Beaucoup de problèmes deviennent simples une fois les données ordonnées.",
+    objectives: [
+      "Comprendre recherche linéaire et binaire",
+      "Savoir quand trier avant de résoudre",
+      "Utiliser sort sans oublier son coût",
+    ],
+    steps: [
+      {
+        title: "Recherche linéaire vs binaire",
+        content:
+          "La recherche linéaire teste tout. La recherche binaire coupe en deux, mais exige une liste triée.",
+        code: `function includesValue(sorted, target) {
+  let left = 0;
+  let right = sorted.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (sorted[mid] === target) return true;
+    if (sorted[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  return false;
+}`,
+        practice:
+          "Teste mentalement la recherche de 7 dans [1, 3, 5, 7, 9].",
+      },
+      {
+        title: "Trier pour simplifier",
+        content:
+          "Trier coûte du temps, mais peut rendre une solution beaucoup plus claire.",
+        tip: "Si l'ordre aide à comparer voisins, doublons ou intervalles, le tri est souvent une bonne piste.",
+      },
+    ],
+    prevModule: "recursion",
+    nextModule: "trees-graphs",
+  },
+
+  "trees-graphs": {
+    id: "trees-graphs",
+    title: "Arbres & graphes — Explorer des relations",
+    duration: "80 min",
+    type: "lesson",
+    intro:
+      "Les arbres et graphes modélisent des relations : menus, dépendances, réseaux, routes, organisations.",
+    objectives: [
+      "Comprendre noeuds et arêtes",
+      "Différencier arbre et graphe",
+      "Découvrir DFS et BFS",
+    ],
+    steps: [
+      {
+        title: "Modéliser les relations",
+        content:
+          "Un graphe contient des noeuds reliés par des arêtes. Un arbre est un graphe sans cycle avec une structure hiérarchique.",
+        code: `const graph = {
+  A: ["B", "C"],
+  B: ["A", "D"],
+  C: ["A"],
+  D: ["B"],
+};`,
+        practice:
+          "Dessine un graphe simple de pages reliées par des liens : Home, About, Projects, Contact.",
+      },
+      {
+        title: "Explorer",
+        content:
+          "DFS va profond, BFS explore par niveau. Les deux servent à parcourir des relations.",
+        tip: "Pour trouver le plus court chemin en nombre d'étapes dans un graphe non pondéré, pense BFS.",
+      },
+    ],
+    prevModule: "sorting-searching",
+    nextModule: "dynamic-programming-intro",
+  },
+
+  "dynamic-programming-intro": {
+    id: "dynamic-programming-intro",
+    title: "Programmation dynamique — Mémoïsation simple",
+    duration: "80 min",
+    type: "lesson",
+    intro:
+      "La programmation dynamique évite de recalculer les mêmes sous-problèmes. On commence par la mémoïsation.",
+    objectives: [
+      "Repérer les sous-problèmes répétés",
+      "Utiliser un cache simple",
+      "Comprendre Fibonacci comme exemple classique",
+    ],
+    steps: [
+      {
+        title: "Ajouter un cache",
+        content:
+          "Si une fonction calcule plusieurs fois la même chose, on peut stocker le résultat dans un cache.",
+        code: `function fib(n, memo = {}) {
+  if (n <= 1) return n;
+  if (memo[n] !== undefined) return memo[n];
+
+  memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
+  return memo[n];
+}`,
+        practice:
+          "Liste les appels répétés de fib(5), puis explique ce que le cache évite.",
+      },
+      {
+        title: "Quand y penser",
+        content:
+          "Pense programmation dynamique quand un problème a des choix, des sous-problèmes répétés et une réponse optimale à construire.",
+        tip: "Ne commence pas par DP. Commence par une solution récursive claire, puis ajoute le cache.",
+      },
+    ],
+    prevModule: "trees-graphs",
+    nextModule: "algorithm-challenges",
+  },
+
+  "algorithm-challenges": {
+    id: "algorithm-challenges",
+    title: "🔨 Sprint d'exercices algorithmiques",
+    duration: "3h",
+    type: "project",
+    intro:
+      "Tu vas résoudre une série de petits problèmes pour consolider les patterns : tableaux, maps, stack, récursion et recherche.",
+    objectives: [
+      "Résoudre 8 exercices courts",
+      "Écrire une explication avant le code",
+      "Comparer au moins deux complexités",
+      "Créer une fiche de révision personnelle",
+    ],
+    steps: [
+      {
+        title: "Préparer le format de résolution",
+        content:
+          "Pour chaque exercice, écris : idée, pseudo-code, complexité, code, test manuel.",
+        code: `Problème:
+Entrée:
+Sortie:
+Idée:
+Pseudo-code:
+Complexité:
+Tests:`,
+        practice:
+          "Crée ce template dans un fichier notes-algo.md et utilise-le pour les exercices.",
+      },
+      {
+        title: "Sprint de problèmes",
+        content:
+          "Résous : doublons, compter lettres, inverser une chaîne, two sum, parenthèses valides, recherche binaire, profondeur d'arbre, Fibonacci mémoïsé.",
+        practice:
+          "Après chaque exercice, écris une phrase : quel pattern ai-je utilisé et pourquoi ?",
+        tip: "La régularité bat la difficulté. Mieux vaut 8 petits problèmes bien expliqués que 1 gros copié.",
+      },
+    ],
+    prevModule: "dynamic-programming-intro",
+  },
+
   // UI Designer remaining modules
   "ui-components": {
     id: "ui-components",
@@ -2000,6 +2841,204 @@ FROM monthly_revenue;`,
   },
 };
 
+const MODULE_CONTENT_TRANSLATIONS: Record<string, Partial<Record<Language, ModuleContentTranslation>>> = {
+  "html-basics": {
+    en: {
+      intro:
+        "HTML (HyperText Markup Language) is the skeleton of every web page. It describes the structure and meaning of the content. Without HTML, there is no page.",
+      objectives: [
+        "Understand the structure of an HTML5 document",
+        "Use the right semantic tags (header, main, section, article...)",
+        "Create links, images, lists, and tables",
+        "Validate your code with the W3C validator",
+      ],
+      steps: [
+        {
+          title: "The basic structure",
+          content:
+            "Every HTML document starts with a DOCTYPE and a tree structure. This is the essential minimum for any page.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My first page</title>
+  </head>
+  <body>
+    <h1>Hello world!</h1>
+    <p>This is my first paragraph.</p>
+  </body>
+</html>`,
+          tip: "Always set the lang attribute for accessibility and SEO.",
+        },
+        {
+          title: "Semantic tags",
+          content:
+            "HTML5 introduced tags that give meaning to content. Use them instead of generic <div> elements when they fit.",
+          code: `<header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <h2>My article</h2>
+    <p>The main content goes here.</p>
+  </article>
+
+  <aside>
+    <p>Additional information</p>
+  </aside>
+</main>
+
+<footer>
+  <p>&copy; 2026 MySite</p>
+</footer>`,
+          tip: "Use only one <main> per page. <header> and <footer> can appear more than once.",
+        },
+        {
+          title: "Links, images, and lists",
+          content: "These are the elements you will use in almost every project.",
+          code: `<!-- Link -->
+<a href="https://example.com" target="_blank" rel="noopener">
+  Visit the website
+</a>
+
+<!-- Image -->
+<img
+  src="photo.jpg"
+  alt="Description of the image"
+  width="800"
+  height="600"
+/>
+
+<!-- Unordered list -->
+<ul>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>JavaScript</li>
+</ul>
+
+<!-- Ordered list -->
+<ol>
+  <li>Learn HTML</li>
+  <li>Learn CSS</li>
+  <li>Build a project</li>
+</ol>`,
+          tip: "The alt attribute is required for accessibility. Describe what the image shows.",
+        },
+      ],
+      resources: [
+        { label: "MDN — HTML reference", url: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+        { label: "W3C validator", url: "https://validator.w3.org" },
+      ],
+    },
+    es: {
+      intro:
+        "HTML (HyperText Markup Language) es el esqueleto de toda página web. Describe la estructura y el significado del contenido. Sin HTML, no hay página.",
+      objectives: [
+        "Entender la estructura de un documento HTML5",
+        "Usar las etiquetas semánticas correctas (header, main, section, article...)",
+        "Crear enlaces, imágenes, listas y tablas",
+        "Validar tu código con el validador W3C",
+      ],
+      steps: [
+        {
+          title: "La estructura básica",
+          content:
+            "Todo documento HTML empieza con un DOCTYPE y una estructura en árbol. Este es el mínimo esencial para cualquier página.",
+          code: `<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi primera página</title>
+  </head>
+  <body>
+    <h1>Hola mundo!</h1>
+    <p>Este es mi primer párrafo.</p>
+  </body>
+</html>`,
+          tip: "Indica siempre el atributo lang por accesibilidad y SEO.",
+        },
+        {
+          title: "Etiquetas semánticas",
+          content:
+            "HTML5 introdujo etiquetas que dan significado al contenido. Úsalas en lugar de <div> genéricos cuando correspondan.",
+          code: `<header>
+  <nav>
+    <a href="/">Inicio</a>
+    <a href="/about">Acerca de</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <h2>Mi artículo</h2>
+    <p>El contenido principal va aquí.</p>
+  </article>
+
+  <aside>
+    <p>Información complementaria</p>
+  </aside>
+</main>
+
+<footer>
+  <p>&copy; 2026 MiSitio</p>
+</footer>`,
+          tip: "Usa un solo <main> por página. <header> y <footer> pueden aparecer varias veces.",
+        },
+        {
+          title: "Enlaces, imágenes y listas",
+          content: "Estos son los elementos que usarás en casi todos los proyectos.",
+          code: `<!-- Enlace -->
+<a href="https://example.com" target="_blank" rel="noopener">
+  Visitar el sitio
+</a>
+
+<!-- Imagen -->
+<img
+  src="photo.jpg"
+  alt="Descripción de la imagen"
+  width="800"
+  height="600"
+/>
+
+<!-- Lista sin orden -->
+<ul>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>JavaScript</li>
+</ul>
+
+<!-- Lista ordenada -->
+<ol>
+  <li>Aprender HTML</li>
+  <li>Aprender CSS</li>
+  <li>Construir un proyecto</li>
+</ol>`,
+          tip: "El atributo alt es obligatorio para la accesibilidad. Describe lo que muestra la imagen.",
+        },
+      ],
+      resources: [
+        { label: "MDN — Referencia HTML", url: "https://developer.mozilla.org/es/docs/Web/HTML" },
+        { label: "Validador W3C", url: "https://validator.w3.org" },
+      ],
+    },
+  },
+};
+
+function getLocalizedModule(module: ModuleContent, language: Language): ModuleContent {
+  const translation = MODULE_CONTENT_TRANSLATIONS[module.id]?.[language];
+  return {
+    ...module,
+    title: getModuleTitle(module, language),
+    ...translation,
+  };
+}
+
 // ─── Path → modules ordered list (for prev/next navigation) ──────────────────
 const PATH_MODULE_ORDER: Record<string, string[]> = {
   "web-developer": [
@@ -2017,6 +3056,15 @@ const PATH_MODULE_ORDER: Record<string, string[]> = {
     "matplotlib", "plotly", "dashboard",
     "sql-basics", "sql-advanced", "report", "data-marketplace",
   ],
+  "programming-languages": [
+    "language-choice", "python-programming", "typescript-programming",
+    "java-programming", "csharp-programming", "c-programming", "cpp-programming",
+  ],
+  "algorithms": [
+    "algorithmic-thinking", "complexity-big-o", "arrays-strings",
+    "hashmaps-sets", "stacks-queues", "recursion", "sorting-searching",
+    "trees-graphs", "dynamic-programming-intro", "algorithm-challenges",
+  ],
 };
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -2033,30 +3081,11 @@ export async function generateMetadata({
 
   const { moduleId } = await params;
   const mod = MODULES[moduleId];
+  const localizedMod = mod ? getLocalizedModule(mod, language) : null;
   return {
-    title: mod ? mod.title : copy.module,
-    description: mod?.intro ?? "Module JuniorCode Learn.",
+    title: localizedMod ? localizedMod.title : copy.module,
+    description: localizedMod?.intro ?? "Module JuniorCode Learn.",
   };
-}
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-function typeIcon(type: ModuleType) {
-  if (type === "project")  return <Hammer  className="h-4 w-4" />;
-  if (type === "exercise") return <Zap     className="h-4 w-4" />;
-  return                          <BookOpen className="h-4 w-4" />;
-}
-
-function typeLabel(type: ModuleType, language: Language) {
-  const copy = MODULE_PAGE_COPY[language];
-  if (type === "project") return copy.project;
-  if (type === "exercise") return copy.exercise;
-  return copy.lesson;
-}
-
-function typeBg(type: ModuleType) {
-  if (type === "project")  return "bg-brand-500/20 text-brand-300 border-brand-500/30";
-  if (type === "exercise") return "bg-learn-500/20 text-learn-300 border-learn-500/30";
-  return "bg-white/10 text-white/70 border-white/20";
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -2069,12 +3098,12 @@ export default async function ModulePage({
   const language = SUPPORTED_LANGUAGES.includes(languageCookie as Language)
     ? (languageCookie as Language)
     : "fr";
-  const copy = MODULE_PAGE_COPY[language];
 
   const { path, moduleId } = await params;
 
   const mod = MODULES[moduleId];
   if (!mod) notFound();
+  const localizedMod = getLocalizedModule(mod, language);
 
   const order    = PATH_MODULE_ORDER[path] ?? [];
   const curIdx   = order.indexOf(moduleId);
@@ -2087,164 +3116,14 @@ export default async function ModulePage({
   return (
     <div className="min-h-screen bg-[#070b16] text-white">
       <Navbar />
-
-      <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
-
-        {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-white/50">
-          <Link href="/learn" className="hover:text-white transition-colors">{copy.learn}</Link>
-          <span>/</span>
-          <Link href={`/learn/${path}`} className="hover:text-white transition-colors capitalize">
-            {pathLabel}
-          </Link>
-          <span>/</span>
-          <span className="text-white/80">{mod.title}</span>
-        </nav>
-
-        {/* Module header */}
-        <div className="mb-8 rounded-2xl border border-white/15 bg-white/[0.05] p-6 sm:p-8">
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${typeBg(mod.type)}`}>
-              {typeIcon(mod.type)}
-              {typeLabel(mod.type, language)}
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/60">
-              <Clock3 className="h-3.5 w-3.5" />
-              {mod.duration}
-            </span>
-          </div>
-
-          <h1 className="text-2xl sm:text-3xl font-bold mb-3">{mod.title}</h1>
-          <p className="text-white/70 leading-relaxed">{mod.intro}</p>
-        </div>
-
-        {/* Objectives */}
-        <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Target className="h-5 w-5 text-brand-300" />
-            <h2 className="font-semibold">{copy.objectives}</h2>
-          </div>
-          <ul className="space-y-2">
-            {mod.objectives.map((obj) => (
-              <li key={obj} className="flex items-start gap-3 text-sm text-white/75">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-learn-400" />
-                {obj}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Steps */}
-        <div className="space-y-6 mb-8">
-          {mod.steps.map((step, i) => (
-            <div key={step.title} className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
-              <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.04] px-6 py-4">
-                <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-brand-600/60 text-xs font-bold">
-                  {i + 1}
-                </div>
-                <h3 className="font-semibold">{step.title}</h3>
-              </div>
-              <div className="p-6 space-y-4">
-                <p className="text-white/70 text-sm leading-relaxed">{step.content}</p>
-
-                {step.code && (
-                  <div className="rounded-xl overflow-hidden border border-white/10">
-                    <div className="flex items-center gap-2 border-b border-white/10 bg-white/5 px-4 py-2">
-                      <Code2 className="h-4 w-4 text-white/40" />
-                      <span className="text-xs text-white/40 font-mono">code</span>
-                    </div>
-                    <pre className="overflow-x-auto p-4 text-xs leading-relaxed text-green-300 font-mono bg-black/30">
-                      <code>{step.code}</code>
-                    </pre>
-                  </div>
-                )}
-
-                {step.tip && (
-                  <div className="flex items-start gap-3 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3">
-                    <Lightbulb className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-400" />
-                    <p className="text-sm text-amber-200/90">{step.tip}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Resources */}
-        {mod.resources && mod.resources.length > 0 && (
-          <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-            <h2 className="font-semibold mb-4">{copy.resources}</h2>
-            <ul className="space-y-2">
-              {mod.resources.map((r) => (
-                <li key={r.url}>
-                  <a
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-brand-300 hover:text-brand-200 transition-colors"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    {r.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Mark complete + nav */}
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-
-            {/* Previous */}
-            <div className="flex-1">
-              {prevMod && (
-                <Link
-                  href={`/learn/${path}/${prevMod.id}`}
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2.5 text-sm text-white/70 transition hover:bg-white/10 hover:text-white"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  <span className="hidden sm:block truncate max-w-[160px]">{prevMod.title}</span>
-                  <span className="sm:hidden">{copy.previous}</span>
-                </Link>
-              )}
-            </div>
-
-            {/* Back to path */}
-            <Link
-              href={`/learn/${path}`}
-              className="text-sm text-white/50 hover:text-white transition-colors"
-            >
-              {copy.backToPath}
-            </Link>
-
-            {/* Next */}
-            <div className="flex-1 flex justify-end">
-              {nextMod ? (
-                <Link
-                  href={`/learn/${path}/${nextMod.id}`}
-                  className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
-                >
-                  <span className="hidden sm:block truncate max-w-[160px]">{nextMod.title}</span>
-                  <span className="sm:hidden">{copy.next}</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              ) : (
-                <Link
-                  href="/marketplace"
-                  className="inline-flex items-center gap-2 rounded-xl bg-learn-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-learn-500"
-                >
-                  {copy.viewMissions}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              )}
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
+      <InteractiveModule
+        language={language}
+        module={localizedMod}
+        path={path}
+        pathLabel={pathLabel}
+        prevModule={prevMod ? { id: prevMod.id, title: getModuleTitle(prevMod, language) } : null}
+        nextModule={nextMod ? { id: nextMod.id, title: getModuleTitle(nextMod, language) } : null}
+      />
       <Footer />
     </div>
   );

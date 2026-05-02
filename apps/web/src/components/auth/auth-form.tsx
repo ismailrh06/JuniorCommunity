@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Github, Mail, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Mail, Eye, EyeOff, Loader2 } from "lucide-react";
 import { getSupabaseBrowserClient } from "@juniorcode/db";
 import { cn } from "@/lib/utils";
+import { isMockMode, saveMockUser } from "@/lib/mock-auth";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { Language } from "@/lib/i18n/translations";
 
@@ -163,6 +164,20 @@ export function AuthForm({ mode }: AuthFormProps) {
   // ── Submit handlers ─────────────────────────────────────
   const onLoginSubmit = async (data: LoginForm) => {
     setAuthError(null);
+
+    // ── Mock mode (Supabase not configured) ──────────────
+    if (isMockMode()) {
+      saveMockUser({
+        id: "mock-" + data.email,
+        email: data.email,
+        full_name: data.email.split("@")[0] ?? "Junior",
+        role: "learner",
+      });
+      router.push("/dashboard");
+      router.refresh();
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
@@ -177,6 +192,19 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   const onRegisterSubmit = async (data: RegisterForm) => {
     setAuthError(null);
+
+    // ── Mock mode (Supabase not configured) ──────────────
+    if (isMockMode()) {
+      saveMockUser({
+        id: "mock-" + data.email,
+        email: data.email,
+        full_name: data.full_name,
+        role: data.role,
+      });
+      router.push("/onboarding");
+      return;
+    }
+
     const { error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
@@ -191,7 +219,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       setAuthError(error.message);
       return;
     }
-    router.push("/dashboard");
+    router.push("/onboarding");
   };
 
   // ── OAuth ────────────────────────────────────────────────
@@ -225,7 +253,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           {oauthLoading === "github" ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
-            <Github className="h-4 w-4" />
+            <span className="font-bold text-xs">GH</span>
           )}
           GitHub
         </button>

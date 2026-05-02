@@ -11,6 +11,7 @@ type Messages = {
     start: string;
     profile: string;
     language: string;
+    logout: string;
   };
   home: {
     waitlist: string;
@@ -31,6 +32,12 @@ type Messages = {
     marketCta: string;
     timelineTitle: string;
     timelineDesc: string;
+    journeyTitle: string;
+    journeyDesc: string;
+    journeySteps: Array<{ step: number; icon: string; title: string; desc: string; tag: string }>;
+    badgeProofTitle: string;
+    badgeProofDesc: string;
+    badgeProofItems: Array<{ emoji: string; title: string; proof: string }>;
     finalTitle: string;
     finalDesc: string;
     finalCta: string;
@@ -81,6 +88,7 @@ export const translations: Record<Language, Messages> = {
       start: "Commencer",
       profile: "Mon profil",
       language: "Langue",
+      logout: "Se déconnecter",
     },
     home: {
       waitlist: "🚀 Bientôt disponible — Rejoins la liste d'attente",
@@ -105,6 +113,21 @@ export const translations: Record<Language, Messages> = {
       marketCta: "Voir les projets",
       timelineTitle: "Le parcours Learn en 5 niveaux",
       timelineDesc: "Une progression claire, animée par des livrables réels.",
+      journeyTitle: "Apprendre → Construire → Certifié → Postuler",
+      journeyDesc: "Un parcours conçu pour que chaque heure passée compte. Tu progresses, tu prouves, tu décroches.",
+      journeySteps: [
+        { step: 1, icon: "📚", title: "Apprendre", desc: "Suis un parcours structuré : vidéos, exercices, mini-projets guidés étape par étape.", tag: "JC Learn" },
+        { step: 2, icon: "🔨", title: "Construire", desc: "Réalise des projets concrets qui alimentent ton portfolio — landing page, app, dashboard.", tag: "JC Learn" },
+        { step: 3, icon: "🏅", title: "Être certifié", desc: "Obtiens ton badge Verified Junior validé par nos mentors. C'est ta preuve pour les clients.", tag: "Badge" },
+        { step: 4, icon: "💼", title: "Postuler", desc: "Accède aux missions Junior-Only et décroche tes premiers projets rémunérés.", tag: "Marketplace" },
+      ],
+      badgeProofTitle: "Les badges : tes preuves, pas juste des récompenses",
+      badgeProofDesc: "Chaque badge certifie une compétence réelle. Les clients voient tes badges sur ton profil avant de te choisir.",
+      badgeProofItems: [
+        { emoji: "🌐", title: "Web Developer L1", proof: "A livré une landing page responsive et déployée en ligne." },
+        { emoji: "⚛️", title: "React Developer", proof: "A construit une SPA complète avec composants, état et routing." },
+        { emoji: "📊", title: "Data Analyst", proof: "A analysé un dataset réel et produit un dashboard interactif." },
+      ],
       finalTitle: "Prêt à lancer ta carrière ?",
       finalDesc:
         "Rejoins des centaines de juniors qui apprennent, pratiquent et gagnent déjà avec JuniorCode.",
@@ -154,6 +177,7 @@ export const translations: Record<Language, Messages> = {
       start: "Get Started",
       profile: "My profile",
       language: "Language",
+      logout: "Sign out",
     },
     home: {
       waitlist: "🚀 Coming soon — Join the waitlist",
@@ -178,6 +202,21 @@ export const translations: Record<Language, Messages> = {
       marketCta: "Browse projects",
       timelineTitle: "Learn path in 5 levels",
       timelineDesc: "Clear progression powered by real deliverables.",
+      journeyTitle: "Learn → Build → Get certified → Apply",
+      journeyDesc: "A path designed so every hour you put in counts. You progress, you prove it, you land projects.",
+      journeySteps: [
+        { step: 1, icon: "📚", title: "Learn", desc: "Follow a structured path: videos, exercises, and guided mini-projects step by step.", tag: "JC Learn" },
+        { step: 2, icon: "🔨", title: "Build", desc: "Ship real projects that fill your portfolio — landing page, app, dashboard.", tag: "JC Learn" },
+        { step: 3, icon: "🏅", title: "Get certified", desc: "Earn your Verified Junior badge validated by our mentors. That's your proof for clients.", tag: "Badge" },
+        { step: 4, icon: "💼", title: "Apply", desc: "Access Junior-Only missions and land your first paid projects.", tag: "Marketplace" },
+      ],
+      badgeProofTitle: "Badges: your proof, not just rewards",
+      badgeProofDesc: "Each badge certifies a real skill. Clients see your badges on your profile before choosing you.",
+      badgeProofItems: [
+        { emoji: "🌐", title: "Web Developer L1", proof: "Delivered a responsive landing page deployed online." },
+        { emoji: "⚛️", title: "React Developer", proof: "Built a complete SPA with components, state and routing." },
+        { emoji: "📊", title: "Data Analyst", proof: "Analysed a real dataset and built an interactive dashboard." },
+      ],
       finalTitle: "Ready to launch your career?",
       finalDesc:
         "Join hundreds of juniors already learning, shipping, and earning with JuniorCode.",
@@ -227,6 +266,7 @@ export const translations: Record<Language, Messages> = {
       start: "Comenzar",
       profile: "Mi perfil",
       language: "Idioma",
+      logout: "Cerrar sesión",
     },
     home: {
       waitlist: "🚀 Muy pronto — Únete a la lista de espera",
@@ -251,6 +291,21 @@ export const translations: Record<Language, Messages> = {
       marketCta: "Ver proyectos",
       timelineTitle: "Ruta Learn en 5 niveles",
       timelineDesc: "Progresión clara basada en entregables reales.",
+      journeyTitle: "Aprender → Construir → Certificarte → Postular",
+      journeyDesc: "Un recorrido donde cada hora invertida cuenta. Progresas, lo demuestras, consigues proyectos.",
+      journeySteps: [
+        { step: 1, icon: "📚", title: "Aprender", desc: "Sigue una ruta estructurada: vídeos, ejercicios y mini-proyectos guiados paso a paso.", tag: "JC Learn" },
+        { step: 2, icon: "🔨", title: "Construir", desc: "Entrega proyectos reales para tu portfolio — landing page, app, dashboard.", tag: "JC Learn" },
+        { step: 3, icon: "🏅", title: "Certificarte", desc: "Obtén tu badge Verified Junior validado por nuestros mentores. Es tu prueba ante los clientes.", tag: "Badge" },
+        { step: 4, icon: "💼", title: "Postular", desc: "Accede a misiones Junior-Only y consigue tus primeros proyectos pagados.", tag: "Marketplace" },
+      ],
+      badgeProofTitle: "Los badges: tus pruebas, no solo recompensas",
+      badgeProofDesc: "Cada badge certifica una habilidad real. Los clientes ven tus badges en tu perfil antes de elegirte.",
+      badgeProofItems: [
+        { emoji: "🌐", title: "Web Developer L1", proof: "Ha entregado una landing page responsive desplegada en línea." },
+        { emoji: "⚛️", title: "React Developer", proof: "Ha construido una SPA completa con componentes, estado y routing." },
+        { emoji: "📊", title: "Data Analyst", proof: "Ha analizado un dataset real y creado un dashboard interactivo." },
+      ],
       finalTitle: "¿Listo para lanzar tu carrera?",
       finalDesc:
         "Únete a cientos de juniors que ya están aprendiendo, entregando y ganando con JuniorCode.",

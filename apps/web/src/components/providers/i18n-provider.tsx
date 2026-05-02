@@ -39,9 +39,15 @@ function normalizeLanguage(input: string | null | undefined): Language {
   return SUPPORTED_LANGUAGES.includes(candidate) ? candidate : "fr";
 }
 
-export function I18nProvider({ children }: { readonly children: React.ReactNode }) {
+export function I18nProvider({
+  children,
+  initialLanguage = "fr",
+}: {
+  readonly children: React.ReactNode;
+  readonly initialLanguage?: Language;
+}) {
   const router = useRouter();
-  const [language, setLanguage] = useState<Language>("fr");
+  const [language, setLanguage] = useState<Language>(initialLanguage);
 
   useEffect(() => {
     const storedValue = localStorage.getItem(LANGUAGE_STORAGE_KEY);

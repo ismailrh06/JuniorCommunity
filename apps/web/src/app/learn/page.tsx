@@ -57,6 +57,32 @@ const LEARNING_PATHS: LearningPath[] = [
     duration: { fr: "5-6 semaines", en: "5-6 weeks", es: "5-6 semanas" },
     level: { fr: "Débutant", en: "Beginner", es: "Principiante" },
   },
+  {
+    slug: "programming-languages",
+    title: { fr: "Langages de programmation", en: "Programming Languages", es: "Lenguajes de programación" },
+    description: {
+      fr: "Python, Java, C, C++, C#, TypeScript. Choisis le langage adapté à ton objectif.",
+      en: "Python, Java, C, C++, C#, TypeScript. Pick the language that fits your goal.",
+      es: "Python, Java, C, C++, C#, TypeScript. Elige el lenguaje adecuado para tu objetivo.",
+    },
+    icon: "⌨️",
+    modulesCount: 7,
+    duration: { fr: "6-7 semaines", en: "6-7 weeks", es: "6-7 semanas" },
+    level: { fr: "Débutant+", en: "Beginner+", es: "Principiante+" },
+  },
+  {
+    slug: "algorithms",
+    title: { fr: "Algorithmes fondamentaux", en: "Fundamental Algorithms", es: "Algoritmos fundamentales" },
+    description: {
+      fr: "Logique, Big O, tableaux, récursion, tri, recherche, graphes et entraînement.",
+      en: "Logic, Big O, arrays, recursion, sorting, search, graphs, and practice.",
+      es: "Lógica, Big O, arrays, recursión, ordenación, búsqueda, grafos y práctica.",
+    },
+    icon: "🧠",
+    modulesCount: 10,
+    duration: { fr: "7-8 semaines", en: "7-8 weeks", es: "7-8 semanas" },
+    level: { fr: "Fondamental", en: "Foundational", es: "Fundamental" },
+  },
 ];
 
 const COPY: Record<Language, {
@@ -147,7 +173,7 @@ export default function LearnPage() {
 
       <div className="max-w-5xl mx-auto px-4 py-16">
         <h2 className="text-2xl font-bold mb-8">{copy.sectionTitle}</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {LEARNING_PATHS.map((path) => (
             <Link
               key={path.slug}

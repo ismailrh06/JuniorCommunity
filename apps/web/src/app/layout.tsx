@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { I18nProvider } from "@/components/providers/i18n-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
 import "./globals.css";
 
 const fontSans = Inter({
@@ -37,11 +39,16 @@ export default function RootLayout({
 }: {
   readonly children: React.ReactNode;
 }) {
+  const languageCookie = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const language = SUPPORTED_LANGUAGES.includes(languageCookie as Language)
+    ? (languageCookie as Language)
+    : "fr";
+
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang={language} suppressHydrationWarning>
       <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <I18nProvider>
+          <I18nProvider initialLanguage={language}>
             <QueryProvider>
               {children}
               <Toaster />

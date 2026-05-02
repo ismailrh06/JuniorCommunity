@@ -3,14 +3,37 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { NextRequest } from "next/server";
 import type { Database } from "@juniorcode/db";
 
-const PROTECTED_ROUTES = ["/dashboard", "/dashboard/"];
+const PROTECTED_ROUTES = ["/dashboard", "/dashboard/", "/onboarding"];
 const AUTH_ROUTES = ["/auth/login", "/auth/register"];
 
 export async function middleware(request: NextRequest) {
   // Skip middleware if Supabase is not yet configured
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder")) {
+  const isMockMode = !supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder");
+
+  if (isMockMode) {
+    const { pathname } = request.nextUrl;
+    const mockUserCookie = request.cookies.get("jc-mock-user")?.value;
+    const isLoggedIn = !!mockUserCookie;
+
+    // Redirect unauthenticated users away from protected routes
+    const isProtected = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
+    if (isProtected && !isLoggedIn) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/auth/login";
+      url.searchParams.set("redirectTo", pathname);
+      return NextResponse.redirect(url);
+    }
+
+    // Redirect authenticated users away from auth pages
+    const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
+    if (isAuthRoute && isLoggedIn) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
+
     return NextResponse.next({ request });
   }
 
@@ -66,7 +89,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    String.raw`/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)`,
-  ],
+  // eslint-disable-next-line no-useless-escape
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };
