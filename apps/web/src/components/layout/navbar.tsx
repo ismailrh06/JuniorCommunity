@@ -125,8 +125,8 @@ export function Navbar() {
           <Image
             src="/brand/new_logo.png"
             alt="JuniorCode"
-            width={36}
-            height={36}
+            width={80}
+            height={60}
             priority
             className="rounded-xl object-contain"
           />
