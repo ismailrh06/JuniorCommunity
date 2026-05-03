@@ -48,16 +48,14 @@ export function AuthShell({ subtitle, children }: AuthShellProps) {
             transition={{ delay: 0.12, duration: 0.45 }}
           >
             <Link href="/" className="inline-flex items-center gap-2.5 text-xl font-bold text-white">
-              <span className="relative h-12 w-12 overflow-hidden rounded-2xl border border-white/15 bg-slate-950 shadow-2xl shadow-brand-500/30">
-                <Image
-                  src="/brand/logo-mark.png"
-                  alt="JuniorCode"
-                  fill
-                  sizes="48px"
-                  priority
-                  className="object-cover scale-[2.45]"
-                />
-              </span>
+              <Image
+                src="/brand/new_logo.png"
+                alt="JuniorCode"
+                width={44}
+                height={44}
+                priority
+                className="rounded-2xl object-contain"
+              />
               JuniorCode
             </Link>
             <p className="mt-3 text-sm text-white/60">{subtitle}</p>

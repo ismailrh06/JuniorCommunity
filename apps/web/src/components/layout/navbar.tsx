@@ -121,17 +121,15 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 font-bold text-gray-900 text-lg">
-          <span className="relative h-10 w-10 overflow-hidden rounded-xl border border-gray-200 bg-gray-900 shadow-sm">
-            <Image
-              src="/brand/logo-mark.png"
-              alt="JuniorCode"
-              fill
-              sizes="40px"
-              priority
-              className="object-cover scale-[2.45]"
-            />
-          </span>
+        <Link href="/" className="flex items-center gap-2 font-bold text-gray-900 text-lg">
+          <Image
+            src="/brand/new_logo.png"
+            alt="JuniorCode"
+            width={36}
+            height={36}
+            priority
+            className="rounded-xl object-contain"
+          />
           JuniorCode
         </Link>
 

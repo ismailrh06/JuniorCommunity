@@ -330,16 +330,14 @@ export default function OnboardingPage() {
         <div className="mx-auto max-w-xl">
           <div className="mb-3 flex items-center justify-between text-xs text-white/50">
             <Link href="/" className="flex items-center gap-2 font-bold text-white text-sm">
-              <span className="relative h-8 w-8 overflow-hidden rounded-xl border border-white/15 bg-slate-950 shadow-lg shadow-brand-500/20">
-                <Image
-                  src="/brand/logo-mark.png"
-                  alt="JuniorCode"
-                  fill
-                  sizes="32px"
-                  priority
-                  className="object-cover scale-[2.45]"
-                />
-              </span>
+              <Image
+                src="/brand/new_logo.png"
+                alt="JuniorCode"
+                width={28}
+                height={28}
+                priority
+                className="rounded-xl object-contain"
+              />
               {" JuniorCode"}
             </Link>
             <span>{copy.stepLabel(step, TOTAL_STEPS)}</span>

@@ -57,16 +57,14 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 font-bold text-gray-900 mb-4">
-              <span className="relative h-10 w-10 overflow-hidden rounded-xl border border-gray-200 bg-gray-900 shadow-sm">
-                <Image
-                  src="/brand/logo-mark.png"
-                  alt="JuniorCode"
-                  fill
-                  sizes="40px"
-                  className="object-cover scale-[2.45]"
-                />
-              </span>
+            <Link href="/" className="flex items-center gap-2 font-bold text-gray-900 mb-4">
+              <Image
+                src="/brand/new_logo.png"
+                alt="JuniorCode"
+                width={36}
+                height={36}
+                className="rounded-xl object-contain"
+              />
               JuniorCode
             </Link>
             <p className="text-sm text-gray-500 mb-4">
