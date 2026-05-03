@@ -1,11 +1,9 @@
-"use client";
-
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { BookOpen, ChevronRight, Sparkles, Trophy, Zap } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { useI18n } from "@/components/providers/i18n-provider";
-import type { Language } from "@/lib/i18n/translations";
+import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
 
 type LearningPath = {
   slug: string;
@@ -151,8 +149,11 @@ const BADGES: Array<{ icon: string; name: string; desc: Record<Language, string>
   { icon: "🟡", name: "Verified Junior", desc: { fr: "Prêt pour la marketplace", en: "Ready for marketplace", es: "Listo para el marketplace" } },
 ];
 
-export default function LearnPage() {
-  const { language } = useI18n();
+export default async function LearnPage() {
+  const languageCookie = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const language = SUPPORTED_LANGUAGES.includes(languageCookie as Language)
+    ? (languageCookie as Language)
+    : "fr";
   const copy = COPY[language];
 
   return (

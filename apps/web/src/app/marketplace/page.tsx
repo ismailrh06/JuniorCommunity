@@ -11,111 +11,14 @@ export const metadata: Metadata = {
   description: "Trouve des projets réels pour juniors — startups & associations.",
 };
 
-// Types
-type ProjectCategory = "web" | "design" | "data" | "mobile";
-type ProjectDifficulty = "junior" | "intermediate";
+import { getProjects } from "@/lib/data/projects";
+import type { ProjectCategory, ProjectDifficulty, ProjectListItem } from "@/lib/data/projects";
 
-interface Project {
-  id: string;
-  title: Record<Language, string>;
-  client: string;
-  budget: string;
-  duration: Record<Language, string>;
-  category: ProjectCategory;
-  difficulty: ProjectDifficulty;
-  tags: string[];
-  juniorOnly: boolean;
-  requiredBadge?: string;
-}
-
-const MOCK_PROJECTS: Project[] = [
-  {
-    id: "1",
-    title: {
-      fr: "Landing page pour notre startup FinTech",
-      en: "Landing page for our FinTech startup",
-      es: "Landing page para nuestra startup FinTech",
-    },
-    client: "PayEasy",
-    budget: "300–500€",
-    duration: { fr: "2 semaines", en: "2 weeks", es: "2 semanas" },
-    category: "web",
-    difficulty: "junior",
-    tags: ["Next.js", "Tailwind", "Figma"],
-    juniorOnly: true,
-    requiredBadge: "🌐 Web Developer L1",
-  },
-  {
-    id: "2",
-    title: {
-      fr: "Refonte UI de notre application mobile",
-      en: "UI redesign for our mobile app",
-      es: "Rediseño UI de nuestra app móvil",
-    },
-    client: "FoodTrack",
-    budget: "400–700€",
-    duration: { fr: "3 semaines", en: "3 weeks", es: "3 semanas" },
-    category: "design",
-    difficulty: "junior",
-    tags: ["Figma", "UX", "Design System"],
-    juniorOnly: false,
-    requiredBadge: "🎨 UI Designer L1",
-  },
-  {
-    id: "3",
-    title: {
-      fr: "Dashboard analytics pour une asso culturelle",
-      en: "Analytics dashboard for a cultural nonprofit",
-      es: "Dashboard analytics para una asociación cultural",
-    },
-    client: "CultureParis",
-    budget: "200–400€",
-    duration: { fr: "10 jours", en: "10 days", es: "10 días" },
-    category: "data",
-    difficulty: "junior",
-    tags: ["Python", "Pandas", "Streamlit"],
-    juniorOnly: true,
-    requiredBadge: "📊 Data Analyst L1",
-  },
-  {
-    id: "4",
-    title: {
-      fr: "Site vitrine pour cabinet d'avocats",
-      en: "Showcase website for a law firm",
-      es: "Sitio web corporativo para un despacho de abogados",
-    },
-    client: "Durand & Associés",
-    budget: "500–800€",
-    duration: { fr: "3 semaines", en: "3 weeks", es: "3 semanas" },
-    category: "web",
-    difficulty: "junior",
-    tags: ["Next.js", "SEO", "CMS"],
-    juniorOnly: false,
-    requiredBadge: "🌐 Web Developer L1",
-  },
-];
-
-const CATEGORY_LABELS: Record<ProjectCategory, string> = {
-  web: "Développement Web",
-  design: "Design",
-  data: "Data",
-  mobile: "Mobile",
-};
-
-const CATEGORY_LABELS_BY_LANGUAGE: Record<Language, Record<ProjectCategory, string>> = {
-  fr: CATEGORY_LABELS,
-  en: {
-    web: "Web Development",
-    design: "Design",
-    data: "Data",
-    mobile: "Mobile",
-  },
-  es: {
-    web: "Desarrollo Web",
-    design: "Diseño",
-    data: "Data",
-    mobile: "Mobile",
-  },
+// Keep category labels for display (multilingual)
+const CATEGORY_LABELS_BY_LANGUAGE: Record<Language, Record<ProjectCategory | "other", string>> = {
+  fr: { web: "Développement Web", design: "Design", data: "Data", mobile: "Mobile", other: "Autre" },
+  en: { web: "Web Development", design: "Design", data: "Data", mobile: "Mobile", other: "Other" },
+  es: { web: "Desarrollo Web", design: "Diseño", data: "Data", mobile: "Mobile", other: "Otro" },
 };
 
 const COPY: Record<Language, {
@@ -209,7 +112,7 @@ type MarketplacePageProps = {
   };
 };
 
-export default function MarketplacePage({ searchParams }: Readonly<MarketplacePageProps>) {
+export default async function MarketplacePage({ searchParams }: Readonly<MarketplacePageProps>) {
   const languageCookie = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
   const language = SUPPORTED_LANGUAGES.includes(languageCookie as Language)
     ? (languageCookie as Language)
@@ -222,17 +125,12 @@ export default function MarketplacePage({ searchParams }: Readonly<MarketplacePa
   const junior = searchParams?.junior ?? "all";
   const q = (searchParams?.q ?? "").trim().toLowerCase();
 
-  const filteredProjects = MOCK_PROJECTS.filter((project) => {
-    const categoryMatch = category === "all" || project.category === category;
-    const difficultyMatch = difficulty === "all" || project.difficulty === difficulty;
-    const juniorMatch = junior === "all" || project.juniorOnly;
-    const queryMatch =
-      q.length === 0 ||
-      Object.values(project.title).some((title) => title.toLowerCase().includes(q)) ||
-      project.client.toLowerCase().includes(q) ||
-      project.tags.some((tag) => tag.toLowerCase().includes(q));
-
-    return categoryMatch && difficultyMatch && juniorMatch && queryMatch;
+  const filteredProjects: ProjectListItem[] = await getProjects({
+    category,
+    difficulty,
+    juniorOnly: junior === "true",
+    q: q.length > 0 ? q : undefined,
+    language,
   });
 
   const activeFiltersCount = [category !== "all", difficulty !== "all", junior !== "all", q.length > 0].filter(Boolean).length;
@@ -401,9 +299,10 @@ export default function MarketplacePage({ searchParams }: Readonly<MarketplacePa
 
             <div className="grid gap-4">
               {filteredProjects.map((project) => (
-                <div
+                <Link
                   key={project.id}
-                  className="cursor-pointer rounded-2xl border border-white/15 bg-white/[0.04] p-6 transition-all hover:-translate-y-0.5 hover:border-brand-400/40 hover:bg-white/[0.08]"
+                  href={`/projects/${project.id}`}
+                  className="block cursor-pointer rounded-2xl border border-white/15 bg-white/[0.04] p-6 transition-all hover:-translate-y-0.5 hover:border-brand-400/40 hover:bg-white/[0.08]"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
@@ -413,9 +312,9 @@ export default function MarketplacePage({ searchParams }: Readonly<MarketplacePa
                             🟢 Junior Only
                           </span>
                         )}
-                        <span className="text-xs text-white/45">{categoryLabels[project.category]}</span>
+                        <span className="text-xs text-white/45">{categoryLabels[project.category] ?? project.category}</span>
                       </div>
-                      <h3 className="mb-1 text-lg font-semibold">{project.title[language]}</h3>
+                      <h3 className="mb-1 text-lg font-semibold">{project.title}</h3>
                       <p className="mb-3 text-sm text-white/60">{copy.byClient} {project.client}</p>
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag) => (
@@ -427,7 +326,7 @@ export default function MarketplacePage({ searchParams }: Readonly<MarketplacePa
                     </div>
                   <div className="flex flex-col items-end gap-2 flex-shrink-0">
                       <span className="font-bold">{project.budget}</span>
-                      <span className="text-sm text-white/50">{project.duration[language]}</span>
+                      <span className="text-sm text-white/50">{project.durationLabel}</span>
                       {project.requiredBadge ? (
                         <span className="flex items-center gap-1 rounded-full border border-brand-400/40 bg-brand-500/15 px-2.5 py-1 text-xs font-medium text-brand-200">
                           <span>🏅</span>
@@ -438,12 +337,12 @@ export default function MarketplacePage({ searchParams }: Readonly<MarketplacePa
                           {copy.noBadgeNeeded}
                         </span>
                       )}
-                      <button className="mt-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-500">
+                      <span className="mt-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-medium text-white">
                         {copy.applyButton}
-                      </button>
+                      </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </main>

@@ -265,9 +265,22 @@ export default function OnboardingPage() {
   const goNext = () => setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   const goBack = () => setStep((s) => Math.max(s - 1, 1));
 
-  const finish = () => {
+  const finish = async () => {
     if (!goal || !level || !path) return;
-    saveOnboarding({ goal, level, path, completedAt: new Date().toISOString() });
+    const data: OnboardingData = { goal, level, path, completedAt: new Date().toISOString() };
+    saveOnboarding(data);
+
+    // Persist to DB (no-op in mock mode, saves to learner_profiles in real mode)
+    try {
+      await fetch("/api/onboarding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goal, level, path }),
+      });
+    } catch {
+      // Non-blocking — cookie is already saved
+    }
+
     router.push("/dashboard");
   };
 

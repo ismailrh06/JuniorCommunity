@@ -3,39 +3,60 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { NextRequest } from "next/server";
 import type { Database } from "@juniorcode/db";
 
-const PROTECTED_ROUTES = ["/dashboard", "/dashboard/", "/onboarding"];
+const PROTECTED_ROUTES = ["/dashboard", "/dashboard/", "/onboarding", "/settings", "/admin"];
+const ADMIN_ROUTES = ["/admin"];
 const AUTH_ROUTES = ["/auth/login", "/auth/register"];
 
+function redirectTo(request: NextRequest, pathname: string, searchParams?: Record<string, string>) {
+  const url = request.nextUrl.clone();
+  url.pathname = pathname;
+  if (searchParams) {
+    Object.entries(searchParams).forEach(([k, v]) => url.searchParams.set(k, v));
+  }
+  return NextResponse.redirect(url);
+}
+
+function getMockRole(cookieValue: string | undefined): string | null {
+  if (!cookieValue) return null;
+  try {
+    const user = JSON.parse(Buffer.from(cookieValue, "base64").toString("utf-8")) as { role?: string };
+    return user.role ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function handleMockMode(request: NextRequest): NextResponse {
+  const { pathname } = request.nextUrl;
+  const mockUserCookie = request.cookies.get("jc-mock-user")?.value;
+  const isLoggedIn = !!mockUserCookie;
+
+  const isProtected = PROTECTED_ROUTES.some((r) => pathname.startsWith(r));
+  if (isProtected && !isLoggedIn) {
+    return redirectTo(request, "/auth/login", { redirectTo: pathname });
+  }
+
+  const isAdminRoute = ADMIN_ROUTES.some((r) => pathname.startsWith(r));
+  if (isAdminRoute && isLoggedIn) {
+    const role = getMockRole(mockUserCookie);
+    if (!role) return redirectTo(request, "/auth/login");
+    if (role !== "admin") return redirectTo(request, "/dashboard");
+  }
+
+  const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
+  if (isAuthRoute && isLoggedIn) {
+    return redirectTo(request, "/dashboard");
+  }
+
+  return NextResponse.next({ request });
+}
+
 export async function middleware(request: NextRequest) {
-  // Skip middleware if Supabase is not yet configured
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const isMockMode = !supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder");
 
-  if (isMockMode) {
-    const { pathname } = request.nextUrl;
-    const mockUserCookie = request.cookies.get("jc-mock-user")?.value;
-    const isLoggedIn = !!mockUserCookie;
-
-    // Redirect unauthenticated users away from protected routes
-    const isProtected = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
-    if (isProtected && !isLoggedIn) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/auth/login";
-      url.searchParams.set("redirectTo", pathname);
-      return NextResponse.redirect(url);
-    }
-
-    // Redirect authenticated users away from auth pages
-    const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
-    if (isAuthRoute && isLoggedIn) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/dashboard";
-      return NextResponse.redirect(url);
-    }
-
-    return NextResponse.next({ request });
-  }
+  if (isMockMode) return handleMockMode(request);
 
   let supabaseResponse = NextResponse.next({ request });
 
@@ -68,21 +89,14 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Redirect unauthenticated users away from protected routes
-  const isProtected = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
+  const isProtected = PROTECTED_ROUTES.some((r) => pathname.startsWith(r));
   if (isProtected && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    url.searchParams.set("redirectTo", pathname);
-    return NextResponse.redirect(url);
+    return redirectTo(request, "/auth/login", { redirectTo: pathname });
   }
 
-  // Redirect authenticated users away from auth pages
-  const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
+  const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
   if (isAuthRoute && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
-    return NextResponse.redirect(url);
+    return redirectTo(request, "/dashboard");
   }
 
   return supabaseResponse;
@@ -90,5 +104,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // eslint-disable-next-line no-useless-escape
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };

@@ -22,7 +22,16 @@ const registerSchema = z.object({
   full_name: z.string().min(2, "Minimum 2 caractères"),
   email: z.string().email("Email invalide"),
   password: z.string().min(8, "Minimum 8 caractères"),
+  confirmPassword: z.string(),
   role: z.enum(["learner", "student", "client"]),
+}).superRefine(({ password, confirmPassword }, ctx) => {
+  if (password !== confirmPassword) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Les mots de passe ne correspondent pas",
+      path: ["confirmPassword"],
+    });
+  }
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
@@ -36,7 +45,10 @@ type AuthCopy = {
   invalidEmail: string;
   min8Chars: string;
   min2Chars: string;
+  passwordMismatch: string;
   wrongCredentials: string;
+  emailAlreadyUsed: string;
+  networkError: string;
   divider: string;
   fullName: string;
   fullNamePlaceholder: string;
@@ -49,11 +61,16 @@ type AuthCopy = {
   email: string;
   emailPlaceholder: string;
   passwordLabel: string;
+  confirmPasswordLabel: string;
+  passwordHint: string;
   hidePassword: string;
   showPassword: string;
   forgotPassword: string;
   submitLogin: string;
   submitRegister: string;
+  emailSentTitle: string;
+  emailSentDesc: (email: string) => string;
+  backToLogin: string;
 };
 
 const AUTH_COPY: Record<Language, AuthCopy> = {
@@ -61,7 +78,10 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     invalidEmail: "Email invalide",
     min8Chars: "Minimum 8 caractères",
     min2Chars: "Minimum 2 caractères",
+    passwordMismatch: "Les mots de passe ne correspondent pas",
     wrongCredentials: "Email ou mot de passe incorrect.",
+    emailAlreadyUsed: "Cet email est déjà utilisé. Essaie de te connecter.",
+    networkError: "Erreur réseau. Vérifie ta connexion.",
     divider: "ou",
     fullName: "Nom complet",
     fullNamePlaceholder: "Jean Dupont",
@@ -74,17 +94,26 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     email: "Email",
     emailPlaceholder: "jean@example.com",
     passwordLabel: "Mot de passe",
+    confirmPasswordLabel: "Confirmer le mot de passe",
+    passwordHint: "8 caractères minimum",
     hidePassword: "Masquer le mot de passe",
     showPassword: "Afficher le mot de passe",
     forgotPassword: "Mot de passe oublié ?",
     submitLogin: "Se connecter",
     submitRegister: "Créer mon compte",
+    emailSentTitle: "📧 Vérifie ta boîte mail !",
+    emailSentDesc: (email: string) =>
+      `Un lien de confirmation a été envoyé à ${email}. Clique dessus pour activer ton compte.`,
+    backToLogin: "Retour à la connexion",
   },
   en: {
     invalidEmail: "Invalid email",
     min8Chars: "Minimum 8 characters",
     min2Chars: "Minimum 2 characters",
+    passwordMismatch: "Passwords do not match",
     wrongCredentials: "Incorrect email or password.",
+    emailAlreadyUsed: "This email is already in use. Try signing in.",
+    networkError: "Network error. Check your connection.",
     divider: "or",
     fullName: "Full name",
     fullNamePlaceholder: "John Doe",
@@ -97,17 +126,26 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     email: "Email",
     emailPlaceholder: "john@example.com",
     passwordLabel: "Password",
+    confirmPasswordLabel: "Confirm password",
+    passwordHint: "Minimum 8 characters",
     hidePassword: "Hide password",
     showPassword: "Show password",
     forgotPassword: "Forgot password?",
     submitLogin: "Sign in",
     submitRegister: "Create account",
+    emailSentTitle: "📧 Check your inbox!",
+    emailSentDesc: (email: string) =>
+      `A confirmation link has been sent to ${email}. Click it to activate your account.`,
+    backToLogin: "Back to login",
   },
   es: {
     invalidEmail: "Correo inválido",
     min8Chars: "Mínimo 8 caracteres",
     min2Chars: "Mínimo 2 caracteres",
+    passwordMismatch: "Las contraseñas no coinciden",
     wrongCredentials: "Correo o contraseña incorrectos.",
+    emailAlreadyUsed: "Este correo ya está en uso. Intenta iniciar sesión.",
+    networkError: "Error de red. Comprueba tu conexión.",
     divider: "o",
     fullName: "Nombre completo",
     fullNamePlaceholder: "Juan Pérez",
@@ -119,12 +157,18 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     },
     email: "Correo",
     emailPlaceholder: "juan@example.com",
-    passwordLabel: "Contrase" + "ña",
+    passwordLabel: "Contrase" + "\u00f1a",
+    confirmPasswordLabel: "Confirmar contraseña",
+    passwordHint: "Mínimo 8 caracteres",
     hidePassword: "Ocultar contraseña",
     showPassword: "Mostrar contraseña",
     forgotPassword: "¿Olvidaste tu contraseña?",
     submitLogin: "Iniciar sesión",
     submitRegister: "Crear cuenta",
+    emailSentTitle: "📧 ¡Revisa tu correo!",
+    emailSentDesc: (email: string) =>
+      `Se ha enviado un enlace de confirmación a ${email}. Haz clic para activar tu cuenta.`,
+    backToLogin: "Volver al inicio de sesión",
   },
 };
 
@@ -135,8 +179,10 @@ export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
   const supabase = getSupabaseBrowserClient();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [oauthLoading, setOauthLoading] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState<string | null>(null); // email address after register
 
   // ── Login form ──────────────────────────────────────────
   const loginForm = useForm<LoginForm>({
@@ -155,7 +201,16 @@ export function AuthForm({ mode }: AuthFormProps) {
         full_name: z.string().min(2, copy.min2Chars),
         email: z.string().email(copy.invalidEmail),
         password: z.string().min(8, copy.min8Chars),
+        confirmPassword: z.string(),
         role: z.enum(["learner", "student", "client"]),
+      }).superRefine(({ password, confirmPassword }, ctx) => {
+        if (password !== confirmPassword) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: copy.passwordMismatch,
+            path: ["confirmPassword"],
+          });
+        }
       })
     ),
     defaultValues: { role: "learner" },
@@ -183,7 +238,14 @@ export function AuthForm({ mode }: AuthFormProps) {
       password: data.password,
     });
     if (error) {
-      setAuthError(copy.wrongCredentials);
+      const code = error.code ?? "";
+      if (code === "invalid_credentials" || code === "bad_jwt" || code === "user_not_found") {
+        setAuthError(copy.wrongCredentials);
+      } else if (error.message.toLowerCase().includes("network")) {
+        setAuthError(copy.networkError);
+      } else {
+        setAuthError(copy.wrongCredentials);
+      }
       return;
     }
     router.push("/dashboard");
@@ -216,10 +278,20 @@ export function AuthForm({ mode }: AuthFormProps) {
       },
     });
     if (error) {
-      setAuthError(error.message);
+      const msg = error.message.toLowerCase();
+      if (msg.includes("already registered") || msg.includes("already in use") || msg.includes("user already")) {
+        setAuthError(copy.emailAlreadyUsed);
+      } else if (msg.includes("password")) {
+        setAuthError(copy.min8Chars);
+      } else if (msg.includes("network")) {
+        setAuthError(copy.networkError);
+      } else {
+        setAuthError(error.message);
+      }
       return;
     }
-    router.push("/onboarding");
+    // Supabase sends a confirmation email — show the confirmation screen
+    setEmailSent(data.email);
   };
 
   // ── OAuth ────────────────────────────────────────────────
@@ -242,6 +314,27 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   return (
     <div className="space-y-4">
+
+      {/* ── Email confirmation screen (shown after successful register) ── */}
+      {emailSent && (
+        <div className="text-center py-4 space-y-4">
+          <div className="text-4xl">📧</div>
+          <h2 className="text-xl font-bold text-gray-900">{copy.emailSentTitle}</h2>
+          <p className="text-sm text-gray-500 leading-relaxed">
+            {copy.emailSentDesc(emailSent)}
+          </p>
+          <button
+            type="button"
+            onClick={() => setEmailSent(null)}
+            className="text-sm text-brand-600 hover:underline"
+          >
+            {copy.backToLogin}
+          </button>
+        </div>
+      )}
+
+      {!emailSent && (
+        <>
       {/* OAuth buttons */}
       <div className="grid grid-cols-2 gap-3">
         <button
@@ -386,7 +479,41 @@ export function AuthForm({ mode }: AuthFormProps) {
               {form.formState.errors.password?.message as string}
             </p>
           )}
+          {mode === "register" && (
+            <p className="text-xs text-gray-400 mt-1">{copy.passwordHint}</p>
+          )}
         </div>
+
+        {/* Confirm password (register only) */}
+        {mode === "register" && (
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1.5">
+              {copy.confirmPasswordLabel}
+            </label>
+            <div className="relative">
+              <input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="••••••••"
+                {...registerForm.register("confirmPassword")}
+                className="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                aria-label={showConfirmPassword ? copy.hidePassword : copy.showPassword}
+              >
+                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+            {registerForm.formState.errors.confirmPassword && (
+              <p className="text-xs text-red-500 mt-1">
+                {registerForm.formState.errors.confirmPassword?.message as string}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Forgot password (login only) */}
         {isLogin && (
@@ -416,6 +543,8 @@ export function AuthForm({ mode }: AuthFormProps) {
           {isLogin ? copy.submitLogin : copy.submitRegister}
         </button>
       </form>
+        </>
+      )}
     </div>
   );
 }

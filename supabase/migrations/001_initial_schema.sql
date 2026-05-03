@@ -47,7 +47,7 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
 -- TABLE: badges
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.badges (
-  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   slug        TEXT NOT NULL UNIQUE
               CHECK (slug IN ('html-basics', 'git-ready', 'js-starter', 'project-builder', 'verified-junior')),
   name        TEXT NOT NULL,
@@ -70,7 +70,7 @@ ON CONFLICT (slug) DO NOTHING;
 -- TABLE: user_badges
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.user_badges (
-  id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id    UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   badge_id   UUID REFERENCES public.badges(id) NOT NULL,
   earned_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS public.user_badges (
 -- TABLE: learning_paths
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.learning_paths (
-  id                 UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   slug               TEXT NOT NULL UNIQUE,
   title              TEXT NOT NULL,
   description        TEXT,
@@ -103,7 +103,7 @@ ON CONFLICT (slug) DO NOTHING;
 -- TABLE: lessons
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.lessons (
-  id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   path_id          UUID REFERENCES public.learning_paths(id) ON DELETE CASCADE NOT NULL,
   title            TEXT NOT NULL,
   description      TEXT,
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS public.lessons (
 -- TABLE: learner_profiles
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.learner_profiles (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id         UUID REFERENCES public.profiles(id) ON DELETE CASCADE UNIQUE NOT NULL,
   current_path_id UUID REFERENCES public.learning_paths(id),
   current_level   SMALLINT NOT NULL DEFAULT 0 CHECK (current_level BETWEEN 0 AND 4),
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS public.learner_profiles (
 -- TABLE: user_progress
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.user_progress (
-  id           UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id      UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   lesson_id    UUID REFERENCES public.lessons(id) ON DELETE CASCADE NOT NULL,
   status       TEXT NOT NULL DEFAULT 'not_started'
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS public.user_progress (
 -- TABLE: projects (marketplace)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.projects (
-  id           UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   client_id    UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   title        TEXT NOT NULL,
   description  TEXT NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS public.projects (
 -- TABLE: applications (candidatures)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.applications (
-  id                    UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id                    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id            UUID REFERENCES public.projects(id) ON DELETE CASCADE NOT NULL,
   applicant_id          UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   cover_letter          TEXT NOT NULL,
@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS public.applications (
 -- TABLE: reviews
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.reviews (
-  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id  UUID REFERENCES public.projects(id) ON DELETE CASCADE NOT NULL,
   reviewer_id UUID REFERENCES public.profiles(id) NOT NULL,
   reviewed_id UUID REFERENCES public.profiles(id) NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS public.reviews (
 -- TABLE: payments
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.payments (
-  id                        UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id                        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id                UUID REFERENCES public.projects(id) NOT NULL,
   payer_id                  UUID REFERENCES public.profiles(id) NOT NULL,
   payee_id                  UUID REFERENCES public.profiles(id) NOT NULL,

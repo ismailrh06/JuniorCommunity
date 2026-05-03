@@ -20,7 +20,7 @@ export type Database = {
           email: string;
           full_name: string | null;
           avatar_url: string | null;
-          role: "learner" | "student" | "client" | "admin";
+          role: "learner" | "student" | "client" | "admin" | "mentor";
           bio: string | null;
           github_url: string | null;
           portfolio_url: string | null;
@@ -98,6 +98,10 @@ export type Database = {
           last_active_at: string | null;
           is_premium: boolean;
           ready_junior: boolean;
+          onboarding_goal: "learn" | "mission" | "portfolio" | null;
+          onboarding_level: "beginner" | "some" | "experienced" | null;
+          onboarding_path: string | null;
+          onboarding_completed_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -131,6 +135,7 @@ export type Database = {
           tags: string[];
           junior_only: boolean;
           is_sponsored: boolean;
+          required_badge_id: string | null;
           deadline: string | null;
           created_at: string;
           updated_at: string;
@@ -180,6 +185,36 @@ export type Database = {
         };
         Insert: Omit<Database["public"]["Tables"]["payments"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["payments"]["Insert"]>;
+      };
+      analytics_events: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          session_id: string | null;
+          event: string; // 'signup' | 'module_started' | 'module_completed' | 'project_applied' | 'path_started'
+          properties: Record<string, unknown>;
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["analytics_events"]["Row"], "id" | "created_at">;
+        Update: Partial<Database["public"]["Tables"]["analytics_events"]["Insert"]>;
+      };
+    };
+    Functions: {
+      increment_xp: {
+        Args: { p_user_id: string; p_xp?: number };
+        Returns: void;
+      };
+      update_streak: {
+        Args: { p_user_id: string };
+        Returns: void;
+      };
+      track_event: {
+        Args: { p_event: string; p_properties?: Record<string, unknown>; p_session_id?: string };
+        Returns: void;
+      };
+      is_admin: {
+        Args: Record<string, never>;
+        Returns: boolean;
       };
     };
   };
