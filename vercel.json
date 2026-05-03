@@ -1,6 +1,7 @@
 {
-  "buildCommand": "cd ../.. && pnpm build --filter @juniorcode/web",
-  "outputDirectory": "apps/web/.next",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "pnpm turbo run build --filter=@juniorcode/web",
   "installCommand": "pnpm install",
-  "framework": "nextjs"
+  "outputDirectory": "apps/web/.next"
 }

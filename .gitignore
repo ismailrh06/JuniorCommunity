@@ -16,4 +16,6 @@ apps/**/.next/
 *.tsbuildinfo
 # Security event log (runtime data, not tracked in git)
 apps/web/data/security-events.json
+.vercel/output
+.vercel/cache
 .vercel
