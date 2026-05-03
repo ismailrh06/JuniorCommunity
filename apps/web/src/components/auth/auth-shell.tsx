@@ -51,8 +51,8 @@ export function AuthShell({ subtitle, children }: AuthShellProps) {
               <Image
                 src="/brand/new_logo.png"
                 alt="JuniorCode"
-                width={44}
-                height={44}
+                width={60}
+                height={60}
                 priority
                 className="rounded-2xl object-contain"
               />

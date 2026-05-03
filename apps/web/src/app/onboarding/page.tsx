@@ -333,8 +333,8 @@ export default function OnboardingPage() {
               <Image
                 src="/brand/new_logo.png"
                 alt="JuniorCode"
-                width={28}
-                height={28}
+                width={40}
+                height={40}
                 priority
                 className="rounded-xl object-contain"
               />
