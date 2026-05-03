@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { Briefcase, Filter, Search, SlidersHorizontal, Sparkles } from "lucide-react";
+import { Briefcase, Filter, Search, SlidersHorizontal, Star } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
@@ -196,7 +196,7 @@ export default async function MarketplacePage({ searchParams }: Readonly<Marketp
           <aside className="w-full lg:w-64 flex-shrink-0">
             <div className="sticky top-6 rounded-2xl border border-white/15 bg-white/[0.04] p-5">
               <h3 className="mb-4 flex items-center gap-2 font-semibold">
-                <Sparkles className="h-4 w-4 text-brand-300" />
+                <Star className="h-4 w-4 text-brand-300" />
                 {copy.filters}
               </h3>
               <p className="mb-4 text-xs text-white/50">{copy.activeFilters(activeFiltersCount)}</p>

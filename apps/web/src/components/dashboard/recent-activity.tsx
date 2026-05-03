@@ -45,9 +45,9 @@ export function RecentActivity({ language, recentProgress }: RecentActivityProps
 
   if (recentProgress.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
-        <h3 className="font-semibold text-gray-900 mb-4">{copy.title}</h3>
-        <p className="text-sm text-gray-400 text-center py-4">
+      <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <h3 className="font-semibold text-slate-950 mb-4">{copy.title}</h3>
+        <p className="text-sm text-slate-400 text-center py-4">
           {copy.empty}
         </p>
       </div>
@@ -55,8 +55,8 @@ export function RecentActivity({ language, recentProgress }: RecentActivityProps
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6">
-      <h3 className="font-semibold text-gray-900 mb-4">{copy.title}</h3>
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 className="font-semibold text-slate-950 mb-4">{copy.title}</h3>
       <div className="space-y-3">
         {recentProgress.map((progress) => {
           const lesson = progress.lesson as { title: string; type: string; duration_minutes: number } | undefined;
@@ -65,15 +65,15 @@ export function RecentActivity({ language, recentProgress }: RecentActivityProps
           const Icon = config.icon;
 
           return (
-            <div key={progress.id} className="flex items-center gap-3">
-              <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${config.color}`}>
+            <div key={progress.id} className="flex items-center gap-3 rounded-lg border border-transparent p-2 hover:border-slate-100 hover:bg-slate-50">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${config.color}`}>
                 <Icon className="h-4 w-4" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-sm font-semibold text-slate-950 truncate">
                   {lesson?.title ?? copy.completedModule}
                 </p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-slate-400">
                   {progress.completed_at ? formatRelativeTime(progress.completed_at, language) : "—"}
                 </p>
               </div>

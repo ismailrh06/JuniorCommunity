@@ -6,11 +6,46 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Mail, Eye, EyeOff, Loader2 } from "lucide-react";
-import { getSupabaseBrowserClient } from "@juniorcode/db";
-import { cn } from "@/lib/utils";
 import { isMockMode, saveMockUser } from "@/lib/mock-auth";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { Language } from "@/lib/i18n/translations";
+
+async function getBrowserSupabase() {
+  const { getSupabaseBrowserClient } = await import("@juniorcode/db/browser");
+  return getSupabaseBrowserClient();
+}
+
+// ── Security event logging ──────────────────────────────────────────────────
+type SecurityLogPayload = {
+  type: "brute_force" | "suspicious_ip" | "role_escalation" | "mass_request" | "invalid_token" | "scraping";
+  severity: "critical" | "high" | "medium" | "low";
+  description: string;
+  email?: string;
+  user_id?: string | null;
+};
+
+async function logSecurityEvent(payload: SecurityLogPayload): Promise<void> {
+  try {
+    await fetch("/api/security", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+  } catch {
+    // non-blocking — never crash the UI because of security logging
+  }
+}
+
+/** Track repeated login attempts in sessionStorage (mock mode or pre-Supabase). */
+function trackMockAttempt(email: string): number {
+  const key = `jc-login-attempt:${email}`;
+  const raw = sessionStorage.getItem(key);
+  const count = raw ? Number.parseInt(raw, 10) + 1 : 1;
+  sessionStorage.setItem(key, String(count));
+  // Clear after 5 minutes
+  setTimeout(() => sessionStorage.removeItem(key), 5 * 60 * 1000);
+  return count;
+}
 
 // ── Schemas ────────────────────────────────────────────────
 const loginSchema = z.object({
@@ -48,6 +83,7 @@ type AuthCopy = {
   passwordMismatch: string;
   wrongCredentials: string;
   emailAlreadyUsed: string;
+  rateLimitExceeded: string;
   networkError: string;
   divider: string;
   fullName: string;
@@ -81,6 +117,7 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     passwordMismatch: "Les mots de passe ne correspondent pas",
     wrongCredentials: "Email ou mot de passe incorrect.",
     emailAlreadyUsed: "Cet email est déjà utilisé. Essaie de te connecter.",
+    rateLimitExceeded: "Trop de tentatives avec cet email. Attends quelques minutes, puis réessaie. Si tu viens de créer le compte, vérifie aussi ta boîte mail.",
     networkError: "Erreur réseau. Vérifie ta connexion.",
     divider: "ou",
     fullName: "Nom complet",
@@ -113,6 +150,7 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     passwordMismatch: "Passwords do not match",
     wrongCredentials: "Incorrect email or password.",
     emailAlreadyUsed: "This email is already in use. Try signing in.",
+    rateLimitExceeded: "Too many attempts with this email. Wait a few minutes, then try again. If you just created the account, also check your inbox.",
     networkError: "Network error. Check your connection.",
     divider: "or",
     fullName: "Full name",
@@ -145,6 +183,7 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     passwordMismatch: "Las contraseñas no coinciden",
     wrongCredentials: "Correo o contraseña incorrectos.",
     emailAlreadyUsed: "Este correo ya está en uso. Intenta iniciar sesión.",
+    rateLimitExceeded: "Demasiados intentos con este correo. Espera unos minutos y vuelve a intentarlo. Si acabas de crear la cuenta, revisa también tu bandeja de entrada.",
     networkError: "Error de red. Comprueba tu conexión.",
     divider: "o",
     fullName: "Nombre completo",
@@ -177,7 +216,6 @@ export function AuthForm({ mode }: AuthFormProps) {
   const copy = AUTH_COPY[language];
 
   const router = useRouter();
-  const supabase = getSupabaseBrowserClient();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -222,33 +260,73 @@ export function AuthForm({ mode }: AuthFormProps) {
 
     // ── Mock mode (Supabase not configured) ──────────────
     if (isMockMode()) {
+      // Track repeated attempts in mock mode — log if suspicious
+      const count = trackMockAttempt(data.email);
+      if (count >= 3) {
+        await logSecurityEvent({
+          type: "brute_force",
+          severity: count >= 5 ? "critical" : "high",
+          description: `${count} tentatives de connexion en mode mock pour "${data.email}".`,
+          email: data.email,
+        });
+      }
       saveMockUser({
         id: "mock-" + data.email,
         email: data.email,
         full_name: data.email.split("@")[0] ?? "Junior",
         role: "learner",
       });
-      router.push("/dashboard");
+      router.push("/");
       router.refresh();
       return;
     }
 
+    const supabase = await getBrowserSupabase();
     const { error } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
     });
     if (error) {
       const code = error.code ?? "";
-      if (code === "invalid_credentials" || code === "bad_jwt" || code === "user_not_found") {
+      const msg = error.message.toLowerCase();
+      if (code === "over_email_send_rate_limit" || code === "over_request_rate_limit" || msg.includes("rate limit")) {
+        setAuthError(copy.rateLimitExceeded);
+        await logSecurityEvent({
+          type: "brute_force",
+          severity: "high",
+          description: `Limite de taux dépassée lors de la connexion pour "${data.email}".`,
+          email: data.email,
+        });
+      } else if (code === "invalid_credentials" || code === "bad_jwt" || code === "user_not_found") {
         setAuthError(copy.wrongCredentials);
-      } else if (error.message.toLowerCase().includes("network")) {
+        await logSecurityEvent({
+          type: "brute_force",
+          severity: "medium",
+          description: `Tentative de connexion échouée (identifiants invalides) pour "${data.email}".`,
+          email: data.email,
+        });
+      } else if (code === "bad_jwt" || msg.includes("jwt") || msg.includes("token")) {
+        setAuthError(copy.wrongCredentials);
+        await logSecurityEvent({
+          type: "invalid_token",
+          severity: "medium",
+          description: `Token invalide ou malformé lors d'une tentative de connexion pour "${data.email}".`,
+          email: data.email,
+        });
+      } else if (msg.includes("network")) {
         setAuthError(copy.networkError);
       } else {
         setAuthError(copy.wrongCredentials);
+        await logSecurityEvent({
+          type: "brute_force",
+          severity: "low",
+          description: `Erreur de connexion inconnue pour "${data.email}" : ${error.message}`,
+          email: data.email,
+        });
       }
       return;
     }
-    router.push("/dashboard");
+    router.push("/");
     router.refresh();
   };
 
@@ -263,11 +341,12 @@ export function AuthForm({ mode }: AuthFormProps) {
         full_name: data.full_name,
         role: data.role,
       });
-      router.push("/onboarding");
+      router.push("/");
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
+    const supabase = await getBrowserSupabase();
+    const { data: signUpData, error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
@@ -281,6 +360,8 @@ export function AuthForm({ mode }: AuthFormProps) {
       const msg = error.message.toLowerCase();
       if (msg.includes("already registered") || msg.includes("already in use") || msg.includes("user already")) {
         setAuthError(copy.emailAlreadyUsed);
+      } else if ((error.code ?? "") === "over_email_send_rate_limit" || (error.code ?? "") === "over_request_rate_limit" || msg.includes("rate limit")) {
+        setAuthError(copy.rateLimitExceeded);
       } else if (msg.includes("password")) {
         setAuthError(copy.min8Chars);
       } else if (msg.includes("network")) {
@@ -290,13 +371,22 @@ export function AuthForm({ mode }: AuthFormProps) {
       }
       return;
     }
-    // Supabase sends a confirmation email — show the confirmation screen
+
+    // If email confirmation is disabled in Supabase, a session is returned immediately.
+    if (signUpData.session) {
+      router.push("/");
+      router.refresh();
+      return;
+    }
+
+    // Otherwise Supabase sends a confirmation email — show the confirmation screen.
     setEmailSent(data.email);
   };
 
   // ── OAuth ────────────────────────────────────────────────
   const handleOAuth = async (provider: "github" | "google") => {
     setOauthLoading(provider);
+    const supabase = await getBrowserSupabase();
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
@@ -395,41 +485,6 @@ export function AuthForm({ mode }: AuthFormProps) {
                 {registerForm.formState.errors.full_name.message}
               </p>
             )}
-          </div>
-        )}
-
-        {/* Role selector (register only) */}
-        {mode === "register" && (
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              {copy.roleLabel}
-            </label>
-            <div className="grid grid-cols-3 gap-2">
-              {([
-                { value: "learner", ...copy.roles.learner },
-                { value: "student", ...copy.roles.student },
-                { value: "client", ...copy.roles.client },
-              ] as const).map((option) => (
-                <label
-                  key={option.value}
-                  className={cn(
-                    "flex flex-col items-center p-3 rounded-xl border cursor-pointer transition-all text-center",
-                    registerForm.watch("role") === option.value
-                      ? "border-brand-500 bg-brand-50 text-brand-700"
-                      : "border-gray-200 hover:border-gray-300 text-gray-600"
-                  )}
-                >
-                  <input
-                    type="radio"
-                    value={option.value}
-                    className="sr-only"
-                    {...registerForm.register("role")}
-                  />
-                  <span className="text-base">{option.label}</span>
-                  <span className="text-xs mt-0.5 opacity-70">{option.desc}</span>
-                </label>
-              ))}
-            </div>
           </div>
         )}
 

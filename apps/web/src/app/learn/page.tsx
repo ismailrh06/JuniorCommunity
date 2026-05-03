@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { BookOpen, ChevronRight, Sparkles, Trophy, Zap } from "lucide-react";
+import { BookOpen, ChevronRight, Star, Trophy, Zap } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
@@ -218,8 +218,8 @@ export default async function LearnPage() {
       <div className="max-w-5xl mx-auto px-4 py-16">
         <div className="grid gap-4 md:grid-cols-3">
           {copy.benefits.map(({ title, desc }, idx) => {
-            const icons = [Sparkles, Zap, Trophy] as const;
-            const Icon = icons[idx] ?? Sparkles;
+            const icons = [Star, Zap, Trophy] as const;
+            const Icon = icons[idx] ?? Star;
 
             return (
               <div key={title} className="rounded-2xl border border-white/15 bg-white/[0.04] p-6 transition hover:bg-white/[0.08]">

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { CheckCircle, XCircle, Sparkles } from "lucide-react";
+import { CheckCircle, Star, XCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
@@ -176,7 +176,7 @@ export default async function PricingPage() {
         {/* ── Hero ── */}
         <section className="bg-white border-b border-gray-100 py-16 text-center px-4">
           <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-5 border border-brand-200">
-            <Sparkles className="h-4 w-4" />
+            <Star className="h-4 w-4" />
             Pricing
           </div>
           <h1 className="text-4xl font-extrabold text-gray-900 mb-3">{copy.headline}</h1>

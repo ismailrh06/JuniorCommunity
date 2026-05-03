@@ -278,7 +278,10 @@ END;
 $$;
 
 -- ── 10. Vue analytics agrégée pour le dashboard admin ──────────
-CREATE OR REPLACE VIEW public.analytics_summary AS
+-- security_invoker garantit que la vue applique les règles RLS
+-- de l'utilisateur qui interroge, et non celles du propriétaire.
+CREATE OR REPLACE VIEW public.analytics_summary
+WITH (security_invoker = true) AS
 SELECT
   event,
   COUNT(*)                                    AS total,

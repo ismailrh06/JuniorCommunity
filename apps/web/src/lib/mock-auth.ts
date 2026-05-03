@@ -9,7 +9,7 @@ export type MockUser = {
   id: string;
   email: string;
   full_name: string;
-  role: "learner" | "student" | "client";
+  role: "learner" | "student" | "client" | "admin" | "mentor";
 };
 
 export function isMockMode(): boolean {

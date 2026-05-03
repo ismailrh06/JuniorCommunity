@@ -19,6 +19,7 @@ const fontMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://juniorcode.fr"),
   title: {
     template: "%s | JuniorCode",
     default: "JuniorCode — La fabrique de juniors employables",
@@ -31,6 +32,18 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "https://juniorcode.fr",
     siteName: "JuniorCode",
+    images: [
+      {
+        url: "/brand/logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "JuniorCode",
+      },
+    ],
+  },
+  icons: {
+    icon: "/brand/logo-mark.png",
+    apple: "/brand/logo-mark.png",
   },
 };
 

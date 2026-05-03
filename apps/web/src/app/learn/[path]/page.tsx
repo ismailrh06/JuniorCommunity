@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { ArrowLeft, Clock3, PlayCircle, Sparkles } from "lucide-react";
+import { ArrowLeft, Clock3, PlayCircle, Star } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
@@ -667,7 +667,7 @@ export default async function LearningPathPage({
         {/* CTA */}
         <div className="mt-10 rounded-2xl border border-white/15 bg-gradient-to-r from-learn-500/15 to-brand-500/15 p-6">
           <div className="flex items-start gap-3">
-            <Sparkles className="mt-0.5 h-5 w-5 text-brand-300 flex-shrink-0" />
+            <Star className="mt-0.5 h-5 w-5 text-brand-300 flex-shrink-0" />
             <div>
               <h3 className="text-lg font-semibold">{copy.pathGoal}</h3>
               <p className="mt-1 text-sm text-white/70">

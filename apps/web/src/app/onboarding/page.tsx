@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { Language } from "@/lib/i18n/translations";
@@ -193,21 +195,28 @@ function SelectCard({
   desc,
   selected,
   onClick,
+  index = 0,
 }: Readonly<{
   emoji: string;
   title: string;
   desc: string;
   selected: boolean;
   onClick: () => void;
+  index?: number;
 }>) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.06, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -2, scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       className={`w-full text-left rounded-2xl border p-5 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 ${
         selected
-          ? "border-brand-400 bg-brand-500/15 shadow-lg shadow-brand-500/10"
-          : "border-white/15 bg-white/[0.04] hover:border-white/30 hover:bg-white/[0.07]"
+          ? "border-brand-300 bg-brand-500/15 shadow-2xl shadow-brand-500/15"
+          : "border-white/15 bg-white/[0.045] hover:border-white/30 hover:bg-white/[0.08]"
       }`}
     >
       <div className="flex items-start gap-4">
@@ -222,7 +231,7 @@ function SelectCard({
           <p className="mt-1 text-sm text-white/60">{desc}</p>
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 }
 
@@ -231,13 +240,21 @@ function ProgressBar({ current, total }: Readonly<{ current: number; total: numb
   const pct = Math.round((current / total) * 100);
   return (
     <div className="h-1 w-full rounded-full bg-white/10">
-      <div
+      <motion.div
         className="h-1 rounded-full bg-gradient-to-r from-brand-400 to-learn-400 transition-all duration-500"
-        style={{ width: `${pct}%` }}
+        initial={false}
+        animate={{ width: `${pct}%` }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       />
     </div>
   );
 }
+
+const stepVariants = {
+  enter: { opacity: 0, y: 20, filter: "blur(8px)" },
+  center: { opacity: 1, y: 0, filter: "blur(0px)" },
+  exit: { opacity: 0, y: -14, filter: "blur(8px)" },
+};
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function OnboardingPage() {
@@ -291,14 +308,37 @@ export default function OnboardingPage() {
     step === 4;
 
   return (
-    <div className="min-h-screen bg-[#070b16] text-white flex flex-col">
+    <div className="relative min-h-screen overflow-hidden bg-[#070b16] text-white flex flex-col">
+      <div className="pointer-events-none absolute inset-0">
+        <motion.div
+          aria-hidden="true"
+          className="absolute left-1/2 top-[-18rem] h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-brand-500/20 blur-3xl"
+          animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.78, 0.5] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-[-16rem] right-[-12rem] h-[34rem] w-[34rem] rounded-full bg-orange-500/20 blur-3xl"
+          animate={{ x: [0, -24, 0], y: [0, 18, 0], opacity: [0.45, 0.7, 0.45] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:48px_48px]" />
+      </div>
+
       {/* Top bar */}
-      <div className="sticky top-0 z-10 border-b border-white/10 bg-[#070b16]/95 backdrop-blur-md px-4 py-4">
+      <div className="sticky top-0 z-10 border-b border-white/10 bg-[#070b16]/80 backdrop-blur-xl px-4 py-4">
         <div className="mx-auto max-w-xl">
           <div className="mb-3 flex items-center justify-between text-xs text-white/50">
             <Link href="/" className="flex items-center gap-2 font-bold text-white text-sm">
-              <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-brand-600 text-xs font-bold">
-                JC
+              <span className="relative h-8 w-8 overflow-hidden rounded-xl border border-white/15 bg-slate-950 shadow-lg shadow-brand-500/20">
+                <Image
+                  src="/brand/logo-mark.png"
+                  alt="JuniorCode"
+                  fill
+                  sizes="32px"
+                  priority
+                  className="object-cover scale-[2.45]"
+                />
               </span>
               {" JuniorCode"}
             </Link>
@@ -311,16 +351,24 @@ export default function OnboardingPage() {
       {/* Content */}
       <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-xl">
-
-          {/* ── Step 1 — Goal ── */}
-          {step === 1 && (
-            <div className="space-y-6">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              variants={stepVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {/* ── Step 1 — Goal ── */}
+              {step === 1 && (
+                <div className="space-y-6">
               <div>
                 <h1 className="text-2xl font-black sm:text-3xl">{copy.step1Title}</h1>
                 <p className="mt-2 text-white/65">{copy.step1Subtitle}</p>
               </div>
               <div className="space-y-3">
-                {copy.goals.map((g) => (
+                {copy.goals.map((g, index) => (
                   <SelectCard
                     key={g.id}
                     emoji={g.emoji}
@@ -328,21 +376,22 @@ export default function OnboardingPage() {
                     desc={g.desc}
                     selected={goal === g.id}
                     onClick={() => { setGoal(g.id); }}
+                    index={index}
                   />
                 ))}
               </div>
-            </div>
-          )}
+                </div>
+              )}
 
-          {/* ── Step 2 — Level ── */}
-          {step === 2 && (
-            <div className="space-y-6">
+              {/* ── Step 2 — Level ── */}
+              {step === 2 && (
+                <div className="space-y-6">
               <div>
                 <h1 className="text-2xl font-black sm:text-3xl">{copy.step2Title}</h1>
                 <p className="mt-2 text-white/65">{copy.step2Subtitle}</p>
               </div>
               <div className="space-y-3">
-                {copy.levels.map((l) => (
+                {copy.levels.map((l, index) => (
                   <SelectCard
                     key={l.id}
                     emoji={l.emoji}
@@ -350,29 +399,35 @@ export default function OnboardingPage() {
                     desc={l.desc}
                     selected={level === l.id}
                     onClick={() => { setLevel(l.id); }}
+                    index={index}
                   />
                 ))}
               </div>
-            </div>
-          )}
+                </div>
+              )}
 
-          {/* ── Step 3 — Path ── */}
-          {step === 3 && (
-            <div className="space-y-6">
+              {/* ── Step 3 — Path ── */}
+              {step === 3 && (
+                <div className="space-y-6">
               <div>
                 <h1 className="text-2xl font-black sm:text-3xl">{copy.step3Title}</h1>
                 <p className="mt-2 text-white/65">{copy.step3Subtitle}</p>
               </div>
               <div className="space-y-3">
-                {copy.paths.map((p) => (
-                  <button
+                {copy.paths.map((p, index) => (
+                  <motion.button
                     key={p.id}
                     type="button"
                     onClick={() => setPath(p.id)}
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                     className={`w-full text-left rounded-2xl border p-5 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 ${
                       path === p.id
-                        ? "border-brand-400 bg-brand-500/15 shadow-lg shadow-brand-500/10"
-                        : "border-white/15 bg-white/[0.04] hover:border-white/30 hover:bg-white/[0.07]"
+                        ? "border-brand-300 bg-brand-500/15 shadow-2xl shadow-brand-500/15"
+                        : "border-white/15 bg-white/[0.045] hover:border-white/30 hover:bg-white/[0.08]"
                     }`}
                   >
                     <div className="flex items-start gap-4">
@@ -392,19 +447,23 @@ export default function OnboardingPage() {
                         <p className="mt-1 text-sm text-white/60">{p.desc}</p>
                       </div>
                     </div>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
-            </div>
-          )}
-
-          {/* ── Step 4 — Summary & Launch ── */}
-          {step === 4 && (
-            <div className="space-y-8">
-              <div className="text-center">
-                <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-learn-500 text-4xl shadow-2xl shadow-brand-500/30">
-                  🚀
                 </div>
+              )}
+
+              {/* ── Step 4 — Summary & Launch ── */}
+              {step === 4 && (
+                <div className="space-y-8">
+              <div className="text-center">
+                <motion.div
+                  className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-learn-500 text-4xl shadow-2xl shadow-brand-500/30"
+                  animate={{ y: [0, -6, 0], rotate: [0, -3, 3, 0] }}
+                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  🚀
+                </motion.div>
                 <h1 className="text-2xl font-black sm:text-3xl">{copy.step4Title(firstName)}</h1>
                 <p className="mt-2 text-white/65">{copy.step4Subtitle}</p>
               </div>
@@ -442,14 +501,16 @@ export default function OnboardingPage() {
 
               {/* CTAs */}
               <div className="space-y-3">
-                <button
+                <motion.button
                   type="button"
                   onClick={finish}
+                  whileHover={{ y: -2, scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                   className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-3.5 font-semibold text-white shadow-2xl shadow-brand-500/30 transition hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-500"
                 >
                   {copy.step4Cta}
                   <ArrowRight className="h-4 w-4" />
-                </button>
+                </motion.button>
                 <button
                   type="button"
                   onClick={() => router.push("/marketplace")}
@@ -458,8 +519,10 @@ export default function OnboardingPage() {
                   {copy.step4Skip}
                 </button>
               </div>
-            </div>
-          )}
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
 
           {/* ── Navigation ── */}
           {step < 4 && (

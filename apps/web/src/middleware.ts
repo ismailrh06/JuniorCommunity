@@ -45,7 +45,7 @@ function handleMockMode(request: NextRequest): NextResponse {
 
   const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
   if (isAuthRoute && isLoggedIn) {
-    return redirectTo(request, "/dashboard");
+    return redirectTo(request, "/");
   }
 
   return NextResponse.next({ request });
@@ -96,7 +96,7 @@ export async function middleware(request: NextRequest) {
 
   const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
   if (isAuthRoute && user) {
-    return redirectTo(request, "/dashboard");
+    return redirectTo(request, "/");
   }
 
   return supabaseResponse;

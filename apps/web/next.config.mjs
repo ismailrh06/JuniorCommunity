@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@juniorcode/ui", "@juniorcode/db"],
+  webpack: (config) => {
+    config.infrastructureLogging = { level: "error" };
+    return config;
+  },
   images: {
     remotePatterns: [
       {
