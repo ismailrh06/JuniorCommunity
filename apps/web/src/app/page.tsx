@@ -213,8 +213,8 @@ export default function HomePage() {
 
       {/* ── Badges = preuves ── */}
       <section className="mx-auto max-w-5xl px-4 pb-24">
-        <div className="rounded-3xl border border-brand-400/20 bg-gradient-to-br from-brand-500/8 via-white/[0.03] to-market-500/8 p-8 md:p-10">
-          <div className="mb-8 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <div className="rounded-3xl border border-brand-400/20 bg-gradient-to-br from-brand-500/8 via-white/[0.03] to-market-500/8 p-5 sm:p-8 md:p-10">
+            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="mb-1 text-xs uppercase tracking-[0.25em] text-brand-300">Certification</p>
               <h2 className="text-2xl font-bold sm:text-3xl">{messages.home.badgeProofTitle}</h2>
@@ -254,7 +254,7 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA Final ── */}
-      <section className="mx-4 mb-20 rounded-3xl border border-white/15 bg-gradient-to-r from-brand-600 to-market-600 p-10 text-center sm:mx-8">
+      <section className="mx-4 mb-20 rounded-3xl border border-white/15 bg-gradient-to-r from-brand-600 to-market-600 p-6 text-center sm:mx-8 sm:p-10">
         <h2 className="text-3xl font-black sm:text-4xl">{messages.home.finalTitle}</h2>
         <p className="mx-auto mt-4 max-w-2xl text-white/85">
           {messages.home.finalDesc}

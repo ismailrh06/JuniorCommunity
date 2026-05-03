@@ -101,7 +101,7 @@ export function DashboardStats({ language, xpPoints, completedLessons, badgesEar
                 <Icon className="h-4 w-4" />
               </span>
             </div>
-            <span className="mt-3 text-2xl font-extrabold text-slate-950">{stat.value}</span>
+            <span className="mt-3 text-lg sm:text-2xl font-extrabold text-slate-950 truncate">{stat.value}</span>
           </div>
         );
       })}

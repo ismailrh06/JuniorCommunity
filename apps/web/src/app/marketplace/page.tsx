@@ -304,7 +304,7 @@ export default async function MarketplacePage({ searchParams }: Readonly<Marketp
                   href={`/projects/${project.id}`}
                   className="block cursor-pointer rounded-2xl border border-white/15 bg-white/[0.04] p-6 transition-all hover:-translate-y-0.5 hover:border-brand-400/40 hover:bg-white/[0.08]"
                 >
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         {project.juniorOnly && (
@@ -324,22 +324,26 @@ export default async function MarketplacePage({ searchParams }: Readonly<Marketp
                         ))}
                       </div>
                     </div>
-                  <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                      <span className="font-bold">{project.budget}</span>
-                      <span className="text-sm text-white/50">{project.durationLabel}</span>
-                      {project.requiredBadge ? (
-                        <span className="flex items-center gap-1 rounded-full border border-brand-400/40 bg-brand-500/15 px-2.5 py-1 text-xs font-medium text-brand-200">
-                          <span>🏅</span>
-                          <span>{copy.requiredBadgeLabel} : {project.requiredBadge}</span>
+                  <div className="flex flex-row items-center justify-between gap-2 sm:flex-col sm:items-end sm:flex-shrink-0">
+                      <div className="flex flex-col gap-1 sm:items-end">
+                        <span className="font-bold">{project.budget}</span>
+                        <span className="text-sm text-white/50">{project.durationLabel}</span>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        {project.requiredBadge ? (
+                          <span className="flex items-center gap-1 rounded-full border border-brand-400/40 bg-brand-500/15 px-2.5 py-1 text-xs font-medium text-brand-200">
+                            <span>🏅</span>
+                            <span className="hidden sm:inline">{copy.requiredBadgeLabel} : </span>{project.requiredBadge}
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1 rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-xs text-white/45">
+                            {copy.noBadgeNeeded}
+                          </span>
+                        )}
+                        <span className="rounded-xl bg-brand-600 px-4 py-2 text-sm font-medium text-white">
+                          {copy.applyButton}
                         </span>
-                      ) : (
-                        <span className="flex items-center gap-1 rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-xs text-white/45">
-                          {copy.noBadgeNeeded}
-                        </span>
-                      )}
-                      <span className="mt-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-medium text-white">
-                        {copy.applyButton}
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </Link>

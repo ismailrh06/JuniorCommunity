@@ -170,12 +170,12 @@ export default function SettingsPage() {
                 key={t.key}
                 type="button"
                 onClick={() => setTab(t.key)}
-                className={`flex-1 flex items-center justify-center gap-2 text-sm font-semibold py-2 rounded-lg transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold py-2 rounded-lg transition-colors ${
                   tab === t.key ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
                 }`}
               >
                 {t.icon}
-                {t.label}
+                <span>{t.label}</span>
               </button>
             ))}
           </div>

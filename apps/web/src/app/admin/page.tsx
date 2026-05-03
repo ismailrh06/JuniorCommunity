@@ -633,7 +633,7 @@ export default async function AdminPage() {
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">{copy.securitySubtitle}</p>
               </div>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-2">
                 {([
                   { label: copy.securityCritical, count: data.securityEvents.filter(e => e.severity === "critical" && !e.resolved).length, color: "bg-red-50 text-red-700 border-red-200" },
                   { label: copy.securityHigh, count: data.securityEvents.filter(e => e.severity === "high" && !e.resolved).length, color: "bg-orange-50 text-orange-700 border-orange-200" },
@@ -647,7 +647,7 @@ export default async function AdminPage() {
             </div>
 
             {/* Stats rapides */}
-            <div className="mb-4 grid gap-3 sm:grid-cols-4">
+            <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {([
                 { label: copy.securityThreats, value: data.securityEvents.filter(e => !e.resolved).length, icon: FlameKindling, color: "text-red-600", bg: "bg-red-50" },
                 { label: copy.securityResolved, value: data.securityEvents.filter(e => e.resolved).length, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
