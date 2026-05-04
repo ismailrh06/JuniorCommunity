@@ -2,10 +2,19 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { ArrowLeft, Clock3, PlayCircle, Star } from "lucide-react";
+import { ArrowLeft, Clock3, PlayCircle, Rocket, Trophy } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
+import {
+  MissionCard,
+  LearningProgressSync,
+  ProgressRadar,
+  QuestTimeline,
+  StreakCounter,
+  XPBar,
+  type MissionCardData,
+} from "@/components/learn/gamified-learning";
 
 // Types
 interface Module {
@@ -921,14 +930,39 @@ export default async function LearningPathPage({
     (s, l) => s + l.modules.filter((m) => m.free).length,
     0,
   );
+  const flatModules = curriculum.flatMap((level) =>
+    level.modules.map((module) => ({ ...module, level: level.level })),
+  );
+  const missions: MissionCardData[] = flatModules.slice(0, 6).map((module, index) => ({
+    href: `/learn/${path}/${module.id}`,
+    title: `${module.type === "project" ? "Build session" : module.type === "exercise" ? "Challenge" : "Mission"} ${index + 1} - ${getModuleTitle(module, language).replace("🔨 ", "")}`,
+    intro:
+      module.type === "project"
+        ? "Ship a portfolio-ready artifact with visible proof."
+        : "Complete one focused action, run feedback, and unlock the next step.",
+    duration: module.duration,
+    xp: module.type === "project" ? 90 : module.type === "exercise" ? 45 : 30,
+    status: index < 2 ? "active" : module.free ? "locked" : "locked",
+    tags: [
+      getModuleTypeLabel(module.type, language),
+      `${copy.level} ${module.level}`,
+      module.free ? copy.free : "Unlock",
+    ],
+    challenge:
+      module.type === "project"
+        ? "Build, validate, deploy, and add it to your profile."
+        : "Read less than 60 seconds, change something, then check it.",
+    reward: index === 0 ? "Continue" : "Start",
+    tone: module.type === "project" ? "violet" : module.type === "exercise" ? "blue" : "green",
+  }));
 
   return (
     <div className="min-h-screen bg-[#070b16] text-white">
+      <LearningProgressSync />
       <Navbar />
 
-      <div className="mx-auto max-w-4xl px-4 py-10 sm:py-14">
-        {/* Header card */}
-        <div className="mb-10 rounded-3xl border border-white/15 bg-white/[0.05] p-6 sm:p-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:py-12">
+        <div className="mb-8 overflow-hidden rounded-3xl border border-white/12 bg-white/[0.055] p-5 sm:p-8">
           <Link
             href="/learn"
             className="mb-5 inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
@@ -936,18 +970,25 @@ export default async function LearningPathPage({
             <ArrowLeft className="h-4 w-4" /> {copy.backToPaths}
           </Link>
 
-          <div className="flex items-center gap-4 mb-3">
-            <span className="text-4xl">{meta.icon}</span>
+          <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-end">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/45">
-                JuniorCode Learn
-              </p>
-              <h1 className="text-2xl sm:text-3xl font-bold">{meta.title}</h1>
+              <div className="flex items-center gap-4 mb-3">
+                <span className="text-4xl">{meta.icon}</span>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-white/45">
+                    Mission path
+                  </p>
+                  <h1 className="text-3xl font-black sm:text-5xl">
+                    {meta.title}
+                  </h1>
+                </div>
+              </div>
+              <p className="max-w-2xl text-white/65">{meta.tagline}</p>
             </div>
+            <XPBar current={420} max={900} level={4} />
           </div>
-          <p className="text-white/65 mb-6">{meta.tagline}</p>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
               { label: copy.levels, value: curriculum.length },
               { label: copy.modules, value: totalModules },
@@ -967,80 +1008,122 @@ export default async function LearningPathPage({
           </div>
         </div>
 
-        {/* Curriculum */}
-        <div className="space-y-6">
-          {curriculum.map((level) => (
-            <div
-              key={level.level}
-              className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.03]"
-            >
-              <div className="border-b border-white/10 px-6 py-4 bg-white/[0.04] flex items-center gap-3">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-600/70 text-xs font-bold">
-                  {level.level}
-                </div>
-                <h2 className="font-semibold">
-                  {copy.level} {level.level} —{" "}
-                  {getLevelTitle(path, level, language)}
-                </h2>
-              </div>
-
-              <div className="divide-y divide-white/10">
-                {level.modules.map((module, index) => (
-                  <Link
-                    key={module.id}
-                    href={`/learn/${path}/${module.id}`}
-                    className="flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.06] group"
-                  >
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-medium text-white/60">
-                      {index + 1}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium group-hover:text-white transition-colors">
-                        {getModuleTitle(module, language)}
-                      </p>
-                      <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-white/40">
-                        <Clock3 className="h-3 w-3" />
-                        {module.duration}
-                      </p>
-                    </div>
-                    <span
-                      className={`flex-shrink-0 rounded-full px-2 py-1 text-xs ${getModuleBadgeClass(module.type)}`}
-                    >
-                      {getModuleTypeLabel(module.type, language)}
-                    </span>
-                    {module.free ? (
-                      <span className="flex-shrink-0 rounded-full bg-learn-500/20 px-2 py-1 text-xs text-learn-300">
-                        {copy.free}
-                      </span>
-                    ) : null}
-                    <span className="flex-shrink-0 inline-flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1.5 text-xs text-white/75 transition group-hover:bg-white/10 group-hover:border-white/25">
-                      <PlayCircle className="h-3.5 w-3.5" />
-                      {copy.open}
-                    </span>
-                  </Link>
-                ))}
-              </div>
+        <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+          <main>
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="text-2xl font-black">{copy.viewMissions}</h2>
+              <StreakCounter days={3} compact />
             </div>
-          ))}
-        </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {missions.map((mission) => (
+                <MissionCard key={mission.title} mission={mission} />
+              ))}
+            </div>
 
-        {/* CTA */}
-        <div className="mt-10 rounded-2xl border border-white/15 bg-gradient-to-r from-learn-500/15 to-brand-500/15 p-6">
-          <div className="flex items-start gap-3">
-            <Star className="mt-0.5 h-5 w-5 text-brand-300 flex-shrink-0" />
-            <div>
-              <h3 className="text-lg font-semibold">{copy.pathGoal}</h3>
-              <p className="mt-1 text-sm text-white/70">
+            <div className="mt-8 space-y-5">
+              {curriculum.map((level) => (
+                <div
+                  key={level.level}
+                  className="overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04]"
+                >
+                  <div className="border-b border-white/10 bg-white/[0.04] px-5 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600/70 text-xs font-bold">
+                        {level.level}
+                      </div>
+                      <h2 className="font-semibold">
+                        {copy.level} {level.level} -{" "}
+                        {getLevelTitle(path, level, language)}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="divide-y divide-white/10">
+                    {level.modules.map((module, index) => (
+                      <Link
+                        key={module.id}
+                        href={`/learn/${path}/${module.id}`}
+                        className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-white/[0.06]"
+                      >
+                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-medium text-white/60">
+                          {index + 1}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium transition-colors group-hover:text-white">
+                            {getModuleTitle(module, language).replace("🔨 ", "")}
+                          </p>
+                          <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-white/40">
+                            <Clock3 className="h-3 w-3" />
+                            {module.duration} · +{module.type === "project" ? 90 : 30} XP
+                          </p>
+                        </div>
+                        <span
+                          className={`hidden flex-shrink-0 rounded-full px-2 py-1 text-xs sm:inline-flex ${getModuleBadgeClass(module.type)}`}
+                        >
+                          {getModuleTypeLabel(module.type, language)}
+                        </span>
+                        {module.free ? (
+                          <span className="hidden flex-shrink-0 rounded-full bg-learn-500/20 px-2 py-1 text-xs text-learn-300 sm:inline-flex">
+                            {copy.free}
+                          </span>
+                        ) : null}
+                        <span className="flex-shrink-0 inline-flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1.5 text-xs text-white/75 transition group-hover:bg-white/10 group-hover:border-white/25">
+                          <PlayCircle className="h-3.5 w-3.5" />
+                          {copy.open}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </main>
+
+          <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+            <ProgressRadar
+              values={[
+                { label: "Foundations", value: 52 },
+                { label: "Builds", value: 28 },
+                { label: "Feedback", value: 64 },
+                { label: "Portfolio", value: 16 },
+              ]}
+            />
+            <div className="rounded-2xl border border-white/12 bg-white/[0.055] p-5">
+              <div className="mb-4 flex items-center gap-2">
+                <Trophy className="h-5 w-5 text-amber-200" />
+                <h3 className="font-bold">{copy.pathGoal}</h3>
+              </div>
+              <p className="text-sm leading-relaxed text-white/66">
                 {copy.pathGoalDescription}
               </p>
+              <QuestTimeline
+                items={[
+                  {
+                    title: "Starter missions",
+                    meta: `${freeModules} quick wins`,
+                    status: "active",
+                  },
+                  {
+                    title: "Portfolio build",
+                    meta: "Deployable project",
+                    status: "locked",
+                  },
+                  {
+                    title: "Marketplace unlock",
+                    meta: "Collaboration opportunities",
+                    status: "locked",
+                  },
+                ]}
+              />
               <Link
                 href="/marketplace"
-                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-500"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
               >
+                <Rocket className="h-4 w-4" />
                 {copy.viewMissions}
               </Link>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
 

@@ -14,15 +14,20 @@ import {
   Flag,
   Hammer,
   Lightbulb,
-  PlayCircle,
   Send,
   Sparkles,
   Target,
-  TerminalSquare,
   Trophy,
   Zap,
 } from "lucide-react";
 import type { Language } from "@/lib/i18n/translations";
+import {
+  AchievementPopup,
+  InteractiveCodeBlock,
+  LearningProgressSync,
+  XPBar,
+} from "@/components/learn/gamified-learning";
+import { useLearningProgressStore } from "@/stores/learning-progress";
 
 type ModuleType = "lesson" | "exercise" | "project";
 
@@ -329,21 +334,30 @@ export function InteractiveModule({
 }: InteractiveModuleProps) {
   const copy = COPY[language];
   const [activeTask, setActiveTask] = useState(0);
-  const [completedTasks, setCompletedTasks] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [answerStatus, setAnswerStatus] = useState<
     Record<number, "correct" | "wrong">
   >({});
-  const [labCode, setLabCode] = useState(HTML_STARTER[language]);
-  const [labPassed, setLabPassed] = useState<boolean | null>(null);
   const [reflection, setReflection] = useState("");
   const [reflectionSaved, setReflectionSaved] = useState(false);
+  const [achievementVisible, setAchievementVisible] = useState(false);
+  const completedSteps = useLearningProgressStore(
+    (state) => state.completedSteps,
+  );
+  const completedMissions = useLearningProgressStore(
+    (state) => state.completedMissions,
+  );
+  const storedXp = useLearningProgressStore((state) => state.xp);
+  const completeStep = useLearningProgressStore((state) => state.completeStep);
+  const completeMission = useLearningProgressStore(
+    (state) => state.completeMission,
+  );
 
   const checkpoints = CHECKPOINTS[module.id]?.[language] ?? [];
-  const completedCount = completedTasks.length;
-  const progress = Math.round(
-    (completedCount / Math.max(module.steps.length, 1)) * 100,
-  );
+  const moduleStepIds = module.steps.map((_, index) => `${module.id}:${index}`);
+  const completedCount = moduleStepIds.filter((id) =>
+    completedSteps.includes(id),
+  ).length;
   const activeStep = module.steps[activeTask] ?? module.steps[0];
   const stepDetails = activeStep.details?.length
     ? activeStep.details
@@ -360,14 +374,18 @@ export function InteractiveModule({
 
   function markTaskComplete(index: number) {
     const id = `${module.id}:${index}`;
-    setCompletedTasks((current) =>
-      current.includes(id) ? current : [...current, id],
-    );
+    const wasAlreadyComplete = completedSteps.includes(id);
+    completeStep(id, 25);
+    setAchievementVisible(true);
+    window.setTimeout(() => setAchievementVisible(false), 2400);
+    if (!wasAlreadyComplete && completedCount + 1 >= module.steps.length) {
+      void completeMission(module.id, xp);
+    }
     setActiveTask((current) => Math.min(current + 1, module.steps.length - 1));
   }
 
   function isTaskComplete(index: number) {
-    return completedTasks.includes(`${module.id}:${index}`);
+    return completedSteps.includes(`${module.id}:${index}`);
   }
 
   function checkAnswer(index: number) {
@@ -382,20 +400,15 @@ export function InteractiveModule({
     }));
   }
 
-  function runLabChecks() {
-    const lower = labCode.toLowerCase();
-    const ok =
-      lower.includes("<html lang=") &&
-      lower.includes("<main") &&
-      lower.includes("</main>") &&
-      /<img[\s\S]*\salt=/.test(lower);
-
-    setLabPassed(ok);
-    if (ok) markTaskComplete(0);
-  }
-
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-8">
+      <LearningProgressSync />
+      <AchievementPopup
+        show={achievementVisible}
+        title="+25 XP"
+        description="Micro victory saved. Next step unlocked."
+        xp={25}
+      />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <nav className="flex items-center gap-2 text-sm text-white/50">
           <Link href="/learn" className="hover:text-white transition-colors">
@@ -418,9 +431,9 @@ export function InteractiveModule({
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
         <aside className="lg:sticky lg:top-24 lg:self-start">
-          <div className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.04]">
+          <div className="overflow-hidden rounded-2xl border border-white/12 bg-white/[0.055]">
             <div className="border-b border-white/10 p-5">
               <div className="mb-3 flex items-center gap-2">
                 <span
@@ -434,26 +447,28 @@ export function InteractiveModule({
                   {module.duration}
                 </span>
               </div>
-              <h1 className="text-xl font-bold leading-tight">
-                {module.title}
+              <h1 className="text-xl font-black leading-tight">
+                Mission - {module.title}
               </h1>
-              <p className="mt-3 text-sm text-white/60">{module.intro}</p>
+              <p className="mt-3 line-clamp-3 text-sm text-white/60">
+                {module.intro}
+              </p>
             </div>
 
             <div className="border-b border-white/10 p-5">
-              <div className="mb-2 flex items-center justify-between text-xs text-white/60">
-                <span>{copy.progress}</span>
-                <span>{progress}%</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                <div
-                  className="h-full rounded-full bg-learn-400 transition-all"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
+              <XPBar
+                current={Math.max(completedCount * 25, storedXp)}
+                max={Math.max(xp, storedXp + 1)}
+                level={Math.max(2, Math.floor(storedXp / 250) + 1)}
+              />
               <p className="mt-2 text-xs text-white/45">
                 {completedCount} / {module.steps.length} {copy.completed}
               </p>
+              {completedMissions.includes(module.id) && (
+                <p className="mt-2 rounded-full bg-learn-500/15 px-3 py-1 text-xs font-semibold text-learn-200">
+                  Mission complete
+                </p>
+              )}
             </div>
 
             <div className="p-3">
@@ -491,14 +506,37 @@ export function InteractiveModule({
         </aside>
 
         <main className="space-y-6">
-          <section className="rounded-2xl border border-white/15 bg-white/[0.04] p-6">
+          <section className="rounded-2xl border border-white/12 bg-white/[0.055] p-5 sm:p-6">
             <div className="mb-4 flex items-center gap-2">
               <Flag className="h-5 w-5 text-brand-300" />
               <h2 className="font-semibold">{copy.missionBrief}</h2>
             </div>
-            <p className="text-sm leading-relaxed text-white/70">
-              {module.intro}
-            </p>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-xl border border-white/10 bg-black/15 p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/38">
+                  Time
+                </p>
+                <p className="mt-1 font-semibold">{module.duration}</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/15 p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/38">
+                  Reward
+                </p>
+                <p className="mt-1 font-semibold">+{xp} XP</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/15 p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/38">
+                  Unlock
+                </p>
+                <p className="mt-1 font-semibold">Next mission</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/15 p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/38">
+                  Mode
+                </p>
+                <p className="mt-1 font-semibold">Build first</p>
+              </div>
+            </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {module.objectives.map((objective) => (
                 <div
@@ -512,7 +550,7 @@ export function InteractiveModule({
             </div>
           </section>
 
-          <section className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.04]">
+          <section className="overflow-hidden rounded-2xl border border-white/12 bg-white/[0.055]">
             <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600/80 text-sm font-bold">
@@ -535,8 +573,8 @@ export function InteractiveModule({
             <div className="space-y-5 p-6">
               <div className="rounded-xl border border-white/10 bg-black/15 p-4">
                 <div className="mb-2 flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-brand-300" />
-                  <h3 className="text-sm font-semibold">{copy.understand}</h3>
+                  <Zap className="h-4 w-4 text-brand-300" />
+                  <h3 className="text-sm font-semibold">Tiny brief</h3>
                 </div>
                 <p className="text-sm leading-relaxed text-white/72">
                   {activeStep.content}
@@ -622,54 +660,11 @@ export function InteractiveModule({
           </section>
 
           {module.id === "html-basics" && (
-            <section className="rounded-2xl border border-white/15 bg-[#0d1220] p-6">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <TerminalSquare className="h-5 w-5 text-learn-300" />
-                    <h2 className="font-semibold">{copy.playground}</h2>
-                  </div>
-                  <p className="mt-1 text-sm text-white/50">
-                    {copy.playgroundIntro}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLabCode(HTML_STARTER[language]);
-                    setLabPassed(null);
-                  }}
-                  className="rounded-lg border border-white/15 px-3 py-2 text-xs text-white/70 transition hover:bg-white/10"
-                >
-                  {copy.resetLab}
-                </button>
-              </div>
-
-              <textarea
-                value={labCode}
-                onChange={(event) => setLabCode(event.target.value)}
-                spellCheck={false}
-                className="min-h-[260px] w-full resize-y rounded-xl border border-white/10 bg-black/45 p-4 font-mono text-xs leading-relaxed text-green-200 outline-none transition focus:border-learn-300"
-              />
-
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={runLabChecks}
-                  className="inline-flex items-center gap-2 rounded-xl bg-learn-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-learn-500"
-                >
-                  <PlayCircle className="h-4 w-4" />
-                  {copy.runChecks}
-                </button>
-                {labPassed !== null && (
-                  <span
-                    className={`text-sm ${labPassed ? "text-learn-300" : "text-amber-200"}`}
-                  >
-                    {labPassed ? copy.labPassed : copy.labNeedsWork}
-                  </span>
-                )}
-              </div>
-            </section>
+            <InteractiveCodeBlock
+              starter={HTML_STARTER[language]}
+              required={["<html lang=", "<main", "alt="]}
+              onComplete={() => markTaskComplete(0)}
+            />
           )}
 
           {checkpoints.length > 0 && (

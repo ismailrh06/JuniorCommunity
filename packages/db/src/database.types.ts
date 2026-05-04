@@ -135,6 +135,27 @@ export type Database = {
           Database["public"]["Tables"]["learner_profiles"]["Insert"]
         >;
       };
+      learning_progress_items: {
+        Row: {
+          id: string;
+          user_id: string;
+          item_id: string;
+          item_type: "mission" | "step" | "daily";
+          status: "in_progress" | "completed";
+          xp_awarded: number;
+          metadata: Record<string, unknown>;
+          completed_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["learning_progress_items"]["Row"],
+          "id" | "created_at" | "updated_at"
+        >;
+        Update: Partial<
+          Database["public"]["Tables"]["learning_progress_items"]["Insert"]
+        >;
+      };
       user_progress: {
         Row: {
           id: string;

@@ -20,6 +20,13 @@ import { BadgesSection } from "@/components/dashboard/badges-section";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { QuickActions } from "@/components/dashboard/quick-actions";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
+import {
+  DailyChallenge,
+  LearningProgressSync,
+  ProgressRadar,
+  StreakCounter,
+  XPBar,
+} from "@/components/learn/gamified-learning";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -334,6 +341,7 @@ function DashboardShell({
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <LearningProgressSync />
       <Navbar />
       <main>
         <section className="border-b border-slate-200 bg-slate-950 text-white">
@@ -407,6 +415,23 @@ function DashboardShell({
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <XPBar
+                current={data.xpPoints}
+                max={Math.max(data.currentLevel * 500, 500)}
+                level={data.currentLevel}
+              />
+              <StreakCounter days={data.streakDays || 1} />
+              <DailyChallenge />
+              <ProgressRadar
+                values={[
+                  { label: "Missions", value: Math.min(data.completedCount * 12, 100) },
+                  { label: "Badges", value: Math.min(data.badgeCount * 18, 100) },
+                  { label: "Portfolio", value: data.readyJunior ? 100 : 35 },
+                ]}
+              />
             </div>
           </div>
         </section>

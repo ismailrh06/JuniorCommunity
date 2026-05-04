@@ -3,18 +3,27 @@ import { getSupabaseServerClient } from "@juniorcode/db/server";
 
 /**
  * POST /api/progress
- * Body: { lessonId: string, status?: "in_progress" | "completed" }
- * Saves lesson progress to user_progress, increments XP if completed.
+ * Body:
+ * - Legacy: { lessonId: string, status?: "in_progress" | "completed" }
+ * - Gamified: { itemId: string, itemType: "mission" | "step" | "daily", xp?: number }
+ * Saves gamified progress, increments XP once per item, and updates streak.
  */
 export async function POST(request: Request) {
   const body = (await request.json()) as {
-    lessonId: string;
+    lessonId?: string;
+    itemId?: string;
+    itemType?: "mission" | "step" | "daily";
+    xp?: number;
     status?: "in_progress" | "completed";
   };
 
-  const { lessonId, status = "completed" } = body;
-  if (!lessonId) {
-    return NextResponse.json({ error: "lessonId required" }, { status: 400 });
+  const itemId = body.itemId ?? body.lessonId;
+  const itemType = body.itemType ?? "mission";
+  const status = body.status ?? "completed";
+  const xp = Math.max(0, Math.min(body.xp ?? 10, 1000));
+
+  if (!itemId) {
+    return NextResponse.json({ error: "itemId required" }, { status: 400 });
   }
 
   // Mock mode — nothing to persist (client already updates local state)
@@ -34,33 +43,67 @@ export async function POST(request: Request) {
 
   const now = new Date().toISOString();
 
-  const progressRow = {
-    user_id: user.id,
-    lesson_id: lessonId,
-    status,
-    started_at: status === "in_progress" ? now : null,
-    completed_at: status === "completed" ? now : null,
-  };
+  await (supabase.from("learner_profiles") as any).upsert(
+    {
+      user_id: user.id,
+      updated_at: now,
+    },
+    { onConflict: "user_id" },
+  );
 
-  // Upsert progress row
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error: progressError } = await (
-    supabase.from("user_progress") as any
-  ).upsert(progressRow, { onConflict: "user_id,lesson_id" });
+  const { data: existingItem } = await (supabase as any)
+    .from("learning_progress_items")
+    .select("id, status, xp_awarded, completed_at")
+    .eq("user_id", user.id)
+    .eq("item_type", itemType)
+    .eq("item_id", itemId)
+    .maybeSingle();
 
-  if (progressError) {
-    return NextResponse.json({ error: progressError.message }, { status: 500 });
+  const wasCompleted = existingItem?.status === "completed";
+
+  if (status === "completed" && wasCompleted) {
+    return NextResponse.json({
+      ok: true,
+      alreadyCompleted: true,
+      xpAwarded: existingItem.xp_awarded,
+    });
   }
 
-  // Award XP + update streak when lesson is completed
-  if (status === "completed") {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: gamifiedProgressError } = await (
+    supabase.from("learning_progress_items") as any
+  ).upsert(
+    {
+      user_id: user.id,
+      item_id: itemId,
+      item_type: itemType,
+      status,
+      xp_awarded: status === "completed" && !wasCompleted ? xp : 0,
+      completed_at: status === "completed" ? now : null,
+      metadata: {
+        source: "juniorcode-learn",
+      },
+      updated_at: now,
+    },
+    { onConflict: "user_id,item_type,item_id" },
+  );
+
+  if (gamifiedProgressError) {
+    return NextResponse.json(
+      { error: gamifiedProgressError.message },
+      { status: 500 },
+    );
+  }
+
+  if (status === "completed" && !wasCompleted) {
+    // Streak must run before increment_xp because increment_xp updates last_active_at.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any).rpc("update_streak", { p_user_id: user.id });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (supabase as any).rpc("increment_xp", {
       p_user_id: user.id,
-      p_xp: 10,
+      p_xp: xp,
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase as any).rpc("update_streak", { p_user_id: user.id });
   }
 
   return NextResponse.json({ ok: true });
@@ -68,7 +111,7 @@ export async function POST(request: Request) {
 
 /**
  * GET /api/progress
- * Returns all progress for the current user.
+ * Returns all gamified progress and learner profile for the current user.
  */
 export async function GET() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
@@ -85,9 +128,9 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { data, error } = await supabase
-    .from("user_progress")
-    .select("*, lesson:lessons(id, title, type, duration_minutes, path_id)")
+  const { data, error } = await (supabase as any)
+    .from("learning_progress_items")
+    .select("*")
     .eq("user_id", user.id)
     .order("completed_at", { ascending: false });
 
@@ -95,5 +138,15 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ data });
+  const { data: profile, error: profileError } = await supabase
+    .from("learner_profiles")
+    .select("xp_points, streak_days, last_active_at")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (profileError) {
+    return NextResponse.json({ error: profileError.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ data, profile });
 }
