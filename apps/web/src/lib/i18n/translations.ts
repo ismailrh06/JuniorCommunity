@@ -130,8 +130,8 @@ export const translations: Record<Language, Messages> = {
       ],
       finalTitle: "Prêt à lancer ta carrière ?",
       finalDesc:
-        "Rejoins des centaines de juniors qui apprennent, pratiquent et gagnent déjà avec JuniorCode.",
-      finalCta: "Créer mon compte gratuitement",
+        "Inscris-toi à la bêta privée et sois parmi les premiers à apprendre, pratiquer et décrocher tes premiers projets.",
+      finalCta: "Rejoindre la bêta gratuite",
       stats: {
         learners: "Apprenants actifs",
         projects: "Projets publiés",
@@ -219,8 +219,8 @@ export const translations: Record<Language, Messages> = {
       ],
       finalTitle: "Ready to launch your career?",
       finalDesc:
-        "Join hundreds of juniors already learning, shipping, and earning with JuniorCode.",
-      finalCta: "Create my free account",
+        "Sign up for the private beta and be among the first to learn, build, and land your first projects.",
+      finalCta: "Join the free beta",
       stats: {
         learners: "Active learners",
         projects: "Published projects",
@@ -308,8 +308,8 @@ export const translations: Record<Language, Messages> = {
       ],
       finalTitle: "¿Listo para lanzar tu carrera?",
       finalDesc:
-        "Únete a cientos de juniors que ya están aprendiendo, entregando y ganando con JuniorCode.",
-      finalCta: "Crear mi cuenta gratis",
+        "Apúntate a la beta privada y sé de los primeros en aprender, construir y conseguir tus primeros proyectos.",
+      finalCta: "Unirse a la beta gratis",
       stats: {
         learners: "Estudiantes activos",
         projects: "Proyectos publicados",

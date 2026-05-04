@@ -54,7 +54,8 @@ function handleMockMode(request: NextRequest): NextResponse {
 export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const isMockMode = !supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder");
+  const isProduction = process.env.NODE_ENV === "production";
+  const isMockMode = !isProduction && (!supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder"));
 
   if (isMockMode) return handleMockMode(request);
 

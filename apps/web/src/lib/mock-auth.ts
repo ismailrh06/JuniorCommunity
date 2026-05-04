@@ -13,6 +13,8 @@ export type MockUser = {
 };
 
 export function isMockMode(): boolean {
+  // Never allow mock mode in production — Supabase must always be configured.
+  if (process.env.NODE_ENV === "production") return false;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
   return url.includes("placeholder") || url === "";
 }

@@ -18,8 +18,10 @@ const fontMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://juniorcommunity.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://juniorcode.fr"),
+  metadataBase: new URL(APP_URL),
   title: {
     template: "%s | JuniorCode",
     default: "JuniorCode — La fabrique de juniors employables",
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://juniorcode.fr",
+    url: APP_URL,
     siteName: "JuniorCode",
     images: [
       {

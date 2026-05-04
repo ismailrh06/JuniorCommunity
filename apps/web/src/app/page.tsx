@@ -1,16 +1,16 @@
-"use client";
-
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, BookOpen, Briefcase, Star, Users } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { useI18n } from "@/components/providers/i18n-provider";
-import type { Language } from "@/lib/i18n/translations";
+import { translations, SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
 
 export default function HomePage() {
-  const { language, messages } = useI18n();
+  const cookieLang = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2) as Language | undefined;
+  const language: Language = SUPPORTED_LANGUAGES.includes(cookieLang as Language) ? (cookieLang as Language) : "fr";
+  const messages = translations[language];
 
   const learnFeatures: Record<Language, string[]> = {
     fr: [
@@ -86,12 +86,12 @@ export default function HomePage() {
           </div>
 
           <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {[
-              { label: messages.home.stats.learners, value: "500+", icon: Users },
-              { label: messages.home.stats.projects, value: "120+", icon: Briefcase },
-              { label: messages.home.stats.hired, value: "80+", icon: ArrowRight },
-              { label: messages.home.stats.clients, value: "95%", icon: Star },
-            ].map(({ label, value, icon: Icon }) => (
+            {([
+              { label: messages.home.stats.learners, value: { fr: "Bêta privée", en: "Private beta", es: "Beta privada" }[language], icon: Users },
+              { label: messages.home.stats.projects, value: { fr: "Projets démo", en: "Demo projects", es: "Proyectos demo" }[language], icon: Briefcase },
+              { label: messages.home.stats.hired, value: { fr: "En construction", en: "In progress", es: "En curso" }[language], icon: ArrowRight },
+              { label: messages.home.stats.clients, value: { fr: "Bientôt", en: "Coming soon", es: "Próximamente" }[language], icon: Star },
+            ] as const).map(({ label, value, icon: Icon }) => (
               <div
                 key={label}
                 className="rounded-2xl border border-white/15 bg-white/[0.06] p-4 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/[0.10]"

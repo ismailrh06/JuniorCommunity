@@ -83,8 +83,8 @@ JuniorCode/
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/ton-pseudo/juniorcode.git
-cd juniorcode
+git clone https://github.com/<votre-pseudo>/juniorcommunity.git
+cd juniorcommunity
 
 # 2. Installer les dépendances
 pnpm install
