@@ -11,18 +11,33 @@ interface DashboardStatsProps {
 
 const LEVEL_LABELS: Record<Language, string[]> = {
   fr: ["Onboarding", "Fondations", "1er projet", "Préparation", "Projet réel"],
-  en: ["Onboarding", "Foundations", "First project", "Preparation", "Real project"],
-  es: ["Onboarding", "Fundamentos", "Primer proyecto", "Preparación", "Proyecto real"],
+  en: [
+    "Onboarding",
+    "Foundations",
+    "First project",
+    "Preparation",
+    "Real project",
+  ],
+  es: [
+    "Onboarding",
+    "Fundamentos",
+    "Primer proyecto",
+    "Preparación",
+    "Proyecto real",
+  ],
 };
-const COPY: Record<Language, {
-  xpPoints: string;
-  completedModules: string;
-  earnedBadges: string;
-  currentLevel: string;
-  levelPrefix: string;
-  completed: string;
-  locale: string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    xpPoints: string;
+    completedModules: string;
+    earnedBadges: string;
+    currentLevel: string;
+    levelPrefix: string;
+    completed: string;
+    locale: string;
+  }
+> = {
   fr: {
     xpPoints: "Points XP",
     completedModules: "Modules terminés",
@@ -51,7 +66,13 @@ const COPY: Record<Language, {
     locale: "es-ES",
   },
 };
-export function DashboardStats({ language, xpPoints, completedLessons, badgesEarned, currentLevel }: DashboardStatsProps) {
+export function DashboardStats({
+  language,
+  xpPoints,
+  completedLessons,
+  badgesEarned,
+  currentLevel,
+}: DashboardStatsProps) {
   const copy = COPY[language];
   const levelLabels = LEVEL_LABELS[language];
   const stats = [
@@ -94,14 +115,22 @@ export function DashboardStats({ language, xpPoints, completedLessons, badgesEar
             key={stat.label}
             className="relative overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
           >
-            <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${stat.accent}`} />
+            <div
+              className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${stat.accent}`}
+            />
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase text-slate-400">{stat.label}</span>
-              <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${stat.iconColor}`}>
+              <span className="text-xs font-semibold uppercase text-slate-400">
+                {stat.label}
+              </span>
+              <span
+                className={`flex h-8 w-8 items-center justify-center rounded-lg ${stat.iconColor}`}
+              >
                 <Icon className="h-4 w-4" />
               </span>
             </div>
-            <span className="mt-3 text-lg sm:text-2xl font-extrabold text-slate-950 truncate">{stat.value}</span>
+            <span className="mt-3 text-lg sm:text-2xl font-extrabold text-slate-950 truncate">
+              {stat.value}
+            </span>
           </div>
         );
       })}

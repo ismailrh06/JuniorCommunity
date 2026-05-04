@@ -35,9 +35,9 @@ async function isAdmin(): Promise<boolean> {
   const raw = cookieStore.get("jc-mock-user")?.value;
   if (!raw) return false;
   try {
-    const user = JSON.parse(
-      Buffer.from(raw, "base64").toString("utf-8")
-    ) as { role?: string };
+    const user = JSON.parse(Buffer.from(raw, "base64").toString("utf-8")) as {
+      role?: string;
+    };
     return user.role === "admin";
   } catch {
     return false;

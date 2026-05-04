@@ -67,7 +67,7 @@ export function getSecurityEvents(): SecurityEvent[] {
 
 /** Persist a new security event and return it. */
 export function logSecurityEvent(
-  event: Omit<SecurityEvent, "id" | "created_at" | "resolved">
+  event: Omit<SecurityEvent, "id" | "created_at" | "resolved">,
 ): SecurityEvent {
   const events = loadEvents();
   const newEvent: SecurityEvent = {
@@ -108,7 +108,7 @@ const API_MASS_THRESHOLD = 60;
  */
 export function trackFailedLogin(
   ip: string,
-  email: string
+  email: string,
 ): { count: number; isBruteForce: boolean } {
   const key = `${ip}:${email}`;
   const now = Date.now();
@@ -121,7 +121,10 @@ export function trackFailedLogin(
 
   entry.count += 1;
   failedLoginMap.set(key, entry);
-  return { count: entry.count, isBruteForce: entry.count >= LOGIN_BRUTE_THRESHOLD };
+  return {
+    count: entry.count,
+    isBruteForce: entry.count >= LOGIN_BRUTE_THRESHOLD,
+  };
 }
 
 /**
@@ -130,7 +133,7 @@ export function trackFailedLogin(
  */
 export function trackApiRequest(
   ip: string,
-  endpoint: string
+  endpoint: string,
 ): { count: number; isMassRequest: boolean } {
   const key = `${ip}:${endpoint}`;
   const now = Date.now();
@@ -143,5 +146,8 @@ export function trackApiRequest(
 
   entry.count += 1;
   requestRateMap.set(key, entry);
-  return { count: entry.count, isMassRequest: entry.count >= API_MASS_THRESHOLD };
+  return {
+    count: entry.count,
+    isMassRequest: entry.count >= API_MASS_THRESHOLD,
+  };
 }

@@ -27,25 +27,28 @@ export async function generateMetadata({
 }
 
 // ─── Copy ─────────────────────────────────────────────────────────────────────
-const COPY: Record<Language, {
-  back: string;
-  available: string;
-  busy: string;
-  level: string;
-  badges: string;
-  portfolio: string;
-  skills: string;
-  hireMe: string;
-  viewProject: string;
-  obtainedOn: string;
-  certifiedBy: string;
-  openToMissions: string;
-  noProjects: string;
-  completedProjects: string;
-  reviews: string;
-  notFound: string;
-  notFoundDesc: string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    back: string;
+    available: string;
+    busy: string;
+    level: string;
+    badges: string;
+    portfolio: string;
+    skills: string;
+    hireMe: string;
+    viewProject: string;
+    obtainedOn: string;
+    certifiedBy: string;
+    openToMissions: string;
+    noProjects: string;
+    completedProjects: string;
+    reviews: string;
+    notFound: string;
+    notFoundDesc: string;
+  }
+> = {
   fr: {
     back: "← Retour",
     available: "Disponible pour une mission",
@@ -106,35 +109,38 @@ const COPY: Record<Language, {
 };
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
-const MOCK_PROFILES: Record<string, {
-  username: string;
-  fullName: string;
-  avatar: string;
-  role: string;
-  level: number;
-  city: string;
-  bio: Record<Language, string>;
-  available: boolean;
-  githubUrl: string;
-  portfolioUrl: string;
-  skills: string[];
-  completedProjects: number;
-  reviewCount: number;
-  avgRating: number;
-  badges: Array<{
-    emoji: string;
-    name: string;
-    earnedAt: string;
-    projectUrl: string | null;
-  }>;
-  projects: Array<{
-    title: string;
-    description: Record<Language, string>;
-    tags: string[];
-    url: string | null;
-    isReal: boolean;
-  }>;
-}> = {
+const MOCK_PROFILES: Record<
+  string,
+  {
+    username: string;
+    fullName: string;
+    avatar: string;
+    role: string;
+    level: number;
+    city: string;
+    bio: Record<Language, string>;
+    available: boolean;
+    githubUrl: string;
+    portfolioUrl: string;
+    skills: string[];
+    completedProjects: number;
+    reviewCount: number;
+    avgRating: number;
+    badges: Array<{
+      emoji: string;
+      name: string;
+      earnedAt: string;
+      projectUrl: string | null;
+    }>;
+    projects: Array<{
+      title: string;
+      description: Record<Language, string>;
+      tags: string[];
+      url: string | null;
+      isReal: boolean;
+    }>;
+  }
+> = {
   "alex-martin": {
     username: "alex-martin",
     fullName: "Alex Martin",
@@ -150,14 +156,37 @@ const MOCK_PROFILES: Record<string, {
     available: true,
     githubUrl: "https://github.com/alex-martin",
     portfolioUrl: "https://alexmartin.dev",
-    skills: ["HTML", "CSS", "JavaScript", "React", "Next.js", "Tailwind CSS", "Git"],
+    skills: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "Git",
+    ],
     completedProjects: 3,
     reviewCount: 2,
     avgRating: 4.5,
     badges: [
-      { emoji: "🟢", name: "HTML Basics", earnedAt: "2026-01-15", projectUrl: "https://github.com/alex-martin/html-project" },
-      { emoji: "🔵", name: "Git Ready", earnedAt: "2026-02-10", projectUrl: "https://github.com/alex-martin" },
-      { emoji: "🟣", name: "JS Starter", earnedAt: "2026-03-20", projectUrl: "https://github.com/alex-martin/js-quiz" },
+      {
+        emoji: "🟢",
+        name: "HTML Basics",
+        earnedAt: "2026-01-15",
+        projectUrl: "https://github.com/alex-martin/html-project",
+      },
+      {
+        emoji: "🔵",
+        name: "Git Ready",
+        earnedAt: "2026-02-10",
+        projectUrl: "https://github.com/alex-martin",
+      },
+      {
+        emoji: "🟣",
+        name: "JS Starter",
+        earnedAt: "2026-03-20",
+        projectUrl: "https://github.com/alex-martin/js-quiz",
+      },
     ],
     projects: [
       {
@@ -193,7 +222,10 @@ export default async function ProfilePage({
 }>) {
   const { username } = await params;
   const cookieStore = cookies();
-  const langRaw = cookieStore.get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const langRaw = cookieStore
+    .get("juniorcode-language")
+    ?.value?.toLowerCase()
+    .slice(0, 2);
   const language: Language = SUPPORTED_LANGUAGES.includes(langRaw as Language)
     ? (langRaw as Language)
     : "fr";
@@ -223,8 +255,12 @@ export default async function ProfilePage({
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
                       <div>
-                        <h1 className="text-xl font-bold text-gray-900">{profile.fullName}</h1>
-                        <p className="text-sm text-gray-500">@{profile.username}</p>
+                        <h1 className="text-xl font-bold text-gray-900">
+                          {profile.fullName}
+                        </h1>
+                        <p className="text-sm text-gray-500">
+                          @{profile.username}
+                        </p>
                       </div>
                       <span
                         className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
@@ -233,7 +269,9 @@ export default async function ProfilePage({
                             : "bg-gray-100 text-gray-500"
                         }`}
                       >
-                        <span className={`w-1.5 h-1.5 rounded-full ${profile.available ? "bg-green-500 animate-pulse" : "bg-gray-400"}`} />
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${profile.available ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}
+                        />
                         {profile.available ? copy.available : copy.busy}
                       </span>
                     </div>
@@ -242,16 +280,21 @@ export default async function ProfilePage({
                       <span>{profile.role}</span>
                       <span className="flex items-center gap-1">
                         <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                        {profile.avgRating.toFixed(1)} ({profile.reviewCount} {copy.reviews})
+                        {profile.avgRating.toFixed(1)} ({profile.reviewCount}{" "}
+                        {copy.reviews})
                       </span>
                       <span className="flex items-center gap-1">
                         <MapPin className="h-3.5 w-3.5" />
                         {profile.city}
                       </span>
-                      <span>{copy.level} {profile.level}</span>
+                      <span>
+                        {copy.level} {profile.level}
+                      </span>
                     </div>
 
-                    <p className="mt-3 text-sm text-gray-600 leading-relaxed">{profile.bio[language]}</p>
+                    <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                      {profile.bio[language]}
+                    </p>
 
                     <div className="mt-3 flex items-center gap-3 flex-wrap">
                       {profile.available && (
@@ -277,7 +320,9 @@ export default async function ProfilePage({
                         rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors"
                       >
-                        <span className="font-bold text-xs bg-gray-900 text-white rounded px-1.5 py-0.5">{"GH"}</span>
+                        <span className="font-bold text-xs bg-gray-900 text-white rounded px-1.5 py-0.5">
+                          {"GH"}
+                        </span>
                         {" GitHub"}
                       </a>
                     )}
@@ -307,7 +352,9 @@ export default async function ProfilePage({
 
               {/* ── Skills ── */}
               <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                <h2 className="text-base font-bold text-gray-900 mb-4">{copy.skills}</h2>
+                <h2 className="text-base font-bold text-gray-900 mb-4">
+                  {copy.skills}
+                </h2>
                 <div className="flex flex-wrap gap-2">
                   {profile.skills.map((skill) => (
                     <span
@@ -324,18 +371,30 @@ export default async function ProfilePage({
               <div className="bg-white rounded-2xl border border-gray-200 p-6">
                 <h2 className="text-base font-bold text-gray-900 mb-4">
                   {copy.badges}
-                  <span className="ml-2 text-xs text-gray-400 font-normal">{copy.certifiedBy}</span>
+                  <span className="ml-2 text-xs text-gray-400 font-normal">
+                    {copy.certifiedBy}
+                  </span>
                 </h2>
                 <div className="space-y-3">
                   {profile.badges.map((badge) => (
-                    <div key={badge.name} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                    <div
+                      key={badge.name}
+                      className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100"
+                    >
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">{badge.emoji}</span>
                         <div>
-                          <p className="text-sm font-semibold text-gray-900">{badge.name}</p>
+                          <p className="text-sm font-semibold text-gray-900">
+                            {badge.name}
+                          </p>
                           <p className="text-xs text-gray-400">
                             <Calendar className="inline h-3 w-3 mr-1" />
-                            {copy.obtainedOn} {new Date(badge.earnedAt).toLocaleDateString({ fr: "fr-FR", en: "en-GB", es: "es-ES" }[language])}
+                            {copy.obtainedOn}{" "}
+                            {new Date(badge.earnedAt).toLocaleDateString(
+                              { fr: "fr-FR", en: "en-GB", es: "es-ES" }[
+                                language
+                              ],
+                            )}
                           </p>
                         </div>
                       </div>
@@ -360,27 +419,39 @@ export default async function ProfilePage({
 
               {/* ── Portfolio projects ── */}
               <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                <h2 className="text-base font-bold text-gray-900 mb-4">{copy.portfolio}</h2>
+                <h2 className="text-base font-bold text-gray-900 mb-4">
+                  {copy.portfolio}
+                </h2>
                 {profile.projects.length === 0 ? (
                   <p className="text-sm text-gray-400">{copy.noProjects}</p>
                 ) : (
                   <div className="space-y-4">
                     {profile.projects.map((project) => (
-                      <div key={project.title} className="p-4 rounded-xl border border-gray-100 hover:border-gray-200 transition-colors">
+                      <div
+                        key={project.title}
+                        className="p-4 rounded-xl border border-gray-100 hover:border-gray-200 transition-colors"
+                      >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h3 className="text-sm font-semibold text-gray-900">{project.title}</h3>
+                              <h3 className="text-sm font-semibold text-gray-900">
+                                {project.title}
+                              </h3>
                               {project.isReal && (
                                 <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">
                                   🏆 Mission réelle
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-gray-500 leading-relaxed">{project.description[language]}</p>
+                            <p className="text-sm text-gray-500 leading-relaxed">
+                              {project.description[language]}
+                            </p>
                             <div className="flex flex-wrap gap-1.5 mt-2">
                               {project.tags.map((tag) => (
-                                <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                                <span
+                                  key={tag}
+                                  className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full"
+                                >
                                   {tag}
                                 </span>
                               ))}
@@ -407,7 +478,9 @@ export default async function ProfilePage({
           ) : (
             <div className="text-center py-24">
               <p className="text-4xl mb-4">👤</p>
-              <h1 className="text-xl font-bold text-gray-800">{copy.notFound}</h1>
+              <h1 className="text-xl font-bold text-gray-800">
+                {copy.notFound}
+              </h1>
               <p className="text-gray-500 mt-2">{copy.notFoundDesc}</p>
             </div>
           )}

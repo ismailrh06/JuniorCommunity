@@ -1,8 +1,19 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
-import { SUPPORTED_LANGUAGES, translations, type Language } from "@/lib/i18n/translations";
+import {
+  SUPPORTED_LANGUAGES,
+  translations,
+  type Language,
+} from "@/lib/i18n/translations";
 
 type I18nContextValue = {
   language: Language;
@@ -54,7 +65,7 @@ export function I18nProvider({
     const cookieValue = readLanguageCookie();
     const next = storedValue
       ? normalizeLanguage(storedValue)
-      : cookieValue ?? normalizeLanguage(navigator.language);
+      : (cookieValue ?? normalizeLanguage(navigator.language));
 
     setLanguage(next);
     persistLanguage(next);
@@ -64,11 +75,14 @@ export function I18nProvider({
     }
   }, [router]);
 
-  const changeLanguage = useCallback((lang: Language) => {
-    setLanguage(lang);
-    persistLanguage(lang);
-    router.refresh();
-  }, [router]);
+  const changeLanguage = useCallback(
+    (lang: Language) => {
+      setLanguage(lang);
+      persistLanguage(lang);
+      router.refresh();
+    },
+    [router],
+  );
 
   const value = useMemo<I18nContextValue>(
     () => ({
@@ -76,7 +90,7 @@ export function I18nProvider({
       setLanguage: changeLanguage,
       messages: translations[language],
     }),
-    [changeLanguage, language]
+    [changeLanguage, language],
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

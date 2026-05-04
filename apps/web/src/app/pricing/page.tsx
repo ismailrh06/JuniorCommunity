@@ -8,22 +8,26 @@ import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
 
 export const metadata: Metadata = {
   title: "Tarifs — JuniorCode",
-  description: "Gratuit pour les apprenants. Pro pour aller plus loin. Recruteur pour trouver des juniors certifiés.",
+  description:
+    "Gratuit pour les apprenants. Pro pour aller plus loin. Recruteur pour trouver des juniors certifiés.",
 };
 
 // ─── Copy ─────────────────────────────────────────────────────────────────────
-const COPY: Record<Language, {
-  headline: string;
-  sub: string;
-  mostPopular: string;
-  monthly: string;
-  free: string;
-  freeCta: string;
-  proCta: string;
-  clientCta: string;
-  faq: string;
-  faqItems: Array<{ q: string; a: string }>;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    headline: string;
+    sub: string;
+    mostPopular: string;
+    monthly: string;
+    free: string;
+    freeCta: string;
+    proCta: string;
+    clientCta: string;
+    faq: string;
+    faqItems: Array<{ q: string; a: string }>;
+  }
+> = {
   fr: {
     headline: "Tarifs simples, impact réel",
     sub: "Gratuit pour apprendre. Payant pour décroller et recruter.",
@@ -35,10 +39,22 @@ const COPY: Record<Language, {
     clientCta: "Contacter l'équipe",
     faq: "Questions fréquentes",
     faqItems: [
-      { q: "Puis-je annuler à tout moment ?", a: "Oui, sans engagement. Vous continuez à avoir accès au plan gratuit après annulation." },
-      { q: "Les badges sont-ils vraiment vérifiés ?", a: "Chaque badge est lié à un projet réel soumis et validé par notre équipe ou un partenaire." },
-      { q: "Y a-t-il une version d'essai Pro ?", a: "Oui, 14 jours gratuits sans carte bancaire." },
-      { q: "Comment fonctionne le plan Recruteur ?", a: "Contactez-nous pour un devis adapté à votre volume de recrutement junior." },
+      {
+        q: "Puis-je annuler à tout moment ?",
+        a: "Oui, sans engagement. Vous continuez à avoir accès au plan gratuit après annulation.",
+      },
+      {
+        q: "Les badges sont-ils vraiment vérifiés ?",
+        a: "Chaque badge est lié à un projet réel soumis et validé par notre équipe ou un partenaire.",
+      },
+      {
+        q: "Y a-t-il une version d'essai Pro ?",
+        a: "Oui, 14 jours gratuits sans carte bancaire.",
+      },
+      {
+        q: "Comment fonctionne le plan Recruteur ?",
+        a: "Contactez-nous pour un devis adapté à votre volume de recrutement junior.",
+      },
     ],
   },
   en: {
@@ -52,10 +68,22 @@ const COPY: Record<Language, {
     clientCta: "Contact the team",
     faq: "Frequently asked questions",
     faqItems: [
-      { q: "Can I cancel anytime?", a: "Yes, no commitment. You keep access to the free plan after cancellation." },
-      { q: "Are badges really verified?", a: "Each badge is linked to a real project submitted and validated by our team or a partner." },
-      { q: "Is there a Pro trial?", a: "Yes, 14 days free — no credit card required." },
-      { q: "How does the Recruiter plan work?", a: "Contact us for a quote tailored to your junior hiring volume." },
+      {
+        q: "Can I cancel anytime?",
+        a: "Yes, no commitment. You keep access to the free plan after cancellation.",
+      },
+      {
+        q: "Are badges really verified?",
+        a: "Each badge is linked to a real project submitted and validated by our team or a partner.",
+      },
+      {
+        q: "Is there a Pro trial?",
+        a: "Yes, 14 days free — no credit card required.",
+      },
+      {
+        q: "How does the Recruiter plan work?",
+        a: "Contact us for a quote tailored to your junior hiring volume.",
+      },
     ],
   },
   es: {
@@ -69,10 +97,22 @@ const COPY: Record<Language, {
     clientCta: "Contactar al equipo",
     faq: "Preguntas frecuentes",
     faqItems: [
-      { q: "¿Puedo cancelar en cualquier momento?", a: "Sí, sin compromiso. Sigues teniendo acceso al plan gratuito después de cancelar." },
-      { q: "¿Las insignias están realmente verificadas?", a: "Cada insignia está vinculada a un proyecto real enviado y validado por nuestro equipo o un socio." },
-      { q: "¿Hay una prueba Pro?", a: "Sí, 14 días gratis sin tarjeta de crédito." },
-      { q: "¿Cómo funciona el plan Reclutador?", a: "Contáctanos para un presupuesto adaptado a tu volumen de contratación junior." },
+      {
+        q: "¿Puedo cancelar en cualquier momento?",
+        a: "Sí, sin compromiso. Sigues teniendo acceso al plan gratuito después de cancelar.",
+      },
+      {
+        q: "¿Las insignias están realmente verificadas?",
+        a: "Cada insignia está vinculada a un proyecto real enviado y validado por nuestro equipo o un socio.",
+      },
+      {
+        q: "¿Hay una prueba Pro?",
+        a: "Sí, 14 días gratis sin tarjeta de crédito.",
+      },
+      {
+        q: "¿Cómo funciona el plan Reclutador?",
+        a: "Contáctanos para un presupuesto adaptado a tu volumen de contratación junior.",
+      },
     ],
   },
 };
@@ -101,13 +141,62 @@ const PLANS: Array<{
       es: "Todo lo que necesitas para empezar tu camino junior.",
     },
     features: [
-      { label: { fr: "Parcours d'apprentissage complet", en: "Full learning path", es: "Ruta de aprendizaje completa" }, included: true },
-      { label: { fr: "Jusqu'à 3 badges certifiés", en: "Up to 3 certified badges", es: "Hasta 3 insignias certificadas" }, included: true },
-      { label: { fr: "Profil public JuniorCode", en: "Public JuniorCode profile", es: "Perfil público JuniorCode" }, included: true },
-      { label: { fr: "Accès aux projets Junior-Only", en: "Access to Junior-Only projects", es: "Acceso a proyectos Junior-Only" }, included: true },
-      { label: { fr: "Mentorat communautaire", en: "Community mentoring", es: "Mentoría comunitaria" }, included: false },
-      { label: { fr: "Accès prioritaire aux missions", en: "Priority access to missions", es: "Acceso prioritario a misiones" }, included: false },
-      { label: { fr: "CV généré automatiquement", en: "Auto-generated CV", es: "CV generado automáticamente" }, included: false },
+      {
+        label: {
+          fr: "Parcours d'apprentissage complet",
+          en: "Full learning path",
+          es: "Ruta de aprendizaje completa",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Jusqu'à 3 badges certifiés",
+          en: "Up to 3 certified badges",
+          es: "Hasta 3 insignias certificadas",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Profil public JuniorCode",
+          en: "Public JuniorCode profile",
+          es: "Perfil público JuniorCode",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Accès aux projets Junior-Only",
+          en: "Access to Junior-Only projects",
+          es: "Acceso a proyectos Junior-Only",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Mentorat communautaire",
+          en: "Community mentoring",
+          es: "Mentoría comunitaria",
+        },
+        included: false,
+      },
+      {
+        label: {
+          fr: "Accès prioritaire aux missions",
+          en: "Priority access to missions",
+          es: "Acceso prioritario a misiones",
+        },
+        included: false,
+      },
+      {
+        label: {
+          fr: "CV généré automatiquement",
+          en: "Auto-generated CV",
+          es: "CV generado automáticamente",
+        },
+        included: false,
+      },
     ],
     highlight: false,
     ctaKey: "freeCta",
@@ -124,13 +213,62 @@ const PLANS: Array<{
       es: "Para conseguir tu primera misión remunerada más rápido.",
     },
     features: [
-      { label: { fr: "Tout du plan Apprenant", en: "Everything in Learner", es: "Todo del plan Aprendiz" }, included: true },
-      { label: { fr: "Badges illimités", en: "Unlimited badges", es: "Insignias ilimitadas" }, included: true },
-      { label: { fr: "Mentorat communautaire", en: "Community mentoring", es: "Mentoría comunitaria" }, included: true },
-      { label: { fr: "Accès prioritaire aux missions", en: "Priority access to missions", es: "Acceso prioritario a misiones" }, included: true },
-      { label: { fr: "CV généré automatiquement", en: "Auto-generated CV", es: "CV generado automáticamente" }, included: true },
-      { label: { fr: "Tableau de bord avancé", en: "Advanced dashboard", es: "Panel avanzado" }, included: true },
-      { label: { fr: "Support prioritaire", en: "Priority support", es: "Soporte prioritario" }, included: true },
+      {
+        label: {
+          fr: "Tout du plan Apprenant",
+          en: "Everything in Learner",
+          es: "Todo del plan Aprendiz",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Badges illimités",
+          en: "Unlimited badges",
+          es: "Insignias ilimitadas",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Mentorat communautaire",
+          en: "Community mentoring",
+          es: "Mentoría comunitaria",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Accès prioritaire aux missions",
+          en: "Priority access to missions",
+          es: "Acceso prioritario a misiones",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "CV généré automatiquement",
+          en: "Auto-generated CV",
+          es: "CV generado automáticamente",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Tableau de bord avancé",
+          en: "Advanced dashboard",
+          es: "Panel avanzado",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Support prioritaire",
+          en: "Priority support",
+          es: "Soporte prioritario",
+        },
+        included: true,
+      },
     ],
     highlight: true,
     ctaKey: "proCta",
@@ -147,13 +285,62 @@ const PLANS: Array<{
       es: "Para encontrar y contratar juniors certificados con confianza.",
     },
     features: [
-      { label: { fr: "Accès à l'annuaire des juniors", en: "Access to junior directory", es: "Acceso al directorio de juniors" }, included: true },
-      { label: { fr: "Badges vérifiés et projets prouvés", en: "Verified badges & proven projects", es: "Insignias verificadas y proyectos probados" }, included: true },
-      { label: { fr: "Publication de projets illimitée", en: "Unlimited project posting", es: "Publicación de proyectos ilimitada" }, included: true },
-      { label: { fr: "Matching automatique par compétences", en: "Automatic skill-based matching", es: "Matching automático por habilidades" }, included: true },
-      { label: { fr: "Support dédié", en: "Dedicated support", es: "Soporte dedicado" }, included: true },
-      { label: { fr: "Rapports de recrutement", en: "Recruitment reports", es: "Informes de reclutamiento" }, included: true },
-      { label: { fr: "Intégration ATS sur demande", en: "ATS integration on request", es: "Integración ATS bajo petición" }, included: true },
+      {
+        label: {
+          fr: "Accès à l'annuaire des juniors",
+          en: "Access to junior directory",
+          es: "Acceso al directorio de juniors",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Badges vérifiés et projets prouvés",
+          en: "Verified badges & proven projects",
+          es: "Insignias verificadas y proyectos probados",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Publication de projets illimitée",
+          en: "Unlimited project posting",
+          es: "Publicación de proyectos ilimitada",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Matching automatique par compétences",
+          en: "Automatic skill-based matching",
+          es: "Matching automático por habilidades",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Support dédié",
+          en: "Dedicated support",
+          es: "Soporte dedicado",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Rapports de recrutement",
+          en: "Recruitment reports",
+          es: "Informes de reclutamiento",
+        },
+        included: true,
+      },
+      {
+        label: {
+          fr: "Intégration ATS sur demande",
+          en: "ATS integration on request",
+          es: "Integración ATS bajo petición",
+        },
+        included: true,
+      },
     ],
     highlight: false,
     ctaKey: "clientCta",
@@ -163,7 +350,10 @@ const PLANS: Array<{
 
 export default async function PricingPage() {
   const cookieStore = cookies();
-  const langRaw = cookieStore.get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const langRaw = cookieStore
+    .get("juniorcode-language")
+    ?.value?.toLowerCase()
+    .slice(0, 2);
   const language: Language = SUPPORTED_LANGUAGES.includes(langRaw as Language)
     ? (langRaw as Language)
     : "fr";
@@ -179,7 +369,9 @@ export default async function PricingPage() {
             <Star className="h-4 w-4" />
             Pricing
           </div>
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-3">{copy.headline}</h1>
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-3">
+            {copy.headline}
+          </h1>
           <p className="text-lg text-gray-500 max-w-xl mx-auto">{copy.sub}</p>
         </section>
 
@@ -204,33 +396,56 @@ export default async function PricingPage() {
                 )}
                 <div className="mb-4">
                   <p className="text-3xl mb-1">{plan.emoji}</p>
-                  <h2 className={`text-lg font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}>
+                  <h2
+                    className={`text-lg font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}
+                  >
                     {plan.name[language]}
                   </h2>
-                  <p className={`text-3xl font-extrabold mt-1 ${plan.highlight ? "text-white" : "text-gray-900"}`}>
+                  <p
+                    className={`text-3xl font-extrabold mt-1 ${plan.highlight ? "text-white" : "text-gray-900"}`}
+                  >
                     {plan.price[language]}
                     {plan.key !== "client" && (
-                      <span className={`text-base font-normal ml-1 ${plan.highlight ? "text-brand-100" : "text-gray-400"}`}>
+                      <span
+                        className={`text-base font-normal ml-1 ${plan.highlight ? "text-brand-100" : "text-gray-400"}`}
+                      >
                         {copy.monthly}
                       </span>
                     )}
                   </p>
-                  <p className={`text-sm mt-2 ${plan.highlight ? "text-brand-100" : "text-gray-500"}`}>
+                  <p
+                    className={`text-sm mt-2 ${plan.highlight ? "text-brand-100" : "text-gray-500"}`}
+                  >
                     {plan.desc[language]}
                   </p>
                 </div>
 
                 <ul className="space-y-3 flex-1 mb-6">
                   {plan.features.map((feat) => (
-                    <li key={feat.label.fr} className="flex items-start gap-2 text-sm">
-                      {feat.included
-                        ? <CheckCircle className={`h-4 w-4 shrink-0 mt-0.5 ${plan.highlight ? "text-green-300" : "text-green-500"}`} />
-                        : <XCircle className={`h-4 w-4 shrink-0 mt-0.5 ${plan.highlight ? "text-brand-300" : "text-gray-300"}`} />
-                      }
-                      <span className={(() => {
-                        if (feat.included) return plan.highlight ? "text-white" : "text-gray-700";
-                        return plan.highlight ? "text-brand-200 line-through" : "text-gray-400 line-through";
-                      })()}>
+                    <li
+                      key={feat.label.fr}
+                      className="flex items-start gap-2 text-sm"
+                    >
+                      {feat.included ? (
+                        <CheckCircle
+                          className={`h-4 w-4 shrink-0 mt-0.5 ${plan.highlight ? "text-green-300" : "text-green-500"}`}
+                        />
+                      ) : (
+                        <XCircle
+                          className={`h-4 w-4 shrink-0 mt-0.5 ${plan.highlight ? "text-brand-300" : "text-gray-300"}`}
+                        />
+                      )}
+                      <span
+                        className={(() => {
+                          if (feat.included)
+                            return plan.highlight
+                              ? "text-white"
+                              : "text-gray-700";
+                          return plan.highlight
+                            ? "text-brand-200 line-through"
+                            : "text-gray-400 line-through";
+                        })()}
+                      >
                         {feat.label[language]}
                       </span>
                     </li>
@@ -254,10 +469,15 @@ export default async function PricingPage() {
 
         {/* ── FAQ ── */}
         <section className="max-w-2xl mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{copy.faq}</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            {copy.faq}
+          </h2>
           <div className="space-y-4">
             {copy.faqItems.map((item) => (
-              <div key={item.q} className="bg-white rounded-xl border border-gray-200 p-5">
+              <div
+                key={item.q}
+                className="bg-white rounded-xl border border-gray-200 p-5"
+              >
                 <p className="font-semibold text-gray-900 mb-1">{item.q}</p>
                 <p className="text-sm text-gray-500">{item.a}</p>
               </div>

@@ -48,11 +48,17 @@ export function saveOnboarding(data: OnboardingData): void {
 }
 
 /** Server only — read onboarding from raw cookie header string */
-export function getOnboardingFromCookies(cookieHeader: string): OnboardingData | null {
-  const match = new RegExp(`(?:^|; )${ONBOARDING_COOKIE}=([^;]*)`).exec(cookieHeader);
+export function getOnboardingFromCookies(
+  cookieHeader: string,
+): OnboardingData | null {
+  const match = new RegExp(`(?:^|; )${ONBOARDING_COOKIE}=([^;]*)`).exec(
+    cookieHeader,
+  );
   if (!match) return null;
   try {
-    return JSON.parse(Buffer.from(match[1], "base64").toString("utf8")) as OnboardingData;
+    return JSON.parse(
+      Buffer.from(match[1], "base64").toString("utf8"),
+    ) as OnboardingData;
   } catch {
     return null;
   }
@@ -61,7 +67,9 @@ export function getOnboardingFromCookies(cookieHeader: string): OnboardingData |
 /** Browser only — read mock user */
 export function getMockUserBrowser(): MockUser | null {
   if (typeof document === "undefined") return null;
-  const match = new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`).exec(document.cookie);
+  const match = new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`).exec(
+    document.cookie,
+  );
   if (!match) return null;
   try {
     return JSON.parse(atob(match[1])) as MockUser;

@@ -17,23 +17,26 @@ export async function generateMetadata({
 }
 
 // ─── Copy ─────────────────────────────────────────────────────────────────────
-const COPY: Record<Language, {
-  congrats: string;
-  certifies: string;
-  hasCompleted: string;
-  badgeEarned: string;
-  certifiedBy: string;
-  issuedOn: string;
-  shareProfile: string;
-  downloadCert: string;
-  nextStep: string;
-  exploreMarketplace: string;
-  continueLearning: string;
-  shareTitle: string;
-  notFound: string;
-  notFoundDesc: string;
-  backToLearn: string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    congrats: string;
+    certifies: string;
+    hasCompleted: string;
+    badgeEarned: string;
+    certifiedBy: string;
+    issuedOn: string;
+    shareProfile: string;
+    downloadCert: string;
+    nextStep: string;
+    exploreMarketplace: string;
+    continueLearning: string;
+    shareTitle: string;
+    notFound: string;
+    notFoundDesc: string;
+    backToLearn: string;
+  }
+> = {
   fr: {
     congrats: "🎉 Félicitations !",
     certifies: "JuniorCode certifie que",
@@ -87,15 +90,22 @@ const COPY: Record<Language, {
   },
 };
 
-const PATHS: Record<string, {
-  name: Record<Language, string>;
-  emoji: string;
-  badge: string;
-  color: string;
-  gradient: string;
-}> = {
+const PATHS: Record<
+  string,
+  {
+    name: Record<Language, string>;
+    emoji: string;
+    badge: string;
+    color: string;
+    gradient: string;
+  }
+> = {
   "web-developer": {
-    name: { fr: "Développeur Web", en: "Web Developer", es: "Desarrollador Web" },
+    name: {
+      fr: "Développeur Web",
+      en: "Web Developer",
+      es: "Desarrollador Web",
+    },
     emoji: "🌐",
     badge: "🌐 Web Developer L1",
     color: "blue",
@@ -115,8 +125,12 @@ const PATHS: Record<string, {
     color: "orange",
     gradient: "from-orange-500 to-red-600",
   },
-  "algorithms": {
-    name: { fr: "Algorithmes & Logique", en: "Algorithms & Logic", es: "Algoritmos y Lógica" },
+  algorithms: {
+    name: {
+      fr: "Algorithmes & Logique",
+      en: "Algorithms & Logic",
+      es: "Algoritmos y Lógica",
+    },
     emoji: "🧠",
     badge: "🧠 Algorithm Thinker",
     color: "green",
@@ -129,7 +143,10 @@ export default async function CertificatePage({
 }: Readonly<{ params: Promise<{ path: string }> }>) {
   const { path } = await params;
   const cookieStore = cookies();
-  const langRaw = cookieStore.get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const langRaw = cookieStore
+    .get("juniorcode-language")
+    ?.value?.toLowerCase()
+    .slice(0, 2);
   const language: Language = SUPPORTED_LANGUAGES.includes(langRaw as Language)
     ? (langRaw as Language)
     : "fr";
@@ -140,7 +157,9 @@ export default async function CertificatePage({
   const userRaw = cookieStore.get("jc-mock-user")?.value;
   if (userRaw) {
     try {
-      const user = JSON.parse(Buffer.from(userRaw, "base64").toString("utf-8")) as { full_name?: string };
+      const user = JSON.parse(
+        Buffer.from(userRaw, "base64").toString("utf-8"),
+      ) as { full_name?: string };
       if (user.full_name) userName = user.full_name;
     } catch {
       // ignore — malformed cookie
@@ -168,7 +187,9 @@ export default async function CertificatePage({
           {pathData ? (
             <div className="space-y-6">
               {/* ── Certificate card ── */}
-              <div className={`relative bg-gradient-to-br ${pathData.gradient} rounded-2xl p-8 text-white text-center shadow-xl overflow-hidden`}>
+              <div
+                className={`relative bg-gradient-to-br ${pathData.gradient} rounded-2xl p-8 text-white text-center shadow-xl overflow-hidden`}
+              >
                 {/* Decorative rings */}
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute top-6 left-6 w-32 h-32 rounded-full border-4 border-white" />
@@ -181,19 +202,25 @@ export default async function CertificatePage({
                   <p className="text-sm font-semibold uppercase tracking-widest opacity-75 mb-1">
                     {copy.certifiedBy}
                   </p>
-                  <h1 className="text-2xl font-extrabold mb-4">{copy.congrats}</h1>
+                  <h1 className="text-2xl font-extrabold mb-4">
+                    {copy.congrats}
+                  </h1>
 
                   <div className="bg-white/20 backdrop-blur-sm rounded-xl p-5 mb-4">
                     <p className="text-sm opacity-75 mb-1">{copy.certifies}</p>
                     <p className="text-2xl font-bold">{userName}</p>
                     <p className="text-sm opacity-75 mt-1">
                       {copy.hasCompleted}{" "}
-                      <span className="font-semibold">{pathData.name[language]}</span>
+                      <span className="font-semibold">
+                        {pathData.name[language]}
+                      </span>
                     </p>
                   </div>
 
                   <div className="text-3xl mb-3">{pathData.emoji}</div>
-                  <p className="text-sm opacity-75">{copy.issuedOn} {issuedDate}</p>
+                  <p className="text-sm opacity-75">
+                    {copy.issuedOn} {issuedDate}
+                  </p>
                   <p className="text-xs opacity-50 mt-1 font-mono">{certId}</p>
                 </div>
               </div>
@@ -204,8 +231,12 @@ export default async function CertificatePage({
                   {pathData.badge.split(" ")[0]}
                 </div>
                 <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-0.5">{copy.badgeEarned}</p>
-                  <p className="text-base font-bold text-gray-900">{pathData.badge}</p>
+                  <p className="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-0.5">
+                    {copy.badgeEarned}
+                  </p>
+                  <p className="text-base font-bold text-gray-900">
+                    {pathData.badge}
+                  </p>
                   <p className="text-sm text-gray-500">{copy.certifiedBy}</p>
                 </div>
               </div>
@@ -230,20 +261,26 @@ export default async function CertificatePage({
 
               {/* ── Next steps ── */}
               <div className="bg-brand-50 border border-brand-200 rounded-2xl p-6">
-                <p className="text-sm font-bold text-brand-900 mb-3">{copy.nextStep}</p>
+                <p className="text-sm font-bold text-brand-900 mb-3">
+                  {copy.nextStep}
+                </p>
                 <div className="space-y-2">
                   <Link
                     href="/marketplace"
                     className="flex items-center justify-between p-3 bg-white rounded-xl border border-brand-200 hover:border-brand-400 transition-colors group"
                   >
-                    <span className="text-sm font-semibold text-gray-800">{copy.exploreMarketplace}</span>
+                    <span className="text-sm font-semibold text-gray-800">
+                      {copy.exploreMarketplace}
+                    </span>
                     <ArrowRight className="h-4 w-4 text-brand-500 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link
                     href="/learn"
                     className="flex items-center justify-between p-3 bg-white rounded-xl border border-brand-200 hover:border-brand-400 transition-colors group"
                   >
-                    <span className="text-sm font-semibold text-gray-800">{copy.continueLearning}</span>
+                    <span className="text-sm font-semibold text-gray-800">
+                      {copy.continueLearning}
+                    </span>
                     <ArrowRight className="h-4 w-4 text-brand-500 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
@@ -252,7 +289,9 @@ export default async function CertificatePage({
           ) : (
             <div className="text-center py-24">
               <p className="text-4xl mb-4">🎓</p>
-              <h1 className="text-xl font-bold text-gray-800">{copy.notFound}</h1>
+              <h1 className="text-xl font-bold text-gray-800">
+                {copy.notFound}
+              </h1>
               <p className="text-gray-500 mt-2">{copy.notFoundDesc}</p>
             </div>
           )}

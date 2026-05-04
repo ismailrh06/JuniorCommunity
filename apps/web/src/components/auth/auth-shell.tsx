@@ -22,7 +22,11 @@ export function AuthShell({ subtitle, children }: AuthShellProps) {
         <motion.div
           aria-hidden="true"
           className="absolute bottom-[-18rem] right-[-10rem] h-[34rem] w-[34rem] rounded-full bg-orange-500/20 blur-3xl"
-          animate={{ x: [0, -28, 0], y: [0, 20, 0], opacity: [0.45, 0.7, 0.45] }}
+          animate={{
+            x: [0, -28, 0],
+            y: [0, 20, 0],
+            opacity: [0.45, 0.7, 0.45],
+          }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
@@ -47,7 +51,10 @@ export function AuthShell({ subtitle, children }: AuthShellProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.12, duration: 0.45 }}
           >
-            <Link href="/" className="inline-flex items-center gap-2.5 text-xl font-bold text-white">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2.5 text-xl font-bold text-white"
+            >
               <Image
                 src="/brand/new_logo.png"
                 alt="JuniorCode"

@@ -91,7 +91,12 @@ export interface UserProgress {
 
 // ── Projets marketplace ────────────────────────────────────
 export type ProjectCategory = "web" | "design" | "data" | "mobile" | "other";
-export type ProjectStatus = "draft" | "open" | "in_progress" | "completed" | "cancelled";
+export type ProjectStatus =
+  | "draft"
+  | "open"
+  | "in_progress"
+  | "completed"
+  | "cancelled";
 export type ProjectDifficulty = "junior" | "intermediate" | "senior";
 
 export interface Project {
@@ -160,7 +165,12 @@ export interface Review {
 }
 
 // ── Paiements ──────────────────────────────────────────────
-export type PaymentStatus = "pending" | "processing" | "succeeded" | "failed" | "refunded";
+export type PaymentStatus =
+  | "pending"
+  | "processing"
+  | "succeeded"
+  | "failed"
+  | "refunded";
 
 export interface Payment {
   id: string;

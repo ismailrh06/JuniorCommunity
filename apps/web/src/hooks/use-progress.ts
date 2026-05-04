@@ -46,7 +46,13 @@ export function useCompleteLesson() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ userId, lessonId }: { userId: string; lessonId: string }) => {
+    mutationFn: async ({
+      userId,
+      lessonId,
+    }: {
+      userId: string;
+      lessonId: string;
+    }) => {
       const { error } = await supabase
         .from("user_progress")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

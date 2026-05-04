@@ -38,7 +38,11 @@ test.describe("Marketplace — filters", () => {
     await page.goto("/marketplace");
 
     // Click the 'web' category filter
-    const webFilter = page.getByRole("link", { name: /^développement web$|^web development$|^desarrollo web$|^web$/i }).first();
+    const webFilter = page
+      .getByRole("link", {
+        name: /^développement web$|^web development$|^desarrollo web$|^web$/i,
+      })
+      .first();
     if (await webFilter.isVisible()) {
       await webFilter.click();
       await expect(page).toHaveURL(/category=web/);
@@ -47,7 +51,9 @@ test.describe("Marketplace — filters", () => {
 
   test("resetting filters clears search params", async ({ page }) => {
     await page.goto("/marketplace?category=web");
-    const resetLink = page.getByRole("link", { name: /reset|réinitialiser|reiniciar/i });
+    const resetLink = page.getByRole("link", {
+      name: /reset|réinitialiser|reiniciar/i,
+    });
     if (await resetLink.isVisible()) {
       await resetLink.click();
       await expect(page).toHaveURL(/\/marketplace(?:\?.*)?/);
@@ -66,7 +72,9 @@ test.describe("Marketplace — filters", () => {
 });
 
 test.describe("Marketplace — project detail", () => {
-  test("clicking a project card navigates to /projects/[id]", async ({ page }) => {
+  test("clicking a project card navigates to /projects/[id]", async ({
+    page,
+  }) => {
     await page.goto("/marketplace");
 
     // Click the first project card
@@ -83,9 +91,13 @@ test.describe("Marketplace — project detail", () => {
     await expect(page.getByText(/\d+[–-]\d+€/)).toBeVisible();
   });
 
-  test("project detail page shows required badge if applicable", async ({ page }) => {
+  test("project detail page shows required badge if applicable", async ({
+    page,
+  }) => {
     await page.goto("/projects/1");
     // The first project requires a Web Developer badge
-    await expect(page.getByText(/badge|requis|required/i).first()).toBeVisible();
+    await expect(
+      page.getByText(/badge|requis|required/i).first(),
+    ).toBeVisible();
   });
 });

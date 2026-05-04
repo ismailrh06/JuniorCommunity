@@ -28,7 +28,10 @@ export function Footer() {
       links: [
         { label: messages.footer.links.webDev, href: "/learn/web-developer" },
         { label: messages.footer.links.uiDesigner, href: "/learn/ui-designer" },
-        { label: messages.footer.links.dataAnalyst, href: "/learn/data-analyst" },
+        {
+          label: messages.footer.links.dataAnalyst,
+          href: "/learn/data-analyst",
+        },
         { label: messages.footer.links.allPaths, href: "/learn" },
       ],
     },
@@ -57,7 +60,10 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 font-bold text-gray-900 mb-4">
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-bold text-gray-900 mb-4"
+            >
               <Image
                 src="/brand/new_logo.png"
                 alt="JuniorCode"
@@ -97,7 +103,9 @@ export function Footer() {
           {/* Links */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">{section.title}</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                {section.title}
+              </h3>
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.href}>
@@ -117,7 +125,10 @@ export function Footer() {
         <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-xs text-gray-400">
             <BookOpen className="h-4 w-4" />
-            <span>© {new Date().getFullYear()} JuniorCode. {messages.footer.copyright}</span>
+            <span>
+              © {new Date().getFullYear()} JuniorCode.{" "}
+              {messages.footer.copyright}
+            </span>
           </div>
           <div className="flex items-center gap-1 text-xs text-gray-400">
             <span>{messages.footer.madeForJuniors}</span>

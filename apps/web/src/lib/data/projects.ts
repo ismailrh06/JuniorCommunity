@@ -123,10 +123,23 @@ function formatDuration(days: number, language: string): string {
   return weeks === 1 ? "1 semaine" : `${weeks} semaines`;
 }
 
-function applyFilters(projects: ProjectListItem[], filters: ProjectFilters): ProjectListItem[] {
+function applyFilters(
+  projects: ProjectListItem[],
+  filters: ProjectFilters,
+): ProjectListItem[] {
   return projects.filter((p) => {
-    if (filters.category && filters.category !== "all" && p.category !== filters.category) return false;
-    if (filters.difficulty && filters.difficulty !== "all" && p.difficulty !== filters.difficulty) return false;
+    if (
+      filters.category &&
+      filters.category !== "all" &&
+      p.category !== filters.category
+    )
+      return false;
+    if (
+      filters.difficulty &&
+      filters.difficulty !== "all" &&
+      p.difficulty !== filters.difficulty
+    )
+      return false;
     if (filters.juniorOnly && !p.juniorOnly) return false;
     if (filters.q) {
       const q = filters.q.toLowerCase();
@@ -142,7 +155,9 @@ function applyFilters(projects: ProjectListItem[], filters: ProjectFilters): Pro
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
-export async function getProjects(filters: ProjectFilters = {}): Promise<ProjectListItem[]> {
+export async function getProjects(
+  filters: ProjectFilters = {},
+): Promise<ProjectListItem[]> {
   const language = filters.language ?? "fr";
 
   if (isMockMode()) {
@@ -157,7 +172,9 @@ export async function getProjects(filters: ProjectFilters = {}): Promise<Project
     const supabase = await getSupabaseServerClient();
     let query = supabase
       .from("projects")
-      .select("id, title, client_id, budget_min, budget_max, duration_days, category, difficulty, tags, junior_only, required_badge_id, status, created_at, badges!required_badge_id(name, icon)")
+      .select(
+        "id, title, client_id, budget_min, budget_max, duration_days, category, difficulty, tags, junior_only, required_badge_id, status, created_at, badges!required_badge_id(name, icon)",
+      )
       .eq("status", "open")
       .order("created_at", { ascending: false });
 
@@ -187,7 +204,10 @@ export async function getProjects(filters: ProjectFilters = {}): Promise<Project
         id: row.id as string,
         title: row.title as string,
         client: (row.client_id as string).slice(0, 8), // placeholder until we join profiles
-        budget: formatBudget(row.budget_min as number, row.budget_max as number),
+        budget: formatBudget(
+          row.budget_min as number,
+          row.budget_max as number,
+        ),
         durationDays: row.duration_days as number,
         durationLabel: formatDuration(row.duration_days as number, language),
         category: row.category as ProjectCategory,
@@ -207,11 +227,17 @@ export async function getProjects(filters: ProjectFilters = {}): Promise<Project
   }
 }
 
-export async function getProjectById(id: string, language = "fr"): Promise<ProjectListItem | null> {
+export async function getProjectById(
+  id: string,
+  language = "fr",
+): Promise<ProjectListItem | null> {
   if (isMockMode()) {
     const project = MOCK_PROJECTS.find((p) => p.id === id) ?? null;
     if (!project) return null;
-    return { ...project, durationLabel: formatDuration(project.durationDays, language) };
+    return {
+      ...project,
+      durationLabel: formatDuration(project.durationDays, language),
+    };
   }
 
   try {
@@ -229,14 +255,19 @@ export async function getProjectById(id: string, language = "fr"): Promise<Proje
       id: data.id,
       title: data.title as string,
       client: data.client_id as string,
-      budget: formatBudget(data.budget_min as number, data.budget_max as number),
+      budget: formatBudget(
+        data.budget_min as number,
+        data.budget_max as number,
+      ),
       durationDays: data.duration_days as number,
       durationLabel: formatDuration(data.duration_days as number, language),
       category: data.category as ProjectCategory,
       difficulty: data.difficulty as ProjectDifficulty,
       tags: data.tags as string[],
       juniorOnly: data.junior_only as boolean,
-      requiredBadge: data.badges ? `${data.badges.icon} ${data.badges.name}` : null,
+      requiredBadge: data.badges
+        ? `${data.badges.icon} ${data.badges.name}`
+        : null,
       status: data.status as string,
       createdAt: data.created_at as string,
     };

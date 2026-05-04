@@ -35,7 +35,8 @@ const MOCK_PATHS: LearningPath[] = [
     id: "mock-web",
     slug: "web-developer",
     title: "Développeur Web",
-    description: "HTML, CSS, JavaScript, React. De zéro à ton premier projet live.",
+    description:
+      "HTML, CSS, JavaScript, React. De zéro à ton premier projet live.",
     icon: "💻",
     modulesCount: 12,
     estimatedDuration: "6-8 semaines",
@@ -45,7 +46,8 @@ const MOCK_PATHS: LearningPath[] = [
     id: "mock-design",
     slug: "ui-designer",
     title: "Designer UI",
-    description: "Figma, principes design, création de maquettes et design systems.",
+    description:
+      "Figma, principes design, création de maquettes et design systems.",
     icon: "🎨",
     modulesCount: 8,
     estimatedDuration: "4-5 semaines",
@@ -55,7 +57,8 @@ const MOCK_PATHS: LearningPath[] = [
     id: "mock-data",
     slug: "data-analyst",
     title: "Data Analyst Junior",
-    description: "Python, pandas, visualisation de données, premiers dashboards.",
+    description:
+      "Python, pandas, visualisation de données, premiers dashboards.",
     icon: "📊",
     modulesCount: 10,
     estimatedDuration: "5-6 semaines",
@@ -65,7 +68,8 @@ const MOCK_PATHS: LearningPath[] = [
     id: "mock-prog",
     slug: "programming-languages",
     title: "Langages de programmation",
-    description: "Python, Java, C, C++, C#, TypeScript. Choisis le langage adapté à ton objectif.",
+    description:
+      "Python, Java, C, C++, C#, TypeScript. Choisis le langage adapté à ton objectif.",
     icon: "⌨️",
     modulesCount: 7,
     estimatedDuration: "6-7 semaines",
@@ -75,7 +79,8 @@ const MOCK_PATHS: LearningPath[] = [
     id: "mock-algo",
     slug: "algorithms",
     title: "Algorithmes fondamentaux",
-    description: "Logique, Big O, tableaux, récursion, tri, recherche, graphes.",
+    description:
+      "Logique, Big O, tableaux, récursion, tri, recherche, graphes.",
     icon: "🧠",
     modulesCount: 10,
     estimatedDuration: "7-8 semaines",
@@ -85,18 +90,150 @@ const MOCK_PATHS: LearningPath[] = [
 
 const MOCK_LESSONS: Record<string, Lesson[]> = {
   "web-developer": [
-    { id: "w1", pathId: "mock-web", title: "Introduction au Web", description: "HTTP, DNS, modèle client-serveur.", type: "lesson", orderIndex: 1, durationMinutes: 20, level: 0, badgeId: null, isPremium: false },
-    { id: "w2", pathId: "mock-web", title: "HTML fondamentaux", description: "Balises sémantiques, formulaires, accessibilité.", type: "lesson", orderIndex: 2, durationMinutes: 45, level: 0, badgeId: null, isPremium: false },
-    { id: "w3", pathId: "mock-web", title: "CSS de base", description: "Sélecteurs, boîte CSS, couleurs, typographie.", type: "lesson", orderIndex: 3, durationMinutes: 45, level: 0, badgeId: null, isPremium: false },
-    { id: "w4", pathId: "mock-web", title: "Flexbox & Grid", description: "Mise en page moderne.", type: "lesson", orderIndex: 4, durationMinutes: 40, level: 1, badgeId: null, isPremium: false },
-    { id: "w5", pathId: "mock-web", title: "Projet : Portfolio statique", description: "Crée et déploie ton portfolio.", type: "project", orderIndex: 5, durationMinutes: 90, level: 1, badgeId: null, isPremium: false },
-    { id: "w6", pathId: "mock-web", title: "JavaScript fondamentaux", description: "Variables, DOM, fonctions, boucles.", type: "lesson", orderIndex: 6, durationMinutes: 60, level: 1, badgeId: null, isPremium: false },
-    { id: "w7", pathId: "mock-web", title: "Git & GitHub", description: "Versionner son code, branches, PRs.", type: "lesson", orderIndex: 7, durationMinutes: 40, level: 1, badgeId: null, isPremium: false },
-    { id: "w8", pathId: "mock-web", title: "Fetch API & async/await", description: "Requêtes HTTP, Promises.", type: "lesson", orderIndex: 8, durationMinutes: 45, level: 2, badgeId: null, isPremium: false },
-    { id: "w9", pathId: "mock-web", title: "Introduction à React", description: "Composants, JSX, props, hooks.", type: "lesson", orderIndex: 9, durationMinutes: 60, level: 2, badgeId: null, isPremium: false },
-    { id: "w10", pathId: "mock-web", title: "Projet JS : Quiz interactif", description: "App quiz complète.", type: "project", orderIndex: 10, durationMinutes: 120, level: 2, badgeId: null, isPremium: false },
-    { id: "w11", pathId: "mock-web", title: "Next.js & déploiement", description: "App Router, déploiement Vercel.", type: "lesson", orderIndex: 11, durationMinutes: 60, level: 3, badgeId: null, isPremium: true },
-    { id: "w12", pathId: "mock-web", title: "Projet final : App complète", description: "App full-stack Next.js + Supabase.", type: "project", orderIndex: 12, durationMinutes: 180, level: 3, badgeId: null, isPremium: true },
+    {
+      id: "w1",
+      pathId: "mock-web",
+      title: "Introduction au Web",
+      description: "HTTP, DNS, modèle client-serveur.",
+      type: "lesson",
+      orderIndex: 1,
+      durationMinutes: 20,
+      level: 0,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w2",
+      pathId: "mock-web",
+      title: "HTML fondamentaux",
+      description: "Balises sémantiques, formulaires, accessibilité.",
+      type: "lesson",
+      orderIndex: 2,
+      durationMinutes: 45,
+      level: 0,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w3",
+      pathId: "mock-web",
+      title: "CSS de base",
+      description: "Sélecteurs, boîte CSS, couleurs, typographie.",
+      type: "lesson",
+      orderIndex: 3,
+      durationMinutes: 45,
+      level: 0,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w4",
+      pathId: "mock-web",
+      title: "Flexbox & Grid",
+      description: "Mise en page moderne.",
+      type: "lesson",
+      orderIndex: 4,
+      durationMinutes: 40,
+      level: 1,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w5",
+      pathId: "mock-web",
+      title: "Projet : Portfolio statique",
+      description: "Crée et déploie ton portfolio.",
+      type: "project",
+      orderIndex: 5,
+      durationMinutes: 90,
+      level: 1,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w6",
+      pathId: "mock-web",
+      title: "JavaScript fondamentaux",
+      description: "Variables, DOM, fonctions, boucles.",
+      type: "lesson",
+      orderIndex: 6,
+      durationMinutes: 60,
+      level: 1,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w7",
+      pathId: "mock-web",
+      title: "Git & GitHub",
+      description: "Versionner son code, branches, PRs.",
+      type: "lesson",
+      orderIndex: 7,
+      durationMinutes: 40,
+      level: 1,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w8",
+      pathId: "mock-web",
+      title: "Fetch API & async/await",
+      description: "Requêtes HTTP, Promises.",
+      type: "lesson",
+      orderIndex: 8,
+      durationMinutes: 45,
+      level: 2,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w9",
+      pathId: "mock-web",
+      title: "Introduction à React",
+      description: "Composants, JSX, props, hooks.",
+      type: "lesson",
+      orderIndex: 9,
+      durationMinutes: 60,
+      level: 2,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w10",
+      pathId: "mock-web",
+      title: "Projet JS : Quiz interactif",
+      description: "App quiz complète.",
+      type: "project",
+      orderIndex: 10,
+      durationMinutes: 120,
+      level: 2,
+      badgeId: null,
+      isPremium: false,
+    },
+    {
+      id: "w11",
+      pathId: "mock-web",
+      title: "Next.js & déploiement",
+      description: "App Router, déploiement Vercel.",
+      type: "lesson",
+      orderIndex: 11,
+      durationMinutes: 60,
+      level: 3,
+      badgeId: null,
+      isPremium: true,
+    },
+    {
+      id: "w12",
+      pathId: "mock-web",
+      title: "Projet final : App complète",
+      description: "App full-stack Next.js + Supabase.",
+      type: "project",
+      orderIndex: 12,
+      durationMinutes: 180,
+      level: 3,
+      badgeId: null,
+      isPremium: true,
+    },
   ],
 };
 
@@ -115,7 +252,9 @@ export async function getLearningPaths(): Promise<LearningPath[]> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase as any)
       .from("learning_paths")
-      .select("id, slug, title, description, icon, modules_count, estimated_duration, is_active")
+      .select(
+        "id, slug, title, description, icon, modules_count, estimated_duration, is_active",
+      )
       .eq("is_active", true)
       .order("created_at", { ascending: true });
 
@@ -156,7 +295,9 @@ export async function getLessonsForPath(pathSlug: string): Promise<Lesson[]> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase as any)
       .from("lessons")
-      .select("id, path_id, title, description, type, order_index, duration_minutes, level, badge_id, is_premium")
+      .select(
+        "id, path_id, title, description, type, order_index, duration_minutes, level, badge_id, is_premium",
+      )
       .eq("path_id", pathData.id)
       .order("order_index", { ascending: true });
 

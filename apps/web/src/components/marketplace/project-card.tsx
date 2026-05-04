@@ -9,24 +9,25 @@ interface ProjectCardProps {
 }
 
 const CATEGORY_LABELS: Record<Project["category"], string> = {
-  web:    "Développement Web",
+  web: "Développement Web",
   design: "Design",
-  data:   "Data",
+  data: "Data",
   mobile: "Mobile",
-  other:  "Autre",
+  other: "Autre",
 };
 
 export function ProjectCard({ project, compact = false }: ProjectCardProps) {
-  const budgetLabel = project.budget_min === project.budget_max
-    ? `${project.budget_min}€`
-    : `${project.budget_min}–${project.budget_max}€`;
+  const budgetLabel =
+    project.budget_min === project.budget_max
+      ? `${project.budget_min}€`
+      : `${project.budget_min}–${project.budget_max}€`;
 
   return (
     <Link
       href={`/marketplace/${project.id}`}
       className={cn(
         "group block bg-white rounded-2xl border border-gray-200 transition-all hover:shadow-md hover:border-brand-300",
-        compact ? "p-4" : "p-6"
+        compact ? "p-4" : "p-6",
       )}
     >
       {/* Header badges */}
@@ -47,10 +48,12 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
       </div>
 
       {/* Title */}
-      <h3 className={cn(
-        "font-semibold text-gray-900 group-hover:text-brand-600 transition-colors mb-1",
-        compact ? "text-sm" : "text-base"
-      )}>
+      <h3
+        className={cn(
+          "font-semibold text-gray-900 group-hover:text-brand-600 transition-colors mb-1",
+          compact ? "text-sm" : "text-base",
+        )}
+      >
         {project.title}
       </h3>
 
@@ -74,7 +77,10 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
       {project.tags.length > 0 && (
         <div className="flex gap-1.5 flex-wrap mb-4">
           {project.tags.slice(0, 4).map((tag) => (
-            <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-lg">
+            <span
+              key={tag}
+              className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-lg"
+            >
               {tag}
             </span>
           ))}

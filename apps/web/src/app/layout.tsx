@@ -18,7 +18,8 @@ const fontMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://juniorcommunity.vercel.app";
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://junior-community.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
@@ -28,7 +29,14 @@ export const metadata: Metadata = {
   },
   description:
     "Apprends, pratique sur des projets réels et sois payé. La plateforme complète pour les développeurs juniors.",
-  keywords: ["junior", "développeur", "apprentissage", "marketplace", "code", "stage"],
+  keywords: [
+    "junior",
+    "développeur",
+    "apprentissage",
+    "marketplace",
+    "code",
+    "stage",
+  ],
   openGraph: {
     type: "website",
     locale: "fr_FR",
@@ -54,14 +62,19 @@ export default function RootLayout({
 }: {
   readonly children: React.ReactNode;
 }) {
-  const languageCookie = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const languageCookie = cookies()
+    .get("juniorcode-language")
+    ?.value?.toLowerCase()
+    .slice(0, 2);
   const language = SUPPORTED_LANGUAGES.includes(languageCookie as Language)
     ? (languageCookie as Language)
     : "fr";
 
   return (
     <html lang={language} suppressHydrationWarning>
-      <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}>
+      <body
+        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
+      >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <I18nProvider initialLanguage={language}>
             <QueryProvider>

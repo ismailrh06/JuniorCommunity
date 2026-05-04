@@ -23,7 +23,7 @@ function getLocale(language: Language): string {
 export function formatDate(
   dateString: string,
   options?: Intl.DateTimeFormatOptions,
-  language: Language = "fr"
+  language: Language = "fr",
 ): string {
   return new Date(dateString).toLocaleDateString(getLocale(language), {
     day: "numeric",
@@ -33,17 +33,23 @@ export function formatDate(
   });
 }
 
-export function formatRelativeTime(dateString: string, language: Language = "fr"): string {
+export function formatRelativeTime(
+  dateString: string,
+  language: Language = "fr",
+): string {
   const now = new Date();
   const date = new Date(dateString);
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  const builders: Record<Language, {
-    now: string;
-    minutes: (value: number) => string;
-    hours: (value: number) => string;
-    days: (value: number) => string;
-  }> = {
+  const builders: Record<
+    Language,
+    {
+      now: string;
+      minutes: (value: number) => string;
+      hours: (value: number) => string;
+      days: (value: number) => string;
+    }
+  > = {
     fr: {
       now: "à l'instant",
       minutes: (value) => `il y a ${value} min`,
@@ -67,9 +73,12 @@ export function formatRelativeTime(dateString: string, language: Language = "fr"
   const labels = builders[language];
 
   if (diffInSeconds < 60) return labels.now;
-  if (diffInSeconds < 3600) return labels.minutes(Math.floor(diffInSeconds / 60));
-  if (diffInSeconds < 86400) return labels.hours(Math.floor(diffInSeconds / 3600));
-  if (diffInSeconds < 604800) return labels.days(Math.floor(diffInSeconds / 86400));
+  if (diffInSeconds < 3600)
+    return labels.minutes(Math.floor(diffInSeconds / 60));
+  if (diffInSeconds < 86400)
+    return labels.hours(Math.floor(diffInSeconds / 3600));
+  if (diffInSeconds < 604800)
+    return labels.days(Math.floor(diffInSeconds / 86400));
   return formatDate(dateString, undefined, language);
 }
 

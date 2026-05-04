@@ -2,11 +2,31 @@ import { cn } from "@/lib/utils";
 import type { Language } from "@/lib/i18n/translations";
 
 const BADGE_CONFIG = {
-  "html-basics":     { icon: "🟢", label: "HTML Basics",     color: "bg-green-100 text-green-700 border-green-200" },
-  "git-ready":       { icon: "🔵", label: "Git Ready",       color: "bg-blue-100 text-blue-700 border-blue-200" },
-  "js-starter":      { icon: "🟣", label: "JS Starter",      color: "bg-purple-100 text-purple-700 border-purple-200" },
-  "project-builder": { icon: "🟠", label: "Project Builder", color: "bg-orange-100 text-orange-700 border-orange-200" },
-  "verified-junior": { icon: "🟡", label: "Verified Junior", color: "bg-yellow-100 text-yellow-700 border-yellow-200" },
+  "html-basics": {
+    icon: "🟢",
+    label: "HTML Basics",
+    color: "bg-green-100 text-green-700 border-green-200",
+  },
+  "git-ready": {
+    icon: "🔵",
+    label: "Git Ready",
+    color: "bg-blue-100 text-blue-700 border-blue-200",
+  },
+  "js-starter": {
+    icon: "🟣",
+    label: "JS Starter",
+    color: "bg-purple-100 text-purple-700 border-purple-200",
+  },
+  "project-builder": {
+    icon: "🟠",
+    label: "Project Builder",
+    color: "bg-orange-100 text-orange-700 border-orange-200",
+  },
+  "verified-junior": {
+    icon: "🟡",
+    label: "Verified Junior",
+    color: "bg-yellow-100 text-yellow-700 border-yellow-200",
+  },
 } as const;
 
 type BadgeSlug = keyof typeof BADGE_CONFIG;
@@ -19,12 +39,15 @@ interface BadgeCardProps {
   size?: "sm" | "md" | "lg";
 }
 
-const COPY: Record<Language, {
-  lockedTitle: string;
-  earnedTitle: (earnedAt?: string) => string;
-  locked: string;
-  locale: string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    lockedTitle: string;
+    earnedTitle: (earnedAt?: string) => string;
+    locked: string;
+    locale: string;
+  }
+> = {
   fr: {
     lockedTitle: "Badge verrouillé",
     earnedTitle: (earnedAt) => `Obtenu le ${earnedAt ?? ""}`,
@@ -45,7 +68,13 @@ const COPY: Record<Language, {
   },
 };
 
-export function BadgeCard({ language, slug, earnedAt, locked = false, size = "md" }: BadgeCardProps) {
+export function BadgeCard({
+  language,
+  slug,
+  earnedAt,
+  locked = false,
+  size = "md",
+}: BadgeCardProps) {
   const config = BADGE_CONFIG[slug];
   const copy = COPY[language];
 
@@ -57,30 +86,35 @@ export function BadgeCard({ language, slug, earnedAt, locked = false, size = "md
           ? "bg-gray-50 border-gray-200 opacity-40 grayscale"
           : `${config.color} border`,
         size === "sm" && "p-3",
-        size === "lg" && "p-6"
+        size === "lg" && "p-6",
       )}
       title={locked ? copy.lockedTitle : copy.earnedTitle(earnedAt)}
     >
-      <span className={cn(
-        "block",
-        size === "sm" ? "text-2xl" : size === "lg" ? "text-5xl" : "text-3xl"
-      )}>
+      <span
+        className={cn(
+          "block",
+          size === "sm" ? "text-2xl" : size === "lg" ? "text-5xl" : "text-3xl",
+        )}
+      >
         {config.icon}
       </span>
-      <span className={cn(
-        "font-semibold text-center leading-tight",
-        size === "sm" ? "text-xs" : size === "lg" ? "text-base" : "text-sm"
-      )}>
+      <span
+        className={cn(
+          "font-semibold text-center leading-tight",
+          size === "sm" ? "text-xs" : size === "lg" ? "text-base" : "text-sm",
+        )}
+      >
         {config.label}
       </span>
       {earnedAt && !locked && (
         <span className="text-xs opacity-60">
-          {new Date(earnedAt).toLocaleDateString(copy.locale, { month: "short", year: "numeric" })}
+          {new Date(earnedAt).toLocaleDateString(copy.locale, {
+            month: "short",
+            year: "numeric",
+          })}
         </span>
       )}
-      {locked && (
-        <span className="text-xs text-gray-400">{copy.locked}</span>
-      )}
+      {locked && <span className="text-xs text-gray-400">{copy.locked}</span>}
     </div>
   );
 }
@@ -92,7 +126,11 @@ interface BadgeGridProps {
   showLocked?: boolean;
 }
 
-export function BadgeGrid({ language, earnedSlugs, showLocked = true }: BadgeGridProps) {
+export function BadgeGrid({
+  language,
+  earnedSlugs,
+  showLocked = true,
+}: BadgeGridProps) {
   const allSlugs = Object.keys(BADGE_CONFIG) as BadgeSlug[];
 
   return (

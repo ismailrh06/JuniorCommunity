@@ -12,7 +12,11 @@ import type { Language } from "@/lib/i18n/translations";
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type Goal = "learn" | "mission" | "portfolio";
 export type Level = "beginner" | "some" | "experienced";
-export type PathSlug = "web-developer" | "ui-designer" | "data-analyst" | "algorithms";
+export type PathSlug =
+  | "web-developer"
+  | "ui-designer"
+  | "data-analyst"
+  | "algorithms";
 
 export type OnboardingData = {
   goal: Goal;
@@ -28,36 +32,45 @@ function saveOnboarding(data: OnboardingData): void {
 }
 
 // ─── Copy ─────────────────────────────────────────────────────────────────────
-const COPY: Record<Language, {
-  stepLabel: (current: number, total: number) => string;
-  back: string;
-  next: string;
-  skip: string;
+const COPY: Record<
+  Language,
+  {
+    stepLabel: (current: number, total: number) => string;
+    back: string;
+    next: string;
+    skip: string;
 
-  // Step 1
-  step1Title: string;
-  step1Subtitle: string;
-  goals: Array<{ id: Goal; emoji: string; title: string; desc: string }>;
+    // Step 1
+    step1Title: string;
+    step1Subtitle: string;
+    goals: Array<{ id: Goal; emoji: string; title: string; desc: string }>;
 
-  // Step 2
-  step2Title: string;
-  step2Subtitle: string;
-  levels: Array<{ id: Level; emoji: string; title: string; desc: string }>;
+    // Step 2
+    step2Title: string;
+    step2Subtitle: string;
+    levels: Array<{ id: Level; emoji: string; title: string; desc: string }>;
 
-  // Step 3
-  step3Title: string;
-  step3Subtitle: string;
-  paths: Array<{ id: PathSlug; emoji: string; title: string; desc: string; duration: string }>;
+    // Step 3
+    step3Title: string;
+    step3Subtitle: string;
+    paths: Array<{
+      id: PathSlug;
+      emoji: string;
+      title: string;
+      desc: string;
+      duration: string;
+    }>;
 
-  // Step 4
-  step4Title: (name: string) => string;
-  step4Subtitle: string;
-  step4Cta: string;
-  step4Skip: string;
-  summaryGoal: string;
-  summaryLevel: string;
-  summaryPath: string;
-}> = {
+    // Step 4
+    step4Title: (name: string) => string;
+    step4Subtitle: string;
+    step4Cta: string;
+    step4Skip: string;
+    summaryGoal: string;
+    summaryLevel: string;
+    summaryPath: string;
+  }
+> = {
   fr: {
     stepLabel: (c, t) => `Étape ${c} sur ${t}`,
     back: "Retour",
@@ -65,32 +78,88 @@ const COPY: Record<Language, {
     skip: "Passer",
 
     step1Title: "Quel est ton objectif ?",
-    step1Subtitle: "On va personnaliser ton expérience en fonction de où tu veux aller.",
+    step1Subtitle:
+      "On va personnaliser ton expérience en fonction de où tu veux aller.",
     goals: [
-      { id: "learn", emoji: "📚", title: "Apprendre une compétence", desc: "Je veux maîtriser le développement web, le design ou la data." },
-      { id: "mission", emoji: "💼", title: "Trouver une première mission", desc: "Je veux décrocher un projet réel rémunéré rapidement." },
-      { id: "portfolio", emoji: "🎨", title: "Construire mon portfolio", desc: "Je veux avoir des projets concrets à montrer à des recruteurs." },
+      {
+        id: "learn",
+        emoji: "📚",
+        title: "Apprendre une compétence",
+        desc: "Je veux maîtriser le développement web, le design ou la data.",
+      },
+      {
+        id: "mission",
+        emoji: "💼",
+        title: "Trouver une première mission",
+        desc: "Je veux décrocher un projet réel rémunéré rapidement.",
+      },
+      {
+        id: "portfolio",
+        emoji: "🎨",
+        title: "Construire mon portfolio",
+        desc: "Je veux avoir des projets concrets à montrer à des recruteurs.",
+      },
     ],
 
     step2Title: "Où en es-tu actuellement ?",
     step2Subtitle: "Honnêteté totale — il n'y a pas de mauvaise réponse.",
     levels: [
-      { id: "beginner", emoji: "🌱", title: "Débutant complet", desc: "Je n'ai jamais codé ou presque. Tout est nouveau pour moi." },
-      { id: "some", emoji: "🌿", title: "Quelques bases", desc: "J'ai vu du HTML/CSS, quelques tutos vidéo, mais sans projets finis." },
-      { id: "experienced", emoji: "🌳", title: "J'ai déjà des projets", desc: "J'ai livré des choses, j'ai un GitHub, je cherche à progresser." },
+      {
+        id: "beginner",
+        emoji: "🌱",
+        title: "Débutant complet",
+        desc: "Je n'ai jamais codé ou presque. Tout est nouveau pour moi.",
+      },
+      {
+        id: "some",
+        emoji: "🌿",
+        title: "Quelques bases",
+        desc: "J'ai vu du HTML/CSS, quelques tutos vidéo, mais sans projets finis.",
+      },
+      {
+        id: "experienced",
+        emoji: "🌳",
+        title: "J'ai déjà des projets",
+        desc: "J'ai livré des choses, j'ai un GitHub, je cherche à progresser.",
+      },
     ],
 
     step3Title: "Quel parcours tu veux suivre ?",
     step3Subtitle: "Tu pourras en changer plus tard depuis ton dashboard.",
     paths: [
-      { id: "web-developer", emoji: "💻", title: "Développeur Web", desc: "HTML, CSS, JavaScript, React. De zéro à ton premier projet live.", duration: "6–8 semaines" },
-      { id: "ui-designer", emoji: "🎨", title: "Designer UI", desc: "Figma, principes design, maquettes et design systems.", duration: "4–6 semaines" },
-      { id: "data-analyst", emoji: "📊", title: "Data Analyst", desc: "Python, Pandas, SQL et dashboards interactifs.", duration: "6–8 semaines" },
-      { id: "algorithms", emoji: "🧠", title: "Algorithmique", desc: "Big O, structures de données, logique et résolution de problèmes.", duration: "4–5 semaines" },
+      {
+        id: "web-developer",
+        emoji: "💻",
+        title: "Développeur Web",
+        desc: "HTML, CSS, JavaScript, React. De zéro à ton premier projet live.",
+        duration: "6–8 semaines",
+      },
+      {
+        id: "ui-designer",
+        emoji: "🎨",
+        title: "Designer UI",
+        desc: "Figma, principes design, maquettes et design systems.",
+        duration: "4–6 semaines",
+      },
+      {
+        id: "data-analyst",
+        emoji: "📊",
+        title: "Data Analyst",
+        desc: "Python, Pandas, SQL et dashboards interactifs.",
+        duration: "6–8 semaines",
+      },
+      {
+        id: "algorithms",
+        emoji: "🧠",
+        title: "Algorithmique",
+        desc: "Big O, structures de données, logique et résolution de problèmes.",
+        duration: "4–5 semaines",
+      },
     ],
 
     step4Title: (name) => `Tu es prêt, ${name} 🎉`,
-    step4Subtitle: "Voici ton plan personnalisé. On t'a configuré un dashboard adapté à tes objectifs.",
+    step4Subtitle:
+      "Voici ton plan personnalisé. On t'a configuré un dashboard adapté à tes objectifs.",
     step4Cta: "Accéder à mon dashboard",
     step4Skip: "Voir la marketplace",
     summaryGoal: "Objectif",
@@ -104,32 +173,88 @@ const COPY: Record<Language, {
     skip: "Skip",
 
     step1Title: "What's your goal?",
-    step1Subtitle: "We'll personalize your experience based on where you want to go.",
+    step1Subtitle:
+      "We'll personalize your experience based on where you want to go.",
     goals: [
-      { id: "learn", emoji: "📚", title: "Learn a new skill", desc: "I want to master web development, design or data." },
-      { id: "mission", emoji: "💼", title: "Find my first mission", desc: "I want to land a real paid project quickly." },
-      { id: "portfolio", emoji: "🎨", title: "Build my portfolio", desc: "I want concrete projects to show recruiters." },
+      {
+        id: "learn",
+        emoji: "📚",
+        title: "Learn a new skill",
+        desc: "I want to master web development, design or data.",
+      },
+      {
+        id: "mission",
+        emoji: "💼",
+        title: "Find my first mission",
+        desc: "I want to land a real paid project quickly.",
+      },
+      {
+        id: "portfolio",
+        emoji: "🎨",
+        title: "Build my portfolio",
+        desc: "I want concrete projects to show recruiters.",
+      },
     ],
 
     step2Title: "Where are you right now?",
     step2Subtitle: "Be honest — there's no wrong answer.",
     levels: [
-      { id: "beginner", emoji: "🌱", title: "Complete beginner", desc: "I've never coded or barely. Everything is new to me." },
-      { id: "some", emoji: "🌿", title: "Some basics", desc: "I've seen some HTML/CSS, a few video tutorials, but no finished projects." },
-      { id: "experienced", emoji: "🌳", title: "I have projects", desc: "I've shipped things, I have a GitHub, I'm looking to level up." },
+      {
+        id: "beginner",
+        emoji: "🌱",
+        title: "Complete beginner",
+        desc: "I've never coded or barely. Everything is new to me.",
+      },
+      {
+        id: "some",
+        emoji: "🌿",
+        title: "Some basics",
+        desc: "I've seen some HTML/CSS, a few video tutorials, but no finished projects.",
+      },
+      {
+        id: "experienced",
+        emoji: "🌳",
+        title: "I have projects",
+        desc: "I've shipped things, I have a GitHub, I'm looking to level up.",
+      },
     ],
 
     step3Title: "Which path do you want to follow?",
     step3Subtitle: "You can change it later from your dashboard.",
     paths: [
-      { id: "web-developer", emoji: "💻", title: "Web Developer", desc: "HTML, CSS, JavaScript, React. From zero to your first live project.", duration: "6–8 weeks" },
-      { id: "ui-designer", emoji: "🎨", title: "UI Designer", desc: "Figma, design principles, wireframes and design systems.", duration: "4–6 weeks" },
-      { id: "data-analyst", emoji: "📊", title: "Data Analyst", desc: "Python, Pandas, SQL and interactive dashboards.", duration: "6–8 weeks" },
-      { id: "algorithms", emoji: "🧠", title: "Algorithms", desc: "Big O, data structures, logic and problem-solving.", duration: "4–5 weeks" },
+      {
+        id: "web-developer",
+        emoji: "💻",
+        title: "Web Developer",
+        desc: "HTML, CSS, JavaScript, React. From zero to your first live project.",
+        duration: "6–8 weeks",
+      },
+      {
+        id: "ui-designer",
+        emoji: "🎨",
+        title: "UI Designer",
+        desc: "Figma, design principles, wireframes and design systems.",
+        duration: "4–6 weeks",
+      },
+      {
+        id: "data-analyst",
+        emoji: "📊",
+        title: "Data Analyst",
+        desc: "Python, Pandas, SQL and interactive dashboards.",
+        duration: "6–8 weeks",
+      },
+      {
+        id: "algorithms",
+        emoji: "🧠",
+        title: "Algorithms",
+        desc: "Big O, data structures, logic and problem-solving.",
+        duration: "4–5 weeks",
+      },
     ],
 
     step4Title: (name) => `You're all set, ${name} 🎉`,
-    step4Subtitle: "Here's your personalized plan. We've set up a dashboard tailored to your goals.",
+    step4Subtitle:
+      "Here's your personalized plan. We've set up a dashboard tailored to your goals.",
     step4Cta: "Go to my dashboard",
     step4Skip: "Browse marketplace",
     summaryGoal: "Goal",
@@ -143,32 +268,88 @@ const COPY: Record<Language, {
     skip: "Saltar",
 
     step1Title: "¿Cuál es tu objetivo?",
-    step1Subtitle: "Personalizaremos tu experiencia según a dónde quieres llegar.",
+    step1Subtitle:
+      "Personalizaremos tu experiencia según a dónde quieres llegar.",
     goals: [
-      { id: "learn", emoji: "📚", title: "Aprender una habilidad", desc: "Quiero dominar el desarrollo web, diseño o datos." },
-      { id: "mission", emoji: "💼", title: "Encontrar mi primera misión", desc: "Quiero conseguir un proyecto real pagado rápidamente." },
-      { id: "portfolio", emoji: "🎨", title: "Construir mi portfolio", desc: "Quiero proyectos concretos para mostrar a reclutadores." },
+      {
+        id: "learn",
+        emoji: "📚",
+        title: "Aprender una habilidad",
+        desc: "Quiero dominar el desarrollo web, diseño o datos.",
+      },
+      {
+        id: "mission",
+        emoji: "💼",
+        title: "Encontrar mi primera misión",
+        desc: "Quiero conseguir un proyecto real pagado rápidamente.",
+      },
+      {
+        id: "portfolio",
+        emoji: "🎨",
+        title: "Construir mi portfolio",
+        desc: "Quiero proyectos concretos para mostrar a reclutadores.",
+      },
     ],
 
     step2Title: "¿Dónde estás ahora mismo?",
     step2Subtitle: "Sé honesto — no hay respuesta incorrecta.",
     levels: [
-      { id: "beginner", emoji: "🌱", title: "Principiante completo", desc: "Nunca he programado o casi. Todo es nuevo para mí." },
-      { id: "some", emoji: "🌿", title: "Algunas bases", desc: "He visto algo de HTML/CSS, algunos tutoriales, pero sin proyectos terminados." },
-      { id: "experienced", emoji: "🌳", title: "Tengo proyectos", desc: "He entregado cosas, tengo GitHub y busco mejorar." },
+      {
+        id: "beginner",
+        emoji: "🌱",
+        title: "Principiante completo",
+        desc: "Nunca he programado o casi. Todo es nuevo para mí.",
+      },
+      {
+        id: "some",
+        emoji: "🌿",
+        title: "Algunas bases",
+        desc: "He visto algo de HTML/CSS, algunos tutoriales, pero sin proyectos terminados.",
+      },
+      {
+        id: "experienced",
+        emoji: "🌳",
+        title: "Tengo proyectos",
+        desc: "He entregado cosas, tengo GitHub y busco mejorar.",
+      },
     ],
 
     step3Title: "¿Qué ruta quieres seguir?",
     step3Subtitle: "Puedes cambiarlo más tarde desde tu panel.",
     paths: [
-      { id: "web-developer", emoji: "💻", title: "Desarrollador Web", desc: "HTML, CSS, JavaScript, React. De cero a tu primer proyecto.", duration: "6–8 semanas" },
-      { id: "ui-designer", emoji: "🎨", title: "Diseñador UI", desc: "Figma, principios de diseño, wireframes y design systems.", duration: "4–6 semanas" },
-      { id: "data-analyst", emoji: "📊", title: "Analista de Datos", desc: "Python, Pandas, SQL y dashboards interactivos.", duration: "6–8 semanas" },
-      { id: "algorithms", emoji: "🧠", title: "Algoritmia", desc: "Big O, estructuras de datos, lógica y resolución de problemas.", duration: "4–5 semanas" },
+      {
+        id: "web-developer",
+        emoji: "💻",
+        title: "Desarrollador Web",
+        desc: "HTML, CSS, JavaScript, React. De cero a tu primer proyecto.",
+        duration: "6–8 semanas",
+      },
+      {
+        id: "ui-designer",
+        emoji: "🎨",
+        title: "Diseñador UI",
+        desc: "Figma, principios de diseño, wireframes y design systems.",
+        duration: "4–6 semanas",
+      },
+      {
+        id: "data-analyst",
+        emoji: "📊",
+        title: "Analista de Datos",
+        desc: "Python, Pandas, SQL y dashboards interactivos.",
+        duration: "6–8 semanas",
+      },
+      {
+        id: "algorithms",
+        emoji: "🧠",
+        title: "Algoritmia",
+        desc: "Big O, estructuras de datos, lógica y resolución de problemas.",
+        duration: "4–5 semanas",
+      },
     ],
 
     step4Title: (name) => `¡Todo listo, ${name}! 🎉`,
-    step4Subtitle: "Aquí está tu plan personalizado. Hemos configurado un panel adaptado a tus objetivos.",
+    step4Subtitle:
+      "Aquí está tu plan personalizado. Hemos configurado un panel adaptado a tus objetivos.",
     step4Cta: "Ir a mi panel",
     step4Skip: "Ver el marketplace",
     summaryGoal: "Objetivo",
@@ -210,7 +391,11 @@ function SelectCard({
       onClick={onClick}
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.06, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        delay: index * 0.06,
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       whileHover={{ y: -2, scale: 1.01 }}
       whileTap={{ scale: 0.99 }}
       className={`w-full text-left rounded-2xl border p-5 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 ${
@@ -236,7 +421,10 @@ function SelectCard({
 }
 
 // ─── Progress bar ─────────────────────────────────────────────────────────────
-function ProgressBar({ current, total }: Readonly<{ current: number; total: number }>) {
+function ProgressBar({
+  current,
+  total,
+}: Readonly<{ current: number; total: number }>) {
   const pct = Math.round((current / total) * 100);
   return (
     <div className="h-1 w-full rounded-full bg-white/10">
@@ -276,7 +464,9 @@ export default function OnboardingPage() {
     try {
       const user = JSON.parse(atob(match[1])) as { full_name: string };
       return user.full_name.split(" ")[0] ?? "toi";
-    } catch { return "toi"; }
+    } catch {
+      return "toi";
+    }
   })();
 
   const goNext = () => setStep((s) => Math.min(s + 1, TOTAL_STEPS));
@@ -284,7 +474,12 @@ export default function OnboardingPage() {
 
   const finish = async () => {
     if (!goal || !level || !path) return;
-    const data: OnboardingData = { goal, level, path, completedAt: new Date().toISOString() };
+    const data: OnboardingData = {
+      goal,
+      level,
+      path,
+      completedAt: new Date().toISOString(),
+    };
     saveOnboarding(data);
 
     // Persist to DB (no-op in mock mode, saves to learner_profiles in real mode)
@@ -319,7 +514,11 @@ export default function OnboardingPage() {
         <motion.div
           aria-hidden="true"
           className="absolute bottom-[-16rem] right-[-12rem] h-[34rem] w-[34rem] rounded-full bg-orange-500/20 blur-3xl"
-          animate={{ x: [0, -24, 0], y: [0, 18, 0], opacity: [0.45, 0.7, 0.45] }}
+          animate={{
+            x: [0, -24, 0],
+            y: [0, 18, 0],
+            opacity: [0.45, 0.7, 0.45],
+          }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:48px_48px]" />
@@ -329,7 +528,10 @@ export default function OnboardingPage() {
       <div className="sticky top-0 z-10 border-b border-white/10 bg-[#070b16]/80 backdrop-blur-xl px-4 py-4">
         <div className="mx-auto max-w-xl">
           <div className="mb-3 flex items-center justify-between text-xs text-white/50">
-            <Link href="/" className="flex items-center gap-2 font-bold text-white text-sm">
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-bold text-white text-sm"
+            >
               <Image
                 src="/brand/new_logo.png"
                 alt="JuniorCode"
@@ -361,162 +563,190 @@ export default function OnboardingPage() {
               {/* ── Step 1 — Goal ── */}
               {step === 1 && (
                 <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-black sm:text-3xl">{copy.step1Title}</h1>
-                <p className="mt-2 text-white/65">{copy.step1Subtitle}</p>
-              </div>
-              <div className="space-y-3">
-                {copy.goals.map((g, index) => (
-                  <SelectCard
-                    key={g.id}
-                    emoji={g.emoji}
-                    title={g.title}
-                    desc={g.desc}
-                    selected={goal === g.id}
-                    onClick={() => { setGoal(g.id); }}
-                    index={index}
-                  />
-                ))}
-              </div>
+                  <div>
+                    <h1 className="text-2xl font-black sm:text-3xl">
+                      {copy.step1Title}
+                    </h1>
+                    <p className="mt-2 text-white/65">{copy.step1Subtitle}</p>
+                  </div>
+                  <div className="space-y-3">
+                    {copy.goals.map((g, index) => (
+                      <SelectCard
+                        key={g.id}
+                        emoji={g.emoji}
+                        title={g.title}
+                        desc={g.desc}
+                        selected={goal === g.id}
+                        onClick={() => {
+                          setGoal(g.id);
+                        }}
+                        index={index}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* ── Step 2 — Level ── */}
               {step === 2 && (
                 <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-black sm:text-3xl">{copy.step2Title}</h1>
-                <p className="mt-2 text-white/65">{copy.step2Subtitle}</p>
-              </div>
-              <div className="space-y-3">
-                {copy.levels.map((l, index) => (
-                  <SelectCard
-                    key={l.id}
-                    emoji={l.emoji}
-                    title={l.title}
-                    desc={l.desc}
-                    selected={level === l.id}
-                    onClick={() => { setLevel(l.id); }}
-                    index={index}
-                  />
-                ))}
-              </div>
+                  <div>
+                    <h1 className="text-2xl font-black sm:text-3xl">
+                      {copy.step2Title}
+                    </h1>
+                    <p className="mt-2 text-white/65">{copy.step2Subtitle}</p>
+                  </div>
+                  <div className="space-y-3">
+                    {copy.levels.map((l, index) => (
+                      <SelectCard
+                        key={l.id}
+                        emoji={l.emoji}
+                        title={l.title}
+                        desc={l.desc}
+                        selected={level === l.id}
+                        onClick={() => {
+                          setLevel(l.id);
+                        }}
+                        index={index}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* ── Step 3 — Path ── */}
               {step === 3 && (
                 <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-black sm:text-3xl">{copy.step3Title}</h1>
-                <p className="mt-2 text-white/65">{copy.step3Subtitle}</p>
-              </div>
-              <div className="space-y-3">
-                {copy.paths.map((p, index) => (
-                  <motion.button
-                    key={p.id}
-                    type="button"
-                    onClick={() => setPath(p.id)}
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    whileHover={{ y: -2, scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className={`w-full text-left rounded-2xl border p-5 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 ${
-                      path === p.id
-                        ? "border-brand-300 bg-brand-500/15 shadow-2xl shadow-brand-500/15"
-                        : "border-white/15 bg-white/[0.045] hover:border-white/30 hover:bg-white/[0.08]"
-                    }`}
-                  >
-                    <div className="flex items-start gap-4">
-                      <span className="text-3xl shrink-0">{p.emoji}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-semibold">{p.title}</span>
-                          <div className="flex items-center gap-2 shrink-0">
-                            <span className="rounded-full border border-white/15 bg-white/[0.06] px-2 py-0.5 text-xs text-white/50">
-                              {p.duration}
-                            </span>
-                            {path === p.id && (
-                              <CheckCircle className="h-5 w-5 text-brand-400" />
-                            )}
+                  <div>
+                    <h1 className="text-2xl font-black sm:text-3xl">
+                      {copy.step3Title}
+                    </h1>
+                    <p className="mt-2 text-white/65">{copy.step3Subtitle}</p>
+                  </div>
+                  <div className="space-y-3">
+                    {copy.paths.map((p, index) => (
+                      <motion.button
+                        key={p.id}
+                        type="button"
+                        onClick={() => setPath(p.id)}
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          delay: index * 0.05,
+                          duration: 0.35,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        whileHover={{ y: -2, scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className={`w-full text-left rounded-2xl border p-5 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 ${
+                          path === p.id
+                            ? "border-brand-300 bg-brand-500/15 shadow-2xl shadow-brand-500/15"
+                            : "border-white/15 bg-white/[0.045] hover:border-white/30 hover:bg-white/[0.08]"
+                        }`}
+                      >
+                        <div className="flex items-start gap-4">
+                          <span className="text-3xl shrink-0">{p.emoji}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-semibold">{p.title}</span>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="rounded-full border border-white/15 bg-white/[0.06] px-2 py-0.5 text-xs text-white/50">
+                                  {p.duration}
+                                </span>
+                                {path === p.id && (
+                                  <CheckCircle className="h-5 w-5 text-brand-400" />
+                                )}
+                              </div>
+                            </div>
+                            <p className="mt-1 text-sm text-white/60">
+                              {p.desc}
+                            </p>
                           </div>
                         </div>
-                        <p className="mt-1 text-sm text-white/60">{p.desc}</p>
-                      </div>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
+                      </motion.button>
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* ── Step 4 — Summary & Launch ── */}
               {step === 4 && (
                 <div className="space-y-8">
-              <div className="text-center">
-                <motion.div
-                  className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-learn-500 text-4xl shadow-2xl shadow-brand-500/30"
-                  animate={{ y: [0, -6, 0], rotate: [0, -3, 3, 0] }}
-                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  🚀
-                </motion.div>
-                <h1 className="text-2xl font-black sm:text-3xl">{copy.step4Title(firstName)}</h1>
-                <p className="mt-2 text-white/65">{copy.step4Subtitle}</p>
-              </div>
+                  <div className="text-center">
+                    <motion.div
+                      className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-learn-500 text-4xl shadow-2xl shadow-brand-500/30"
+                      animate={{ y: [0, -6, 0], rotate: [0, -3, 3, 0] }}
+                      transition={{
+                        duration: 3.2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      🚀
+                    </motion.div>
+                    <h1 className="text-2xl font-black sm:text-3xl">
+                      {copy.step4Title(firstName)}
+                    </h1>
+                    <p className="mt-2 text-white/65">{copy.step4Subtitle}</p>
+                  </div>
 
-              {/* Summary card */}
-              <div className="rounded-2xl border border-white/15 bg-white/[0.04] divide-y divide-white/10">
-                {goal && (
-                  <div className="flex items-center justify-between px-5 py-4">
-                    <span className="text-sm text-white/55">{copy.summaryGoal}</span>
-                    <span className="flex items-center gap-2 text-sm font-medium">
-                      {copy.goals.find((g) => g.id === goal)?.emoji}
-                      {getGoalLabel(goal, copy)}
-                    </span>
+                  {/* Summary card */}
+                  <div className="rounded-2xl border border-white/15 bg-white/[0.04] divide-y divide-white/10">
+                    {goal && (
+                      <div className="flex items-center justify-between px-5 py-4">
+                        <span className="text-sm text-white/55">
+                          {copy.summaryGoal}
+                        </span>
+                        <span className="flex items-center gap-2 text-sm font-medium">
+                          {copy.goals.find((g) => g.id === goal)?.emoji}
+                          {getGoalLabel(goal, copy)}
+                        </span>
+                      </div>
+                    )}
+                    {level && (
+                      <div className="flex items-center justify-between px-5 py-4">
+                        <span className="text-sm text-white/55">
+                          {copy.summaryLevel}
+                        </span>
+                        <span className="flex items-center gap-2 text-sm font-medium">
+                          {copy.levels.find((l) => l.id === level)?.emoji}
+                          {getLevelLabel(level, copy)}
+                        </span>
+                      </div>
+                    )}
+                    {path && (
+                      <div className="flex items-center justify-between px-5 py-4">
+                        <span className="text-sm text-white/55">
+                          {copy.summaryPath}
+                        </span>
+                        <span className="flex items-center gap-2 text-sm font-medium">
+                          {copy.paths.find((p) => p.id === path)?.emoji}
+                          {getPathLabel(path, copy)}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
-                {level && (
-                  <div className="flex items-center justify-between px-5 py-4">
-                    <span className="text-sm text-white/55">{copy.summaryLevel}</span>
-                    <span className="flex items-center gap-2 text-sm font-medium">
-                      {copy.levels.find((l) => l.id === level)?.emoji}
-                      {getLevelLabel(level, copy)}
-                    </span>
-                  </div>
-                )}
-                {path && (
-                  <div className="flex items-center justify-between px-5 py-4">
-                    <span className="text-sm text-white/55">{copy.summaryPath}</span>
-                    <span className="flex items-center gap-2 text-sm font-medium">
-                      {copy.paths.find((p) => p.id === path)?.emoji}
-                      {getPathLabel(path, copy)}
-                    </span>
-                  </div>
-                )}
-              </div>
 
-              {/* CTAs */}
-              <div className="space-y-3">
-                <motion.button
-                  type="button"
-                  onClick={finish}
-                  whileHover={{ y: -2, scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-3.5 font-semibold text-white shadow-2xl shadow-brand-500/30 transition hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-500"
-                >
-                  {copy.step4Cta}
-                  <ArrowRight className="h-4 w-4" />
-                </motion.button>
-                <button
-                  type="button"
-                  onClick={() => router.push("/marketplace")}
-                  className="w-full rounded-2xl border border-white/15 bg-white/[0.04] py-3 text-sm text-white/65 transition hover:bg-white/[0.08]"
-                >
-                  {copy.step4Skip}
-                </button>
-              </div>
+                  {/* CTAs */}
+                  <div className="space-y-3">
+                    <motion.button
+                      type="button"
+                      onClick={finish}
+                      whileHover={{ y: -2, scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-3.5 font-semibold text-white shadow-2xl shadow-brand-500/30 transition hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-500"
+                    >
+                      {copy.step4Cta}
+                      <ArrowRight className="h-4 w-4" />
+                    </motion.button>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/marketplace")}
+                      className="w-full rounded-2xl border border-white/15 bg-white/[0.04] py-3 text-sm text-white/65 transition hover:bg-white/[0.08]"
+                    >
+                      {copy.step4Skip}
+                    </button>
+                  </div>
                 </div>
               )}
             </motion.div>

@@ -7,7 +7,7 @@ import { getSupabaseServerClient } from "@juniorcode/db/server";
  * Saves lesson progress to user_progress, increments XP if completed.
  */
 export async function POST(request: Request) {
-  const body = await request.json() as {
+  const body = (await request.json()) as {
     lessonId: string;
     status?: "in_progress" | "completed";
   };
@@ -25,7 +25,9 @@ export async function POST(request: Request) {
   }
 
   const supabase = await getSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -42,8 +44,9 @@ export async function POST(request: Request) {
 
   // Upsert progress row
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error: progressError } = await (supabase.from("user_progress") as any)
-    .upsert(progressRow, { onConflict: "user_id,lesson_id" });
+  const { error: progressError } = await (
+    supabase.from("user_progress") as any
+  ).upsert(progressRow, { onConflict: "user_id,lesson_id" });
 
   if (progressError) {
     return NextResponse.json({ error: progressError.message }, { status: 500 });
@@ -52,7 +55,10 @@ export async function POST(request: Request) {
   // Award XP + update streak when lesson is completed
   if (status === "completed") {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase as any).rpc("increment_xp", { p_user_id: user.id, p_xp: 10 });
+    await (supabase as any).rpc("increment_xp", {
+      p_user_id: user.id,
+      p_xp: 10,
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (supabase as any).rpc("update_streak", { p_user_id: user.id });
   }
@@ -72,7 +78,9 @@ export async function GET() {
   }
 
   const supabase = await getSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

@@ -32,19 +32,22 @@ interface ModuleContent {
   prevModule?: string;
 }
 
-const MODULE_PAGE_COPY: Record<Language, {
-  learn: string;
-  module: string;
-  objectives: string;
-  resources: string;
-  previous: string;
-  next: string;
-  backToPath: string;
-  viewMissions: string;
-  lesson: string;
-  exercise: string;
-  project: string;
-}> = {
+const MODULE_PAGE_COPY: Record<
+  Language,
+  {
+    learn: string;
+    module: string;
+    objectives: string;
+    resources: string;
+    previous: string;
+    next: string;
+    backToPath: string;
+    viewMissions: string;
+    lesson: string;
+    exercise: string;
+    project: string;
+  }
+> = {
   fr: {
     learn: "Learn",
     module: "Module",
@@ -107,7 +110,7 @@ const PATH_LABELS: Record<string, Record<Language, string>> = {
     en: "Programming Languages",
     es: "Lenguajes de programación",
   },
-  "algorithms": {
+  algorithms: {
     fr: "Algorithmes fondamentaux",
     en: "Fundamental Algorithms",
     es: "Algoritmos fundamentales",
@@ -126,10 +129,10 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "js-dom": "Advanced JavaScript — Events & fetch",
     "todo-app": "🔨 Complete to-do app",
     "react-intro": "Introduction to React",
-    "portfolio": "🔨 Personal portfolio with React",
+    portfolio: "🔨 Personal portfolio with React",
     "read-offer": "How to read a mission brief",
-    "apply": "Apply and talk to a client",
-    "quote": "Create a simple quote",
+    apply: "Apply and talk to a client",
+    quote: "Create a simple quote",
     "marketplace-intro": "Access Junior-Only projects",
     "design-thinking": "Design Thinking — Core principles",
     "color-theory": "Color theory & typography",
@@ -146,12 +149,12 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "pandas-intro": "Pandas — Load and explore data",
     "first-analysis": "🔨 Analyze a real CSV dataset",
     "data-cleaning": "Data cleaning — Key techniques",
-    "matplotlib": "Matplotlib & Seaborn — Charts",
-    "plotly": "Plotly — Interactive charts",
-    "dashboard": "🔨 Interactive dashboard with Plotly Dash",
+    matplotlib: "Matplotlib & Seaborn — Charts",
+    plotly: "Plotly — Interactive charts",
+    dashboard: "🔨 Interactive dashboard with Plotly Dash",
     "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
     "sql-advanced": "Advanced SQL — Subqueries & windows",
-    "report": "🔨 Complete analysis report",
+    report: "🔨 Complete analysis report",
     "data-marketplace": "Access data missions",
     "language-choice": "Choose the right language for your goal",
     "python-programming": "Python — Automation, scripts & logic",
@@ -165,7 +168,7 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "arrays-strings": "Arrays & strings — Traverse, search, transform",
     "hashmaps-sets": "Hash maps & sets — Find things fast",
     "stacks-queues": "Stacks & queues — Order, history, lines",
-    "recursion": "Recursion — Break a problem down",
+    recursion: "Recursion — Break a problem down",
     "sorting-searching": "Sorting & searching — Useful classics",
     "trees-graphs": "Trees & graphs — Explore relationships",
     "dynamic-programming-intro": "Dynamic programming — Simple memoization",
@@ -181,10 +184,10 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "js-dom": "JavaScript avanzado — Eventos y fetch",
     "todo-app": "🔨 To-do app completa",
     "react-intro": "Introducción a React",
-    "portfolio": "🔨 Portfolio personal con React",
+    portfolio: "🔨 Portfolio personal con React",
     "read-offer": "Cómo leer una oferta de misión",
-    "apply": "Postular y hablar con un cliente",
-    "quote": "Crear un presupuesto simple",
+    apply: "Postular y hablar con un cliente",
+    quote: "Crear un presupuesto simple",
     "marketplace-intro": "Acceso a proyectos Junior-Only",
     "design-thinking": "Design Thinking — Principios fundamentales",
     "color-theory": "Teoría del color y tipografía",
@@ -201,12 +204,12 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "pandas-intro": "Pandas — Cargar y explorar datos",
     "first-analysis": "🔨 Analizar un dataset CSV real",
     "data-cleaning": "Limpieza de datos — Técnicas clave",
-    "matplotlib": "Matplotlib y Seaborn — Gráficos",
-    "plotly": "Plotly — Gráficos interactivos",
-    "dashboard": "🔨 Dashboard interactivo con Plotly Dash",
+    matplotlib: "Matplotlib y Seaborn — Gráficos",
+    plotly: "Plotly — Gráficos interactivos",
+    dashboard: "🔨 Dashboard interactivo con Plotly Dash",
     "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
     "sql-advanced": "SQL avanzado — Subconsultas y ventanas",
-    "report": "🔨 Reporte de análisis completo",
+    report: "🔨 Reporte de análisis completo",
     "data-marketplace": "Acceso a misiones data",
     "language-choice": "Elegir el lenguaje correcto para tu objetivo",
     "python-programming": "Python — Automatización, scripts y lógica",
@@ -215,12 +218,13 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "csharp-programming": "C# — Apps, APIs y ecosistema .NET",
     "c-programming": "C — Memoria, punteros y bases de sistema",
     "cpp-programming": "C++ — Rendimiento, objetos y STL",
-    "algorithmic-thinking": "Pensamiento algorítmico — Resolver antes de codificar",
+    "algorithmic-thinking":
+      "Pensamiento algorítmico — Resolver antes de codificar",
     "complexity-big-o": "Complejidad Big O — Tiempo y memoria",
     "arrays-strings": "Arrays y strings — Recorrer, buscar, transformar",
     "hashmaps-sets": "Hash maps y sets — Encontrar rápido",
     "stacks-queues": "Stacks y queues — Orden, historial, colas",
-    "recursion": "Recursión — Descomponer un problema",
+    recursion: "Recursión — Descomponer un problema",
     "sorting-searching": "Ordenación y búsqueda — Clásicos útiles",
     "trees-graphs": "Árboles y grafos — Explorar relaciones",
     "dynamic-programming-intro": "Programación dinámica — Memoización simple",
@@ -228,12 +232,17 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
   },
 };
 
-function getModuleTitle(module: ModuleContent | null | undefined, language: Language) {
+function getModuleTitle(
+  module: ModuleContent | null | undefined,
+  language: Language,
+) {
   if (!module) return "";
   return MODULE_TITLE_TRANSLATIONS[language][module.id] ?? module.title;
 }
 
-type ModuleContentTranslation = Partial<Pick<ModuleContent, "intro" | "objectives" | "steps" | "resources">>;
+type ModuleContentTranslation = Partial<
+  Pick<ModuleContent, "intro" | "objectives" | "steps" | "resources">
+>;
 
 // ─── All module content ───────────────────────────────────────────────────────
 const MODULES: Record<string, ModuleContent> = {
@@ -316,7 +325,8 @@ const MODULES: Record<string, ModuleContent> = {
       },
       {
         title: "Liens, images et listes",
-        content: "Les éléments les plus courants que tu utiliseras dans chaque projet.",
+        content:
+          "Les éléments les plus courants que tu utiliseras dans chaque projet.",
         details: [
           "Un lien doit annoncer clairement où il mène.",
           "Une image doit avoir un alt utile, sauf si elle est purement décorative.",
@@ -356,7 +366,10 @@ const MODULES: Record<string, ModuleContent> = {
       },
     ],
     resources: [
-      { label: "MDN — Référence HTML", url: "https://developer.mozilla.org/fr/docs/Web/HTML" },
+      {
+        label: "MDN — Référence HTML",
+        url: "https://developer.mozilla.org/fr/docs/Web/HTML",
+      },
       { label: "Validateur W3C", url: "https://validator.w3.org" },
     ],
     nextModule: "css-basics",
@@ -452,8 +465,14 @@ p {
       },
     ],
     resources: [
-      { label: "Flexbox Froggy — Jeu d'apprentissage", url: "https://flexboxfroggy.com/#fr" },
-      { label: "MDN — CSS", url: "https://developer.mozilla.org/fr/docs/Web/CSS" },
+      {
+        label: "Flexbox Froggy — Jeu d'apprentissage",
+        url: "https://flexboxfroggy.com/#fr",
+      },
+      {
+        label: "MDN — CSS",
+        url: "https://developer.mozilla.org/fr/docs/Web/CSS",
+      },
     ],
     prevModule: "html-basics",
     nextModule: "first-landing",
@@ -585,7 +604,10 @@ git push -u origin main
       },
     ],
     resources: [
-      { label: "GitHub Pages — Guide officiel", url: "https://pages.github.com" },
+      {
+        label: "GitHub Pages — Guide officiel",
+        url: "https://pages.github.com",
+      },
       { label: "CSS Gradient Generator", url: "https://cssgradient.io" },
     ],
     prevModule: "css-basics",
@@ -653,8 +675,14 @@ git branch -d feature/ma-fonctionnalite`,
       },
     ],
     resources: [
-      { label: "Learn Git Branching — Visuel interactif", url: "https://learngitbranching.js.org/?locale=fr_FR" },
-      { label: "Pro Git — Livre gratuit FR", url: "https://git-scm.com/book/fr/v2" },
+      {
+        label: "Learn Git Branching — Visuel interactif",
+        url: "https://learngitbranching.js.org/?locale=fr_FR",
+      },
+      {
+        label: "Pro Git — Livre gratuit FR",
+        url: "https://git-scm.com/book/fr/v2",
+      },
     ],
     prevModule: "first-landing",
     nextModule: "github-publish",
@@ -709,7 +737,8 @@ git push -u origin main`,
     steps: [
       {
         title: "Variables et types",
-        content: "JavaScript a des types dynamiques. let et const remplacent var dans le code moderne.",
+        content:
+          "JavaScript a des types dynamiques. let et const remplacent var dans le code moderne.",
         code: `// const : valeur qui ne change pas
 const name = "Alice";
 const age = 25;
@@ -760,7 +789,8 @@ const sum     = numbers.reduce((acc, n) => acc + n, 0); // 15`,
       },
       {
         title: "Manipuler le DOM",
-        content: "Le DOM (Document Object Model) te permet de lire et modifier ta page HTML avec JS.",
+        content:
+          "Le DOM (Document Object Model) te permet de lire et modifier ta page HTML avec JS.",
         code: `// Sélectionner des éléments
 const title   = document.querySelector("h1");
 const buttons = document.querySelectorAll(".btn");
@@ -787,8 +817,14 @@ btn.addEventListener("click", (event) => {
       },
     ],
     resources: [
-      { label: "JavaScript.info — Tutoriel complet", url: "https://fr.javascript.info" },
-      { label: "MDN — JavaScript", url: "https://developer.mozilla.org/fr/docs/Web/JavaScript" },
+      {
+        label: "JavaScript.info — Tutoriel complet",
+        url: "https://fr.javascript.info",
+      },
+      {
+        label: "MDN — JavaScript",
+        url: "https://developer.mozilla.org/fr/docs/Web/JavaScript",
+      },
     ],
     prevModule: "github-publish",
     nextModule: "js-dom",
@@ -810,7 +846,8 @@ btn.addEventListener("click", (event) => {
     steps: [
       {
         title: "Async / Await",
-        content: "JavaScript est asynchrone. async/await est la façon moderne de gérer ça lisiblement.",
+        content:
+          "JavaScript est asynchrone. async/await est la façon moderne de gérer ça lisiblement.",
         code: `// Sans async/await (Promises chaînées)
 fetch("/api/users")
   .then(res => res.json())
@@ -834,7 +871,8 @@ const users = await getUsers();`,
       },
       {
         title: "Fetch API",
-        content: "fetch() est l'API native du navigateur pour faire des requêtes HTTP.",
+        content:
+          "fetch() est l'API native du navigateur pour faire des requêtes HTTP.",
         code: `// GET — récupérer des données
 const response = await fetch("https://api.github.com/users/torvalds");
 const user = await response.json();
@@ -875,7 +913,8 @@ const result = await res.json();`,
     steps: [
       {
         title: "Architecture du projet",
-        content: "Organise ton code en trois couches : état, DOM et événements.",
+        content:
+          "Organise ton code en trois couches : état, DOM et événements.",
         code: `// state.js — gestion de l'état
 let todos = JSON.parse(localStorage.getItem("todos") || "[]");
 
@@ -906,7 +945,8 @@ function deleteTodo(id) {
       },
       {
         title: "Rendu et événements",
-        content: "Recrée le DOM à chaque changement d'état — pattern simple et fiable.",
+        content:
+          "Recrée le DOM à chaque changement d'état — pattern simple et fiable.",
         code: `function render() {
   const list = document.querySelector("#todo-list");
   const filter = document.querySelector(".filter.active")?.dataset.filter || "all";
@@ -962,7 +1002,8 @@ document.querySelector("#todo-form").addEventListener("submit", (e) => {
     steps: [
       {
         title: "Composants et JSX",
-        content: "Un composant React est une fonction qui retourne du JSX. C'est HTML + JavaScript fusionnés.",
+        content:
+          "Un composant React est une fonction qui retourne du JSX. C'est HTML + JavaScript fusionnés.",
         code: `// Un composant simple
 function Button({ label, onClick, variant = "primary" }) {
   return (
@@ -999,7 +1040,8 @@ function App() {
       },
       {
         title: "useState — l'état local",
-        content: "useState te donne un état réactif. Quand l'état change, React re-rend le composant automatiquement.",
+        content:
+          "useState te donne un état réactif. Quand l'état change, React re-rend le composant automatiquement.",
         code: `import { useState } from "react";
 
 function Counter() {
@@ -1034,13 +1076,16 @@ function Form() {
       },
     ],
     resources: [
-      { label: "React.dev — Documentation officielle", url: "https://fr.react.dev" },
+      {
+        label: "React.dev — Documentation officielle",
+        url: "https://fr.react.dev",
+      },
     ],
     prevModule: "todo-app",
     nextModule: "portfolio",
   },
 
-  "portfolio": {
+  portfolio: {
     id: "portfolio",
     title: "🔨 Portfolio personnel avec React",
     duration: "4h",
@@ -1056,7 +1101,8 @@ function Form() {
     steps: [
       {
         title: "Créer le projet Next.js",
-        content: "Next.js est la façon standard de créer des apps React en 2026. Le déploiement sur Vercel est gratuit et en 1 clic.",
+        content:
+          "Next.js est la façon standard de créer des apps React en 2026. Le déploiement sur Vercel est gratuit et en 1 clic.",
         code: `# Créer le projet
 npx create-next-app@latest mon-portfolio --typescript --tailwind --app
 
@@ -1076,7 +1122,8 @@ src/
       },
       {
         title: "Composant Hero",
-        content: "La première section que voient les visiteurs. Elle doit répondre à : qui es-tu ? que fais-tu ? comment te contacter ?",
+        content:
+          "La première section que voient les visiteurs. Elle doit répondre à : qui es-tu ? que fais-tu ? comment te contacter ?",
         code: `export function Hero() {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center text-center px-4">
@@ -1100,7 +1147,8 @@ src/
       },
       {
         title: "Déployer sur Vercel",
-        content: "Push ton code sur GitHub puis connecte le repo à Vercel pour un déploiement automatique.",
+        content:
+          "Push ton code sur GitHub puis connecte le repo à Vercel pour un déploiement automatique.",
         code: `# 1. Push sur GitHub
 git push origin main
 
@@ -1138,12 +1186,14 @@ git push origin main
     steps: [
       {
         title: "Les éléments d'une bonne offre",
-        content: "Une offre sérieuse contient toujours ces informations. Si l'une manque, demande avant de postuler.",
+        content:
+          "Une offre sérieuse contient toujours ces informations. Si l'une manque, demande avant de postuler.",
         tip: "Checklist : scope clair ✓, deadline réaliste ✓, budget précisé ✓, client vérifié ✓",
       },
       {
         title: "Signaux d'alarme à éviter",
-        content: "Certaines offres sont des pièges. Apprends à les reconnaître pour éviter les mauvaises surprises.",
+        content:
+          "Certaines offres sont des pièges. Apprends à les reconnaître pour éviter les mauvaises surprises.",
         tip: "Fuis : 'budget illimité', 'projet simple en 1h', 'on verra pour la rémunération'.",
       },
     ],
@@ -1151,7 +1201,7 @@ git push origin main
     nextModule: "apply",
   },
 
-  "apply": {
+  apply: {
     id: "apply",
     title: "Postuler et parler à un client",
     duration: "30 min",
@@ -1167,7 +1217,8 @@ git push origin main
     steps: [
       {
         title: "Template de candidature",
-        content: "Utilise ce template et personnalise-le pour chaque offre. La personnalisation fait toute la différence.",
+        content:
+          "Utilise ce template et personnalise-le pour chaque offre. La personnalisation fait toute la différence.",
         code: `Bonjour [Prénom du client],
 
 J'ai lu votre offre pour [titre du projet] et je pense
@@ -1196,7 +1247,7 @@ Budget proposé : [X]€ avec [Y acompte / Z à la livraison]
     nextModule: "quote",
   },
 
-  "quote": {
+  quote: {
     id: "quote",
     title: "Faire un devis simple",
     duration: "25 min",
@@ -1347,7 +1398,8 @@ Citation : "J'ai besoin d'un résultat pro en 10 minutes."`,
       },
       {
         title: "Pairing typographique",
-        content: "Combine une police serif ou display pour les titres et une sans-serif pour le corps.",
+        content:
+          "Combine une police serif ou display pour les titres et une sans-serif pour le corps.",
         code: `/* Google Fonts — Paire classique */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
 
@@ -1407,7 +1459,10 @@ Shift+A     → Ajouter un Auto Layout`,
     ],
     resources: [
       { label: "Figma — Créer un compte gratuit", url: "https://figma.com" },
-      { label: "Figma Learn — Tutoriels officiels", url: "https://help.figma.com/hc/en-us/categories/360002051613" },
+      {
+        label: "Figma Learn — Tutoriels officiels",
+        url: "https://help.figma.com/hc/en-us/categories/360002051613",
+      },
     ],
     prevModule: "color-theory",
     nextModule: "first-wireframe",
@@ -1429,12 +1484,14 @@ Shift+A     → Ajouter un Auto Layout`,
     steps: [
       {
         title: "Setup Figma",
-        content: "Crée un nouveau fichier Figma. Ajoute 3 frames iPhone 14 (375×812).",
+        content:
+          "Crée un nouveau fichier Figma. Ajoute 3 frames iPhone 14 (375×812).",
         tip: "Nomme tes frames : '01 — Liste', '02 — Ajouter', '03 — Détail'. L'ordre et les noms comptent.",
       },
       {
         title: "Wireframer les 3 écrans",
-        content: "Utilise uniquement des rectangles gris et du texte. Le wireframe teste la structure, pas le style.",
+        content:
+          "Utilise uniquement des rectangles gris et du texte. Le wireframe teste la structure, pas le style.",
         tip: "Si tu passes plus de 5 min sur une décision visuelle, c'est que tu designes et non que tu wireframes.",
       },
     ],
@@ -1459,7 +1516,8 @@ Shift+A     → Ajouter un Auto Layout`,
     steps: [
       {
         title: "Types et variables",
-        content: "Python est dynamiquement typé. Pas besoin de déclarer le type, Python l'infère.",
+        content:
+          "Python est dynamiquement typé. Pas besoin de déclarer le type, Python l'infère.",
         code: `# Types de base
 name    = "Alice"           # str
 age     = 25                # int
@@ -1481,7 +1539,8 @@ evens   = [x for x in range(20) if x % 2 == 0]`,
       },
       {
         title: "Fonctions",
-        content: "En Python, une bonne fonction fait UNE chose et la fait bien.",
+        content:
+          "En Python, une bonne fonction fait UNE chose et la fait bien.",
         code: `def calculate_average(numbers: list[float]) -> float:
     """Calcule la moyenne d'une liste de nombres."""
     if not numbers:
@@ -1504,7 +1563,10 @@ sorted_names = sorted(["Bob", "alice", "Charlie"], key=lambda s: s.lower())`,
       },
     ],
     resources: [
-      { label: "Python.org — Tutoriel officiel FR", url: "https://docs.python.org/fr/3/tutorial/" },
+      {
+        label: "Python.org — Tutoriel officiel FR",
+        url: "https://docs.python.org/fr/3/tutorial/",
+      },
     ],
     nextModule: "pandas-intro",
   },
@@ -1543,7 +1605,8 @@ print(df.columns.tolist()) # liste des colonnes`,
       },
       {
         title: "Filtrer et agréger",
-        content: "Sélectionner les bonnes données est 50% du travail d'analyse.",
+        content:
+          "Sélectionner les bonnes données est 50% du travail d'analyse.",
         code: `# Sélectionner une colonne
 ages = df["age"]           # Series
 subset = df[["name", "age"]]  # DataFrame
@@ -1582,7 +1645,8 @@ df_sorted = df.sort_values("age", ascending=False)`,
     steps: [
       {
         title: "Télécharger le dataset",
-        content: "Va sur data.gouv.fr et télécharge le fichier nat2023.csv (prénoms nationaux).",
+        content:
+          "Va sur data.gouv.fr et télécharge le fichier nat2023.csv (prénoms nationaux).",
         code: `import pandas as pd
 
 df = pd.read_csv(
@@ -1598,7 +1662,8 @@ print(df.head())`,
       },
       {
         title: "5 questions à répondre",
-        content: "Pour chaque question, écris le code pandas et affiche le résultat.",
+        content:
+          "Pour chaque question, écris le code pandas et affiche le résultat.",
         code: `# 1. Top 10 prénoms masculins de 2023
 top_garcons = (
     df[(df["sexe"] == 1) & (df["annais"] == "2023")]
@@ -1623,7 +1688,10 @@ print(df["preusuel"].nunique())
       },
     ],
     resources: [
-      { label: "Dataset prénoms — data.gouv.fr", url: "https://www.data.gouv.fr/fr/datasets/fichier-des-prenoms/" },
+      {
+        label: "Dataset prénoms — data.gouv.fr",
+        url: "https://www.data.gouv.fr/fr/datasets/fichier-des-prenoms/",
+      },
     ],
     prevModule: "pandas-intro",
     nextModule: "data-cleaning",
@@ -1645,7 +1713,8 @@ print(df["preusuel"].nunique())
     steps: [
       {
         title: "Valeurs manquantes",
-        content: "NaN (Not a Number) est la façon dont Pandas représente une valeur manquante.",
+        content:
+          "NaN (Not a Number) est la façon dont Pandas représente une valeur manquante.",
         code: `# Détecter
 df.isnull().sum()           # par colonne
 df.isnull().mean() * 100    # % manquant
@@ -1669,7 +1738,7 @@ df["city"].fillna("Inconnu", inplace=True)           # valeur fixe
     nextModule: "matplotlib",
   },
 
-  "matplotlib": {
+  matplotlib: {
     id: "matplotlib",
     title: "Matplotlib & Seaborn — Graphiques",
     duration: "60 min",
@@ -1717,7 +1786,7 @@ plt.show()`,
     nextModule: "plotly",
   },
 
-  "plotly": {
+  plotly: {
     id: "plotly",
     title: "Plotly — Graphiques interactifs",
     duration: "45 min",
@@ -1765,7 +1834,7 @@ fig.write_html("viz.html")  # exporte en HTML partageable`,
     nextModule: "dashboard",
   },
 
-  "dashboard": {
+  dashboard: {
     id: "dashboard",
     title: "🔨 Dashboard interactif avec Plotly Dash",
     duration: "3h",
@@ -1781,7 +1850,8 @@ fig.write_html("viz.html")  # exporte en HTML partageable`,
     steps: [
       {
         title: "Structure d'une app Dash",
-        content: "Dash combine Flask (backend) et React (frontend). Toi tu écris juste du Python.",
+        content:
+          "Dash combine Flask (backend) et React (frontend). Toi tu écris juste du Python.",
         code: `from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 import pandas as pd
@@ -1887,7 +1957,10 @@ ORDER BY avg_price DESC;`,
       },
     ],
     resources: [
-      { label: "SQLZoo — Exercices interactifs", url: "https://sqlzoo.net/wiki/SQL_Tutorial/fr" },
+      {
+        label: "SQLZoo — Exercices interactifs",
+        url: "https://sqlzoo.net/wiki/SQL_Tutorial/fr",
+      },
     ],
     prevModule: "dashboard",
     nextModule: "sql-advanced",
@@ -1909,7 +1982,8 @@ ORDER BY avg_price DESC;`,
     steps: [
       {
         title: "Fonctions de fenêtrage",
-        content: "Les window functions calculent sur un ensemble de lignes sans les agréger.",
+        content:
+          "Les window functions calculent sur un ensemble de lignes sans les agréger.",
         code: `-- Rang par catégorie
 SELECT
   name,
@@ -1948,7 +2022,7 @@ FROM monthly_revenue;`,
     nextModule: "report",
   },
 
-  "report": {
+  report: {
     id: "report",
     title: "🔨 Rapport d'analyse complet",
     duration: "4h",
@@ -1964,12 +2038,14 @@ FROM monthly_revenue;`,
     steps: [
       {
         title: "Choisir et préparer",
-        content: "Choisis un dataset sur data.gouv.fr ou Kaggle qui t'intéresse vraiment. L'intérêt personnel se voit dans l'analyse.",
+        content:
+          "Choisis un dataset sur data.gouv.fr ou Kaggle qui t'intéresse vraiment. L'intérêt personnel se voit dans l'analyse.",
         tip: "Critères : au moins 10 000 lignes, au moins 5 colonnes, données des 5 dernières années.",
       },
       {
         title: "Jupyter Notebook structuré",
-        content: "Structure ton notebook en sections claires avec des cellules Markdown entre les analyses.",
+        content:
+          "Structure ton notebook en sections claires avec des cellules Markdown entre les analyses.",
         code: `# Structure recommandée
 
 ## 1. Introduction et contexte
@@ -2495,8 +2571,7 @@ history.push("home");
 history.push("profile");
 
 const lastPage = history.pop();`,
-        practice:
-          "Simule un historique de navigation avec push et pop.",
+        practice: "Simule un historique de navigation avec push et pop.",
       },
       {
         title: "Queue : premier arrivé, premier sorti",
@@ -2510,7 +2585,7 @@ const next = queue.shift();`,
     nextModule: "recursion",
   },
 
-  "recursion": {
+  recursion: {
     id: "recursion",
     title: "Récursion — Décomposer un problème",
     duration: "65 min",
@@ -2574,8 +2649,7 @@ const next = queue.shift();`,
   }
   return false;
 }`,
-        practice:
-          "Teste mentalement la recherche de 7 dans [1, 3, 5, 7, 9].",
+        practice: "Teste mentalement la recherche de 7 dans [1, 3, 5, 7, 9].",
       },
       {
         title: "Trier pour simplifier",
@@ -2720,7 +2794,8 @@ Tests:`,
     steps: [
       {
         title: "Créer ton premier composant",
-        content: "Dans Figma, sélectionne un groupe et fais Cmd+Alt+K pour en faire un composant.",
+        content:
+          "Dans Figma, sélectionne un groupe et fais Cmd+Alt+K pour en faire un composant.",
         tip: "Nomme tes composants avec des / pour créer une hiérarchie : Button/Primary, Button/Secondary, Button/Ghost",
       },
     ],
@@ -2733,7 +2808,8 @@ Tests:`,
     title: "Grilles, espacement & alignement",
     duration: "45 min",
     type: "lesson",
-    intro: "Une bonne grille est invisible — mais son absence se voit immédiatement.",
+    intro:
+      "Une bonne grille est invisible — mais son absence se voit immédiatement.",
     objectives: [
       "Utiliser une grille 8pt system",
       "Créer des marges et gouttières cohérentes",
@@ -2742,7 +2818,8 @@ Tests:`,
     steps: [
       {
         title: "Le système 8pt",
-        content: "Tous tes espacements sont des multiples de 8 : 8, 16, 24, 32, 48, 64...",
+        content:
+          "Tous tes espacements sont des multiples de 8 : 8, 16, 24, 32, 48, 64...",
         tip: "Le 8pt system vient de Material Design. Sur mobile, utilise aussi 4pt pour les micro-espacements.",
       },
     ],
@@ -2755,7 +2832,8 @@ Tests:`,
     title: "🔨 Design Kit complet",
     duration: "3h",
     type: "project",
-    intro: "Tu vas créer un kit UI complet dans Figma : boutons, inputs, cards, navigation, badges.",
+    intro:
+      "Tu vas créer un kit UI complet dans Figma : boutons, inputs, cards, navigation, badges.",
     objectives: [
       "Créer 20+ composants cohérents",
       "Définir les variants (tailles, états)",
@@ -2763,7 +2841,12 @@ Tests:`,
       "Publier sur Figma Community",
     ],
     steps: [
-      { title: "Démarrer le kit", content: "Crée une page 'Components' dans Figma. Organise-la en sections : Fondations, Atoms, Molecules, Organisms.", tip: "Suit la méthodologie Atomic Design de Brad Frost." },
+      {
+        title: "Démarrer le kit",
+        content:
+          "Crée une page 'Components' dans Figma. Organise-la en sections : Fondations, Atoms, Molecules, Organisms.",
+        tip: "Suit la méthodologie Atomic Design de Brad Frost.",
+      },
     ],
     prevModule: "spacing-grid",
     nextModule: "dark-mode",
@@ -2774,10 +2857,20 @@ Tests:`,
     title: "🔨 Passer ton UI en dark mode",
     duration: "2h",
     type: "exercise",
-    intro: "Prends ton UI Kit et crée une version dark mode. Exercice d'alternance de palette.",
-    objectives: ["Créer les variables dark dans Figma", "Adapter contrastes et lisibilité", "Faire coexister les deux thèmes"],
+    intro:
+      "Prends ton UI Kit et crée une version dark mode. Exercice d'alternance de palette.",
+    objectives: [
+      "Créer les variables dark dans Figma",
+      "Adapter contrastes et lisibilité",
+      "Faire coexister les deux thèmes",
+    ],
     steps: [
-      { title: "Variables Figma", content: "Figma Variables te permet de stocker les couleurs et de les swapper d'un thème à l'autre en un clic.", tip: "Sur les variables de couleur, crée un groupe 'light' et un groupe 'dark'." },
+      {
+        title: "Variables Figma",
+        content:
+          "Figma Variables te permet de stocker les couleurs et de les swapper d'un thème à l'autre en un clic.",
+        tip: "Sur les variables de couleur, crée un groupe 'light' et un groupe 'dark'.",
+      },
     ],
     prevModule: "ui-kit",
     nextModule: "case-study",
@@ -2788,7 +2881,8 @@ Tests:`,
     title: "Rédiger un case study convaincant",
     duration: "45 min",
     type: "lesson",
-    intro: "Le case study est la pièce maîtresse de ton portfolio design. Il montre ton processus, pas juste le résultat.",
+    intro:
+      "Le case study est la pièce maîtresse de ton portfolio design. Il montre ton processus, pas juste le résultat.",
     objectives: [
       "Structurer un case study en 5 sections",
       "Documenter ton processus de design",
@@ -2810,10 +2904,20 @@ Tests:`,
     title: "🔨 Portfolio Behance / Figma Community",
     duration: "4h",
     type: "project",
-    intro: "Publie ton meilleur case study sur Behance OU Figma Community. C'est ta vitrine publique.",
-    objectives: ["Sélectionner ton meilleur projet", "Rédiger le case study complet", "Publier et promouvoir"],
+    intro:
+      "Publie ton meilleur case study sur Behance OU Figma Community. C'est ta vitrine publique.",
+    objectives: [
+      "Sélectionner ton meilleur projet",
+      "Rédiger le case study complet",
+      "Publier et promouvoir",
+    ],
     steps: [
-      { title: "Publier sur Behance", content: "Behance est le réseau n°1 des designers. Crée un compte et publie ton projet avec 8-12 images.", tip: "Tague tes projets correctement : UI, Mobile, Web Design, Branding. Le SEO Behance dépend des tags." },
+      {
+        title: "Publier sur Behance",
+        content:
+          "Behance est le réseau n°1 des designers. Crée un compte et publie ton projet avec 8-12 images.",
+        tip: "Tague tes projets correctement : UI, Mobile, Web Design, Branding. Le SEO Behance dépend des tags.",
+      },
     ],
     prevModule: "case-study",
     nextModule: "client-pitch",
@@ -2824,7 +2928,8 @@ Tests:`,
     title: "Présenter son design à un client",
     duration: "30 min",
     type: "lesson",
-    intro: "La présentation compte autant que le design. Un bon pitch peut vendre un design imparfait.",
+    intro:
+      "La présentation compte autant que le design. Un bon pitch peut vendre un design imparfait.",
     objectives: [
       "Structurer une présentation de 10 minutes",
       "Justifier ses choix avec des données",
@@ -2833,7 +2938,8 @@ Tests:`,
     steps: [
       {
         title: "Le framework de présentation",
-        content: "Contexte (2min) → Problème (2min) → Solution (4min) → Prochaines étapes (2min).",
+        content:
+          "Contexte (2min) → Problème (2min) → Solution (4min) → Prochaines étapes (2min).",
         tip: "Ne commence jamais par montrer le design. Rappelle d'abord le problème que tu résous.",
       },
     ],
@@ -2841,7 +2947,10 @@ Tests:`,
   },
 };
 
-const MODULE_CONTENT_TRANSLATIONS: Record<string, Partial<Record<Language, ModuleContentTranslation>>> = {
+const MODULE_CONTENT_TRANSLATIONS: Record<
+  string,
+  Partial<Record<Language, ModuleContentTranslation>>
+> = {
   "html-basics": {
     en: {
       intro:
@@ -2900,7 +3009,8 @@ const MODULE_CONTENT_TRANSLATIONS: Record<string, Partial<Record<Language, Modul
         },
         {
           title: "Links, images, and lists",
-          content: "These are the elements you will use in almost every project.",
+          content:
+            "These are the elements you will use in almost every project.",
           code: `<!-- Link -->
 <a href="https://example.com" target="_blank" rel="noopener">
   Visit the website
@@ -2931,7 +3041,10 @@ const MODULE_CONTENT_TRANSLATIONS: Record<string, Partial<Record<Language, Modul
         },
       ],
       resources: [
-        { label: "MDN — HTML reference", url: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+        {
+          label: "MDN — HTML reference",
+          url: "https://developer.mozilla.org/en-US/docs/Web/HTML",
+        },
         { label: "W3C validator", url: "https://validator.w3.org" },
       ],
     },
@@ -2992,7 +3105,8 @@ const MODULE_CONTENT_TRANSLATIONS: Record<string, Partial<Record<Language, Modul
         },
         {
           title: "Enlaces, imágenes y listas",
-          content: "Estos son los elementos que usarás en casi todos los proyectos.",
+          content:
+            "Estos son los elementos que usarás en casi todos los proyectos.",
           code: `<!-- Enlace -->
 <a href="https://example.com" target="_blank" rel="noopener">
   Visitar el sitio
@@ -3023,14 +3137,20 @@ const MODULE_CONTENT_TRANSLATIONS: Record<string, Partial<Record<Language, Modul
         },
       ],
       resources: [
-        { label: "MDN — Referencia HTML", url: "https://developer.mozilla.org/es/docs/Web/HTML" },
+        {
+          label: "MDN — Referencia HTML",
+          url: "https://developer.mozilla.org/es/docs/Web/HTML",
+        },
         { label: "Validador W3C", url: "https://validator.w3.org" },
       ],
     },
   },
 };
 
-function getLocalizedModule(module: ModuleContent, language: Language): ModuleContent {
+function getLocalizedModule(
+  module: ModuleContent,
+  language: Language,
+): ModuleContent {
   const translation = MODULE_CONTENT_TRANSLATIONS[module.id]?.[language];
   return {
     ...module,
@@ -3042,28 +3162,67 @@ function getLocalizedModule(module: ModuleContent, language: Language): ModuleCo
 // ─── Path → modules ordered list (for prev/next navigation) ──────────────────
 const PATH_MODULE_ORDER: Record<string, string[]> = {
   "web-developer": [
-    "html-basics", "css-basics", "first-landing", "git-basics", "github-publish",
-    "js-basics", "js-dom", "todo-app", "react-intro", "portfolio",
-    "read-offer", "apply", "quote", "marketplace-intro",
+    "html-basics",
+    "css-basics",
+    "first-landing",
+    "git-basics",
+    "github-publish",
+    "js-basics",
+    "js-dom",
+    "todo-app",
+    "react-intro",
+    "portfolio",
+    "read-offer",
+    "apply",
+    "quote",
+    "marketplace-intro",
   ],
   "ui-designer": [
-    "design-thinking", "color-theory", "figma-intro", "first-wireframe",
-    "ui-components", "spacing-grid", "ui-kit", "dark-mode",
-    "case-study", "portfolio-design", "client-pitch",
+    "design-thinking",
+    "color-theory",
+    "figma-intro",
+    "first-wireframe",
+    "ui-components",
+    "spacing-grid",
+    "ui-kit",
+    "dark-mode",
+    "case-study",
+    "portfolio-design",
+    "client-pitch",
   ],
   "data-analyst": [
-    "python-intro", "pandas-intro", "first-analysis", "data-cleaning",
-    "matplotlib", "plotly", "dashboard",
-    "sql-basics", "sql-advanced", "report", "data-marketplace",
+    "python-intro",
+    "pandas-intro",
+    "first-analysis",
+    "data-cleaning",
+    "matplotlib",
+    "plotly",
+    "dashboard",
+    "sql-basics",
+    "sql-advanced",
+    "report",
+    "data-marketplace",
   ],
   "programming-languages": [
-    "language-choice", "python-programming", "typescript-programming",
-    "java-programming", "csharp-programming", "c-programming", "cpp-programming",
+    "language-choice",
+    "python-programming",
+    "typescript-programming",
+    "java-programming",
+    "csharp-programming",
+    "c-programming",
+    "cpp-programming",
   ],
-  "algorithms": [
-    "algorithmic-thinking", "complexity-big-o", "arrays-strings",
-    "hashmaps-sets", "stacks-queues", "recursion", "sorting-searching",
-    "trees-graphs", "dynamic-programming-intro", "algorithm-challenges",
+  algorithms: [
+    "algorithmic-thinking",
+    "complexity-big-o",
+    "arrays-strings",
+    "hashmaps-sets",
+    "stacks-queues",
+    "recursion",
+    "sorting-searching",
+    "trees-graphs",
+    "dynamic-programming-intro",
+    "algorithm-challenges",
   ],
 };
 
@@ -3073,7 +3232,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ path: string; moduleId: string }>;
 }): Promise<Metadata> {
-  const languageCookie = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const languageCookie = cookies()
+    .get("juniorcode-language")
+    ?.value?.toLowerCase()
+    .slice(0, 2);
   const language = SUPPORTED_LANGUAGES.includes(languageCookie as Language)
     ? (languageCookie as Language)
     : "fr";
@@ -3094,7 +3256,10 @@ export default async function ModulePage({
 }: {
   readonly params: Promise<{ path: string; moduleId: string }>;
 }) {
-  const languageCookie = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const languageCookie = cookies()
+    .get("juniorcode-language")
+    ?.value?.toLowerCase()
+    .slice(0, 2);
   const language = SUPPORTED_LANGUAGES.includes(languageCookie as Language)
     ? (languageCookie as Language)
     : "fr";
@@ -3105,12 +3270,13 @@ export default async function ModulePage({
   if (!mod) notFound();
   const localizedMod = getLocalizedModule(mod, language);
 
-  const order    = PATH_MODULE_ORDER[path] ?? [];
-  const curIdx   = order.indexOf(moduleId);
-  const prevId   = curIdx > 0 ? order[curIdx - 1] : null;
-  const nextId   = curIdx >= 0 && curIdx < order.length - 1 ? order[curIdx + 1] : null;
-  const prevMod  = prevId ? MODULES[prevId] : null;
-  const nextMod  = nextId ? MODULES[nextId] : null;
+  const order = PATH_MODULE_ORDER[path] ?? [];
+  const curIdx = order.indexOf(moduleId);
+  const prevId = curIdx > 0 ? order[curIdx - 1] : null;
+  const nextId =
+    curIdx >= 0 && curIdx < order.length - 1 ? order[curIdx + 1] : null;
+  const prevMod = prevId ? MODULES[prevId] : null;
+  const nextMod = nextId ? MODULES[nextId] : null;
   const pathLabel = PATH_LABELS[path]?.[language] ?? path.replaceAll("-", " ");
 
   return (
@@ -3121,8 +3287,16 @@ export default async function ModulePage({
         module={localizedMod}
         path={path}
         pathLabel={pathLabel}
-        prevModule={prevMod ? { id: prevMod.id, title: getModuleTitle(prevMod, language) } : null}
-        nextModule={nextMod ? { id: nextMod.id, title: getModuleTitle(nextMod, language) } : null}
+        prevModule={
+          prevMod
+            ? { id: prevMod.id, title: getModuleTitle(prevMod, language) }
+            : null
+        }
+        nextModule={
+          nextMod
+            ? { id: nextMod.id, title: getModuleTitle(nextMod, language) }
+            : null
+        }
       />
       <Footer />
     </div>

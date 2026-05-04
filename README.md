@@ -9,21 +9,21 @@
 
 JuniorCode est un **écosystème complet** en deux piliers :
 
-| Pilier | Description |
-|--------|-------------|
-| **JuniorCode Marketplace** | Mise en relation étudiants ↔ startups/assos pour des projets réels |
-| **JuniorCode Learn** | Parcours d'apprentissage orienté action pour devenir un junior employable |
+| Pilier                     | Description                                                               |
+| -------------------------- | ------------------------------------------------------------------------- |
+| **JuniorCode Marketplace** | Mise en relation étudiants ↔ startups/assos pour des projets réels        |
+| **JuniorCode Learn**       | Parcours d'apprentissage orienté action pour devenir un junior employable |
 
 ---
 
 ## 👥 Les 4 types d'utilisateurs
 
-| Rôle | Description |
-|------|-------------|
-| 🎓 **Apprenant** | Débutant qui suit le parcours Learn |
-| 👨‍💻 **Étudiant** | Junior qui postule à des projets marketplace |
-| 🏢 **Client** | Startup / association qui publie des projets |
-| 🛡️ **Admin** | Gestion de la plateforme |
+| Rôle             | Description                                  |
+| ---------------- | -------------------------------------------- |
+| 🎓 **Apprenant** | Débutant qui suit le parcours Learn          |
+| 👨‍💻 **Étudiant**  | Junior qui postule à des projets marketplace |
+| 🏢 **Client**    | Startup / association qui publie des projets |
+| 🛡️ **Admin**     | Gestion de la plateforme                     |
 
 ---
 
@@ -50,6 +50,7 @@ JuniorCode/
 ## 🛠️ Stack Technique
 
 ### Frontend
+
 - **Next.js 14** (App Router)
 - **TypeScript**
 - **Tailwind CSS**
@@ -58,6 +59,7 @@ JuniorCode/
 - **React Query / TanStack Query** (data fetching)
 
 ### Backend
+
 - **Supabase** (BaaS complet)
   - Auth (email, GitHub, Google OAuth)
   - PostgreSQL Database
@@ -66,6 +68,7 @@ JuniorCode/
   - Edge Functions (logique custom)
 
 ### Tooling
+
 - **Turborepo** (monorepo)
 - **pnpm** (package manager)
 - **Vitest** (tests)
@@ -73,6 +76,7 @@ JuniorCode/
 - **ESLint + Prettier**
 
 ### Déploiement
+
 - **Vercel** (frontend)
 - **Supabase Cloud** (backend/db)
 - **GitHub Actions** (CI/CD)
@@ -83,8 +87,8 @@ JuniorCode/
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/<votre-pseudo>/juniorcommunity.git
-cd juniorcommunity
+git clone https://github.com/ismailrh06/JuniorCommunity.git
+cd JuniorCommunity
 
 # 2. Installer les dépendances
 pnpm install

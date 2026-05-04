@@ -6,12 +6,15 @@ import { AuthForm } from "@/components/auth/auth-form";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { Language } from "@/lib/i18n/translations";
 
-const COPY: Record<Language, {
-  subtitle: string;
-  title: string;
-  noAccount: string;
-  createAccount: string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    subtitle: string;
+    title: string;
+    noAccount: string;
+    createAccount: string;
+  }
+> = {
   fr: {
     subtitle: "Bon retour 👋",
     title: "Connexion",
@@ -41,7 +44,10 @@ export default function LoginPage() {
       <h1 className="text-2xl font-bold text-gray-900 mb-1">{copy.title}</h1>
       <p className="text-gray-500 text-sm mb-6">
         {copy.noAccount}{" "}
-        <Link href="/auth/register" className="text-brand-600 font-medium hover:underline">
+        <Link
+          href="/auth/register"
+          className="text-brand-600 font-medium hover:underline"
+        >
           {copy.createAccount}
         </Link>
       </p>

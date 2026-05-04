@@ -2,21 +2,18 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: ["class"],
-  content: [
-    "./src/**/*.{ts,tsx}",
-    "../../packages/ui/src/**/*.{ts,tsx}",
-  ],
+  content: ["./src/**/*.{ts,tsx}", "../../packages/ui/src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
         // JuniorCode Brand Colors
         brand: {
-          50:  "#eff6ff",
+          50: "#eff6ff",
           100: "#dbeafe",
           200: "#bfdbfe",
           300: "#93c5fd",
           400: "#60a5fa",
-          500: "#3b82f6",  // Primary
+          500: "#3b82f6", // Primary
           600: "#2563eb",
           700: "#1d4ed8",
           800: "#1e40af",
@@ -24,7 +21,7 @@ const config: Config = {
         },
         // Learn pillar color
         learn: {
-          50:  "#f0fdf4",
+          50: "#f0fdf4",
           100: "#dcfce7",
           200: "#bbf7d0",
           300: "#86efac",
@@ -35,7 +32,7 @@ const config: Config = {
         },
         // Marketplace pillar color
         market: {
-          50:  "#fdf4ff",
+          50: "#fdf4ff",
           100: "#fae8ff",
           200: "#f5d0fe",
           300: "#d8b4fe",

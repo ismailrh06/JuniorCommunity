@@ -16,30 +16,44 @@ export async function POST(
 
   if (isMock) {
     // In mock mode, just validate the body and acknowledge
-    const body = await request.json() as { coverLetter?: string; proposedBudget?: number };
+    const body = (await request.json()) as {
+      coverLetter?: string;
+      proposedBudget?: number;
+    };
     if (!body.coverLetter?.trim()) {
-      return NextResponse.json({ error: "coverLetter required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "coverLetter required" },
+        { status: 400 },
+      );
     }
     return NextResponse.json({ ok: true, mode: "mock", projectId });
   }
 
   const supabase = await getSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.json() as {
+  const body = (await request.json()) as {
     coverLetter?: string;
     proposedBudget?: number;
     proposedDurationDays?: number;
   };
 
   if (!body.coverLetter?.trim()) {
-    return NextResponse.json({ error: "coverLetter required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "coverLetter required" },
+      { status: 400 },
+    );
   }
   if (!body.proposedBudget || !body.proposedDurationDays) {
-    return NextResponse.json({ error: "proposedBudget and proposedDurationDays required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "proposedBudget and proposedDurationDays required" },
+      { status: 400 },
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,7 +68,10 @@ export async function POST(
 
   if (error) {
     if (error.message.includes("unique")) {
-      return NextResponse.json({ error: "Already applied to this project" }, { status: 409 });
+      return NextResponse.json(
+        { error: "Already applied to this project" },
+        { status: 409 },
+      );
     }
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

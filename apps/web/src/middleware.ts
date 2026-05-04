@@ -3,15 +3,27 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { NextRequest } from "next/server";
 import type { Database } from "@juniorcode/db";
 
-const PROTECTED_ROUTES = ["/dashboard", "/dashboard/", "/onboarding", "/settings", "/admin"];
+const PROTECTED_ROUTES = [
+  "/dashboard",
+  "/dashboard/",
+  "/onboarding",
+  "/settings",
+  "/admin",
+];
 const ADMIN_ROUTES = ["/admin"];
 const AUTH_ROUTES = ["/auth/login", "/auth/register"];
 
-function redirectTo(request: NextRequest, pathname: string, searchParams?: Record<string, string>) {
+function redirectTo(
+  request: NextRequest,
+  pathname: string,
+  searchParams?: Record<string, string>,
+) {
   const url = request.nextUrl.clone();
   url.pathname = pathname;
   if (searchParams) {
-    Object.entries(searchParams).forEach(([k, v]) => url.searchParams.set(k, v));
+    Object.entries(searchParams).forEach(([k, v]) =>
+      url.searchParams.set(k, v),
+    );
   }
   return NextResponse.redirect(url);
 }
@@ -19,7 +31,9 @@ function redirectTo(request: NextRequest, pathname: string, searchParams?: Recor
 function getMockRole(cookieValue: string | undefined): string | null {
   if (!cookieValue) return null;
   try {
-    const user = JSON.parse(Buffer.from(cookieValue, "base64").toString("utf-8")) as { role?: string };
+    const user = JSON.parse(
+      Buffer.from(cookieValue, "base64").toString("utf-8"),
+    ) as { role?: string };
     return user.role ?? null;
   } catch {
     return null;
@@ -55,7 +69,9 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const isProduction = process.env.NODE_ENV === "production";
-  const isMockMode = !isProduction && (!supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder"));
+  const isMockMode =
+    !isProduction &&
+    (!supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder"));
 
   if (isMockMode) return handleMockMode(request);
 
@@ -63,26 +79,24 @@ export async function middleware(request: NextRequest) {
 
   // eslint-disable-next-line @typescript-eslint/no-deprecated
   // @ts-ignore — false positive: we use getAll/setAll (non-deprecated API)
-  const supabase = createServerClient<Database>(
-    supabaseUrl,
-    supabaseKey,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
+  const supabase = createServerClient<Database>(supabaseUrl, supabaseKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
       },
-    }
-  );
+      setAll(
+        cookiesToSet: { name: string; value: string; options: CookieOptions }[],
+      ) {
+        cookiesToSet.forEach(({ name, value }) =>
+          request.cookies.set(name, value),
+        );
+        supabaseResponse = NextResponse.next({ request });
+        cookiesToSet.forEach(({ name, value, options }) =>
+          supabaseResponse.cookies.set(name, value, options),
+        );
+      },
+    },
+  });
 
   const {
     data: { user },
@@ -105,5 +119,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // eslint-disable-next-line no-useless-escape
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };

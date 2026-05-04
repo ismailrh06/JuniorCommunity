@@ -4,7 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { BookOpen, Briefcase, LayoutDashboard, Menu, X, LogIn, LogOut, ShieldCheck, User } from "lucide-react";
+import {
+  BookOpen,
+  Briefcase,
+  LayoutDashboard,
+  Menu,
+  X,
+  LogIn,
+  LogOut,
+  ShieldCheck,
+  User,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/translations";
@@ -44,14 +54,16 @@ export function Navbar() {
       }
 
       const supabase = await getBrowserSupabase();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!alive) return;
       setIsLoggedIn(!!user);
       setUserName(
         (user?.user_metadata?.full_name as string | undefined) ??
-        user?.email?.split("@")[0] ??
-        ""
+          user?.email?.split("@")[0] ??
+          "",
       );
 
       if (!user) {
@@ -62,11 +74,13 @@ export function Navbar() {
       // Generated DB types can lag behind local Supabase migrations.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const db = supabase as any;
-      const { data: profile } = await db
+      const { data: profile } = (await db
         .from("profiles")
         .select("role, full_name")
         .eq("id", user.id)
-        .single() as { data: { role?: string; full_name?: string | null } | null };
+        .single()) as {
+        data: { role?: string; full_name?: string | null } | null;
+      };
 
       if (!alive) return;
       setUserRole(profile?.role ?? "");
@@ -111,9 +125,24 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { href: "/learn", label: messages.nav.learn, icon: BookOpen, color: "text-learn-600" },
-    { href: "/marketplace", label: messages.nav.marketplace, icon: Briefcase, color: "text-market-600" },
-    { href: "/dashboard", label: messages.nav.dashboard, icon: LayoutDashboard, color: "text-brand-600" },
+    {
+      href: "/learn",
+      label: messages.nav.learn,
+      icon: BookOpen,
+      color: "text-learn-600",
+    },
+    {
+      href: "/marketplace",
+      label: messages.nav.marketplace,
+      icon: Briefcase,
+      color: "text-market-600",
+    },
+    {
+      href: "/dashboard",
+      label: messages.nav.dashboard,
+      icon: LayoutDashboard,
+      color: "text-brand-600",
+    },
   ];
   const isAdmin = userRole === "admin";
 
@@ -121,7 +150,10 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-bold text-gray-900 text-lg">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-bold text-gray-900 text-lg"
+        >
           <Image
             src="/brand/new_logo.png"
             alt="JuniorCode"
@@ -143,7 +175,7 @@ export function Navbar() {
                 "flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-colors",
                 pathname.startsWith(href)
                   ? `bg-gray-100 ${color}`
-                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50",
               )}
             >
               <Icon className="h-4 w-4" />
@@ -164,7 +196,7 @@ export function Navbar() {
                   "rounded-lg px-2 py-1 text-xs font-semibold transition",
                   language === lang
                     ? "bg-brand-600 text-white"
-                    : "text-gray-500 hover:bg-gray-100"
+                    : "text-gray-500 hover:bg-gray-100",
                 )}
                 aria-label={`${messages.nav.language} ${lang}`}
               >
@@ -182,7 +214,7 @@ export function Navbar() {
                     "flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-colors",
                     pathname.startsWith("/admin")
                       ? "bg-red-50 text-red-700"
-                      : "text-gray-500 hover:text-red-700 hover:bg-red-50"
+                      : "text-gray-500 hover:text-red-700 hover:bg-red-50",
                   )}
                 >
                   <ShieldCheck className="h-4 w-4" />
@@ -233,7 +265,11 @@ export function Navbar() {
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Menu"
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </button>
       </div>
 
@@ -250,7 +286,7 @@ export function Navbar() {
                   "rounded-lg px-2 py-1 text-xs font-semibold transition",
                   language === lang
                     ? "bg-brand-600 text-white"
-                    : "text-gray-500 hover:bg-gray-100"
+                    : "text-gray-500 hover:bg-gray-100",
                 )}
                 aria-label={`${messages.nav.language} ${lang}`}
               >
@@ -269,7 +305,7 @@ export function Navbar() {
                   "flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-colors",
                   pathname.startsWith(href)
                     ? `bg-gray-100 ${color}`
-                    : "text-gray-600 hover:bg-gray-50"
+                    : "text-gray-600 hover:bg-gray-50",
                 )}
               >
                 <Icon className="h-4 w-4" />
@@ -299,7 +335,10 @@ export function Navbar() {
                   </Link>
                   <button
                     type="button"
-                    onClick={() => { setMobileOpen(false); handleLogout(); }}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      handleLogout();
+                    }}
                     className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-red-600 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
                   >
                     <LogOut className="h-4 w-4" />

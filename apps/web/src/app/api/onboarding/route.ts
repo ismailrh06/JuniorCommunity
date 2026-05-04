@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@juniorcode/db/server";
 
 export async function POST(request: Request) {
-  const body = await request.json() as {
+  const body = (await request.json()) as {
     goal: "learn" | "mission" | "portfolio";
     level: "beginner" | "some" | "experienced";
     path: string;
@@ -21,17 +21,19 @@ export async function POST(request: Request) {
   }
 
   const supabase = await getSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   // Resolve learning_path id from slug
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: learningPath } = await (supabase.from("learning_paths") as any)
+  const { data: learningPath } = (await (supabase.from("learning_paths") as any)
     .select("id")
     .eq("slug", path)
-    .single() as { data: { id: string } | null };
+    .single()) as { data: { id: string } | null };
 
   const upsertData = {
     user_id: user.id,
@@ -49,8 +51,10 @@ export async function POST(request: Request) {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error } = await (supabase.from("learner_profiles") as any)
-    .upsert(upsertData, { onConflict: "user_id" });
+  const { error } = await (supabase.from("learner_profiles") as any).upsert(
+    upsertData,
+    { onConflict: "user_id" },
+  );
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

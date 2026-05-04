@@ -67,7 +67,9 @@ test.describe("Dashboard — authenticated", () => {
   test("shows navigation to Learn and Marketplace", async ({ page }) => {
     await page.goto("/dashboard");
     const learnLink = page.getByRole("link", { name: /learn|apprendre/i });
-    const marketplaceLink = page.getByRole("link", { name: /marketplace|missions/i });
+    const marketplaceLink = page.getByRole("link", {
+      name: /marketplace|missions/i,
+    });
     await expect(learnLink).toBeVisible();
     await expect(marketplaceLink).toBeVisible();
   });
@@ -75,7 +77,9 @@ test.describe("Dashboard — authenticated", () => {
   test("shows XP or progress stats", async ({ page }) => {
     await page.goto("/dashboard");
     // Look for XP, points, or level indicator
-    await expect(page.getByText(/xp|level|niveau|points/i).first()).toBeVisible();
+    await expect(
+      page.getByText(/xp|level|niveau|points/i).first(),
+    ).toBeVisible();
   });
 });
 

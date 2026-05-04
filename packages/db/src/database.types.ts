@@ -27,20 +27,31 @@ export type Database = {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["profiles"]["Row"], "created_at" | "updated_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["profiles"]["Row"],
+          "created_at" | "updated_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
       };
       badges: {
         Row: {
           id: string;
-          slug: "html-basics" | "git-ready" | "js-starter" | "project-builder" | "verified-junior";
+          slug:
+            | "html-basics"
+            | "git-ready"
+            | "js-starter"
+            | "project-builder"
+            | "verified-junior";
           name: string;
           description: string;
           icon: string;
           color: string;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["badges"]["Row"], "id" | "created_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["badges"]["Row"],
+          "id" | "created_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["badges"]["Insert"]>;
       };
       user_badges: {
@@ -50,7 +61,10 @@ export type Database = {
           badge_id: string;
           earned_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["user_badges"]["Row"], "id" | "earned_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["user_badges"]["Row"],
+          "id" | "earned_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["user_badges"]["Insert"]>;
       };
       learning_paths: {
@@ -65,8 +79,13 @@ export type Database = {
           is_active: boolean;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["learning_paths"]["Row"], "id" | "created_at">;
-        Update: Partial<Database["public"]["Tables"]["learning_paths"]["Insert"]>;
+        Insert: Omit<
+          Database["public"]["Tables"]["learning_paths"]["Row"],
+          "id" | "created_at"
+        >;
+        Update: Partial<
+          Database["public"]["Tables"]["learning_paths"]["Insert"]
+        >;
       };
       lessons: {
         Row: {
@@ -84,7 +103,10 @@ export type Database = {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["lessons"]["Row"], "id" | "created_at" | "updated_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["lessons"]["Row"],
+          "id" | "created_at" | "updated_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["lessons"]["Insert"]>;
       };
       learner_profiles: {
@@ -105,8 +127,13 @@ export type Database = {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["learner_profiles"]["Row"], "id" | "created_at" | "updated_at">;
-        Update: Partial<Database["public"]["Tables"]["learner_profiles"]["Insert"]>;
+        Insert: Omit<
+          Database["public"]["Tables"]["learner_profiles"]["Row"],
+          "id" | "created_at" | "updated_at"
+        >;
+        Update: Partial<
+          Database["public"]["Tables"]["learner_profiles"]["Insert"]
+        >;
       };
       user_progress: {
         Row: {
@@ -117,8 +144,13 @@ export type Database = {
           started_at: string | null;
           completed_at: string | null;
         };
-        Insert: Omit<Database["public"]["Tables"]["user_progress"]["Row"], "id">;
-        Update: Partial<Database["public"]["Tables"]["user_progress"]["Insert"]>;
+        Insert: Omit<
+          Database["public"]["Tables"]["user_progress"]["Row"],
+          "id"
+        >;
+        Update: Partial<
+          Database["public"]["Tables"]["user_progress"]["Insert"]
+        >;
       };
       projects: {
         Row: {
@@ -140,7 +172,10 @@ export type Database = {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["projects"]["Row"], "id" | "created_at" | "updated_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["projects"]["Row"],
+          "id" | "created_at" | "updated_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["projects"]["Insert"]>;
       };
       applications: {
@@ -155,7 +190,10 @@ export type Database = {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["applications"]["Row"], "id" | "created_at" | "updated_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["applications"]["Row"],
+          "id" | "created_at" | "updated_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["applications"]["Insert"]>;
       };
       reviews: {
@@ -168,7 +206,10 @@ export type Database = {
           comment: string | null;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["reviews"]["Row"], "id" | "created_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["reviews"]["Row"],
+          "id" | "created_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["reviews"]["Insert"]>;
       };
       payments: {
@@ -180,10 +221,18 @@ export type Database = {
           amount: number;
           platform_fee: number;
           stripe_payment_intent_id: string | null;
-          status: "pending" | "processing" | "succeeded" | "failed" | "refunded";
+          status:
+            | "pending"
+            | "processing"
+            | "succeeded"
+            | "failed"
+            | "refunded";
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["payments"]["Row"], "id" | "created_at">;
+        Insert: Omit<
+          Database["public"]["Tables"]["payments"]["Row"],
+          "id" | "created_at"
+        >;
         Update: Partial<Database["public"]["Tables"]["payments"]["Insert"]>;
       };
       analytics_events: {
@@ -195,8 +244,13 @@ export type Database = {
           properties: Record<string, unknown>;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["analytics_events"]["Row"], "id" | "created_at">;
-        Update: Partial<Database["public"]["Tables"]["analytics_events"]["Insert"]>;
+        Insert: Omit<
+          Database["public"]["Tables"]["analytics_events"]["Row"],
+          "id" | "created_at"
+        >;
+        Update: Partial<
+          Database["public"]["Tables"]["analytics_events"]["Insert"]
+        >;
       };
     };
     Functions: {
@@ -209,7 +263,11 @@ export type Database = {
         Returns: void;
       };
       track_event: {
-        Args: { p_event: string; p_properties?: Record<string, unknown>; p_session_id?: string };
+        Args: {
+          p_event: string;
+          p_properties?: Record<string, unknown>;
+          p_session_id?: string;
+        };
         Returns: void;
       };
       is_admin: {

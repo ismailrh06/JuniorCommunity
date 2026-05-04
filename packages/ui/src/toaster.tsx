@@ -15,10 +15,7 @@ interface ToastItem {
   type?: "default" | "success" | "error" | "warning";
 }
 
-export function toast(
-  message: string,
-  options?: { type?: ToastItem["type"] }
-) {
+export function toast(message: string, options?: { type?: ToastItem["type"] }) {
   const item: ToastItem = { id: nextId++, message, type: options?.type };
   toastItems = [...toastItems, item];
   toastListeners.forEach((l) => l(toastItems));
@@ -29,12 +26,12 @@ export function toast(
 }
 
 toast.success = (message: string) => toast(message, { type: "success" });
-toast.error   = (message: string) => toast(message, { type: "error" });
+toast.error = (message: string) => toast(message, { type: "error" });
 
 const typeStyles: Record<string, string> = {
   default: "bg-gray-900 text-white",
   success: "bg-green-600 text-white",
-  error:   "bg-red-600 text-white",
+  error: "bg-red-600 text-white",
   warning: "bg-yellow-500 text-gray-900",
 };
 

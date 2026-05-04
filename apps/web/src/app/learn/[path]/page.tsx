@@ -29,38 +29,122 @@ const CURRICULUM: Record<string, LevelData[]> = {
       level: 1,
       title: "Fondations Web",
       modules: [
-        { id: "html-basics",    title: "HTML — Structure & sémantique",         duration: "45 min", type: "lesson",   free: true  },
-        { id: "css-basics",     title: "CSS — Styles & mise en page",           duration: "60 min", type: "lesson",   free: true  },
-        { id: "first-landing",  title: "🔨 Projet : Ta première landing page",  duration: "90 min", type: "project",  free: true  },
-        { id: "git-basics",     title: "Git & GitHub — Les bases",              duration: "45 min", type: "lesson",   free: true  },
-        { id: "github-publish", title: "🔨 Publier sur GitHub Pages",           duration: "30 min", type: "exercise", free: true  },
-        { id: "js-basics",      title: "JavaScript — Variables, fonctions, DOM",duration: "90 min", type: "lesson",   free: false },
+        {
+          id: "html-basics",
+          title: "HTML — Structure & sémantique",
+          duration: "45 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "css-basics",
+          title: "CSS — Styles & mise en page",
+          duration: "60 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "first-landing",
+          title: "🔨 Projet : Ta première landing page",
+          duration: "90 min",
+          type: "project",
+          free: true,
+        },
+        {
+          id: "git-basics",
+          title: "Git & GitHub — Les bases",
+          duration: "45 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "github-publish",
+          title: "🔨 Publier sur GitHub Pages",
+          duration: "30 min",
+          type: "exercise",
+          free: true,
+        },
+        {
+          id: "js-basics",
+          title: "JavaScript — Variables, fonctions, DOM",
+          duration: "90 min",
+          type: "lesson",
+          free: false,
+        },
       ],
     },
     {
       level: 2,
       title: "Premiers Projets Guidés",
       modules: [
-        { id: "js-dom",    title: "JavaScript avancé — Événements & fetch", duration: "75 min", type: "lesson",  free: false },
-        { id: "todo-app",  title: "🔨 To-do app complète",                  duration: "3h",     type: "project", free: false },
-        { id: "react-intro", title: "Introduction à React",                 duration: "60 min", type: "lesson",  free: false },
-        { id: "portfolio", title: "🔨 Portfolio personnel avec React",      duration: "4h",     type: "project", free: false },
+        {
+          id: "js-dom",
+          title: "JavaScript avancé — Événements & fetch",
+          duration: "75 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "todo-app",
+          title: "🔨 To-do app complète",
+          duration: "3h",
+          type: "project",
+          free: false,
+        },
+        {
+          id: "react-intro",
+          title: "Introduction à React",
+          duration: "60 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "portfolio",
+          title: "🔨 Portfolio personnel avec React",
+          duration: "4h",
+          type: "project",
+          free: false,
+        },
       ],
     },
     {
       level: 3,
       title: "Préparation Marché",
       modules: [
-        { id: "read-offer", title: "Comment lire une offre de mission",  duration: "20 min", type: "lesson",   free: false },
-        { id: "apply",      title: "Postuler et parler à un client",     duration: "30 min", type: "lesson",   free: false },
-        { id: "quote",      title: "Faire un devis simple",              duration: "25 min", type: "exercise", free: false },
+        {
+          id: "read-offer",
+          title: "Comment lire une offre de mission",
+          duration: "20 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "apply",
+          title: "Postuler et parler à un client",
+          duration: "30 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "quote",
+          title: "Faire un devis simple",
+          duration: "25 min",
+          type: "exercise",
+          free: false,
+        },
       ],
     },
     {
       level: 4,
       title: "Projet Réel — Marketplace",
       modules: [
-        { id: "marketplace-intro", title: "Accès aux projets Junior-Only", duration: "∞", type: "project", free: false },
+        {
+          id: "marketplace-intro",
+          title: "Accès aux projets Junior-Only",
+          duration: "∞",
+          type: "project",
+          free: false,
+        },
       ],
     },
   ],
@@ -70,29 +154,95 @@ const CURRICULUM: Record<string, LevelData[]> = {
       level: 1,
       title: "Fondations Design",
       modules: [
-        { id: "design-thinking",  title: "Design Thinking — Principes fondamentaux",   duration: "40 min", type: "lesson",  free: true  },
-        { id: "color-theory",     title: "Théorie des couleurs & typographie",          duration: "50 min", type: "lesson",  free: true  },
-        { id: "figma-intro",      title: "Figma — Prise en main complète",              duration: "60 min", type: "lesson",  free: true  },
-        { id: "first-wireframe",  title: "🔨 Premier wireframe d'une app mobile",       duration: "90 min", type: "project", free: true  },
+        {
+          id: "design-thinking",
+          title: "Design Thinking — Principes fondamentaux",
+          duration: "40 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "color-theory",
+          title: "Théorie des couleurs & typographie",
+          duration: "50 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "figma-intro",
+          title: "Figma — Prise en main complète",
+          duration: "60 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "first-wireframe",
+          title: "🔨 Premier wireframe d'une app mobile",
+          duration: "90 min",
+          type: "project",
+          free: true,
+        },
       ],
     },
     {
       level: 2,
       title: "UI & Composants",
       modules: [
-        { id: "ui-components",   title: "Créer un système de composants Figma",        duration: "75 min", type: "lesson",   free: false },
-        { id: "spacing-grid",    title: "Grilles, espacement & alignement",            duration: "45 min", type: "lesson",   free: false },
-        { id: "ui-kit",          title: "🔨 Design Kit complet (boutons, cards…)",     duration: "3h",     type: "project",  free: false },
-        { id: "dark-mode",       title: "🔨 Passer ton UI en dark mode",               duration: "2h",     type: "exercise", free: false },
+        {
+          id: "ui-components",
+          title: "Créer un système de composants Figma",
+          duration: "75 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "spacing-grid",
+          title: "Grilles, espacement & alignement",
+          duration: "45 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "ui-kit",
+          title: "🔨 Design Kit complet (boutons, cards…)",
+          duration: "3h",
+          type: "project",
+          free: false,
+        },
+        {
+          id: "dark-mode",
+          title: "🔨 Passer ton UI en dark mode",
+          duration: "2h",
+          type: "exercise",
+          free: false,
+        },
       ],
     },
     {
       level: 3,
       title: "Portfolio Design",
       modules: [
-        { id: "case-study",       title: "Rédiger un case study convaincant",          duration: "45 min", type: "lesson",  free: false },
-        { id: "portfolio-design", title: "🔨 Portfolio Behance / Figma Community",     duration: "4h",     type: "project", free: false },
-        { id: "client-pitch",     title: "Présenter son design à un client",           duration: "30 min", type: "lesson",  free: false },
+        {
+          id: "case-study",
+          title: "Rédiger un case study convaincant",
+          duration: "45 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "portfolio-design",
+          title: "🔨 Portfolio Behance / Figma Community",
+          duration: "4h",
+          type: "project",
+          free: false,
+        },
+        {
+          id: "client-pitch",
+          title: "Présenter son design à un client",
+          duration: "30 min",
+          type: "lesson",
+          free: false,
+        },
       ],
     },
   ],
@@ -102,29 +252,95 @@ const CURRICULUM: Record<string, LevelData[]> = {
       level: 1,
       title: "Python & Data Basics",
       modules: [
-        { id: "python-intro",   title: "Python — Variables, listes, fonctions",     duration: "60 min", type: "lesson",  free: true  },
-        { id: "pandas-intro",   title: "Pandas — Charger et explorer des données",  duration: "75 min", type: "lesson",  free: true  },
-        { id: "first-analysis", title: "🔨 Analyser un dataset CSV réel",            duration: "2h",     type: "project", free: true  },
-        { id: "data-cleaning",  title: "Nettoyage de données — techniques clés",    duration: "45 min", type: "lesson",  free: true  },
+        {
+          id: "python-intro",
+          title: "Python — Variables, listes, fonctions",
+          duration: "60 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "pandas-intro",
+          title: "Pandas — Charger et explorer des données",
+          duration: "75 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "first-analysis",
+          title: "🔨 Analyser un dataset CSV réel",
+          duration: "2h",
+          type: "project",
+          free: true,
+        },
+        {
+          id: "data-cleaning",
+          title: "Nettoyage de données — techniques clés",
+          duration: "45 min",
+          type: "lesson",
+          free: true,
+        },
       ],
     },
     {
       level: 2,
       title: "Visualisation",
       modules: [
-        { id: "matplotlib",  title: "Matplotlib & Seaborn — Graphiques",        duration: "60 min", type: "lesson",  free: false },
-        { id: "plotly",      title: "Plotly — Graphiques interactifs",           duration: "45 min", type: "lesson",  free: false },
-        { id: "dashboard",   title: "🔨 Dashboard interactif avec Plotly Dash", duration: "3h",     type: "project", free: false },
+        {
+          id: "matplotlib",
+          title: "Matplotlib & Seaborn — Graphiques",
+          duration: "60 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "plotly",
+          title: "Plotly — Graphiques interactifs",
+          duration: "45 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "dashboard",
+          title: "🔨 Dashboard interactif avec Plotly Dash",
+          duration: "3h",
+          type: "project",
+          free: false,
+        },
       ],
     },
     {
       level: 3,
       title: "SQL & Reporting",
       modules: [
-        { id: "sql-basics",    title: "SQL — SELECT, JOIN, GROUP BY",           duration: "60 min", type: "lesson",  free: false },
-        { id: "sql-advanced",  title: "SQL avancé — Sous-requêtes & fenêtres", duration: "50 min", type: "lesson",  free: false },
-        { id: "report",        title: "🔨 Rapport d'analyse complet",           duration: "4h",     type: "project", free: false },
-        { id: "data-marketplace", title: "Accès aux missions Data",             duration: "∞",      type: "project", free: false },
+        {
+          id: "sql-basics",
+          title: "SQL — SELECT, JOIN, GROUP BY",
+          duration: "60 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "sql-advanced",
+          title: "SQL avancé — Sous-requêtes & fenêtres",
+          duration: "50 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "report",
+          title: "🔨 Rapport d'analyse complet",
+          duration: "4h",
+          type: "project",
+          free: false,
+        },
+        {
+          id: "data-marketplace",
+          title: "Accès aux missions Data",
+          duration: "∞",
+          type: "project",
+          free: false,
+        },
       ],
     },
   ],
@@ -134,63 +350,168 @@ const CURRICULUM: Record<string, LevelData[]> = {
       level: 1,
       title: "Choisir et comprendre les langages",
       modules: [
-        { id: "language-choice", title: "Choisir le bon langage pour ton objectif", duration: "35 min", type: "lesson", free: true },
-        { id: "python-programming", title: "Python — Automatisation, scripts & logique", duration: "75 min", type: "lesson", free: true },
-        { id: "typescript-programming", title: "TypeScript — JavaScript robuste", duration: "75 min", type: "lesson", free: true },
+        {
+          id: "language-choice",
+          title: "Choisir le bon langage pour ton objectif",
+          duration: "35 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "python-programming",
+          title: "Python — Automatisation, scripts & logique",
+          duration: "75 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "typescript-programming",
+          title: "TypeScript — JavaScript robuste",
+          duration: "75 min",
+          type: "lesson",
+          free: true,
+        },
       ],
     },
     {
       level: 2,
       title: "Langages orientés métier",
       modules: [
-        { id: "java-programming", title: "Java — POO, backend & applications", duration: "80 min", type: "lesson", free: false },
-        { id: "csharp-programming", title: "C# — Apps, APIs & écosystème .NET", duration: "75 min", type: "lesson", free: false },
+        {
+          id: "java-programming",
+          title: "Java — POO, backend & applications",
+          duration: "80 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "csharp-programming",
+          title: "C# — Apps, APIs & écosystème .NET",
+          duration: "75 min",
+          type: "lesson",
+          free: false,
+        },
       ],
     },
     {
       level: 3,
       title: "Langages proches de la machine",
       modules: [
-        { id: "c-programming", title: "C — Mémoire, pointeurs & bases système", duration: "90 min", type: "lesson", free: false },
-        { id: "cpp-programming", title: "C++ — Performance, objets & STL", duration: "90 min", type: "lesson", free: false },
+        {
+          id: "c-programming",
+          title: "C — Mémoire, pointeurs & bases système",
+          duration: "90 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "cpp-programming",
+          title: "C++ — Performance, objets & STL",
+          duration: "90 min",
+          type: "lesson",
+          free: false,
+        },
       ],
     },
   ],
 
-  "algorithms": [
+  algorithms: [
     {
       level: 1,
       title: "Bases de raisonnement",
       modules: [
-        { id: "algorithmic-thinking", title: "Pensée algorithmique — Résoudre avant de coder", duration: "45 min", type: "lesson", free: true },
-        { id: "complexity-big-o", title: "Complexité Big O — Temps & mémoire", duration: "60 min", type: "lesson", free: true },
-        { id: "arrays-strings", title: "Tableaux & chaînes — Parcourir, chercher, transformer", duration: "70 min", type: "lesson", free: true },
+        {
+          id: "algorithmic-thinking",
+          title: "Pensée algorithmique — Résoudre avant de coder",
+          duration: "45 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "complexity-big-o",
+          title: "Complexité Big O — Temps & mémoire",
+          duration: "60 min",
+          type: "lesson",
+          free: true,
+        },
+        {
+          id: "arrays-strings",
+          title: "Tableaux & chaînes — Parcourir, chercher, transformer",
+          duration: "70 min",
+          type: "lesson",
+          free: true,
+        },
       ],
     },
     {
       level: 2,
       title: "Structures et patterns classiques",
       modules: [
-        { id: "hashmaps-sets", title: "Hash maps & sets — Retrouver vite", duration: "60 min", type: "lesson", free: false },
-        { id: "stacks-queues", title: "Stacks & queues — Ordre, historique, files", duration: "55 min", type: "lesson", free: false },
-        { id: "recursion", title: "Récursion — Décomposer un problème", duration: "65 min", type: "lesson", free: false },
-        { id: "sorting-searching", title: "Tri & recherche — Les classiques utiles", duration: "75 min", type: "lesson", free: false },
+        {
+          id: "hashmaps-sets",
+          title: "Hash maps & sets — Retrouver vite",
+          duration: "60 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "stacks-queues",
+          title: "Stacks & queues — Ordre, historique, files",
+          duration: "55 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "recursion",
+          title: "Récursion — Décomposer un problème",
+          duration: "65 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "sorting-searching",
+          title: "Tri & recherche — Les classiques utiles",
+          duration: "75 min",
+          type: "lesson",
+          free: false,
+        },
       ],
     },
     {
       level: 3,
       title: "Problèmes avancés guidés",
       modules: [
-        { id: "trees-graphs", title: "Arbres & graphes — Explorer des relations", duration: "80 min", type: "lesson", free: false },
-        { id: "dynamic-programming-intro", title: "Programmation dynamique — Mémoïsation simple", duration: "80 min", type: "lesson", free: false },
-        { id: "algorithm-challenges", title: "🔨 Sprint d'exercices algorithmiques", duration: "3h", type: "project", free: false },
+        {
+          id: "trees-graphs",
+          title: "Arbres & graphes — Explorer des relations",
+          duration: "80 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "dynamic-programming-intro",
+          title: "Programmation dynamique — Mémoïsation simple",
+          duration: "80 min",
+          type: "lesson",
+          free: false,
+        },
+        {
+          id: "algorithm-challenges",
+          title: "🔨 Sprint d'exercices algorithmiques",
+          duration: "3h",
+          type: "project",
+          free: false,
+        },
       ],
     },
   ],
 };
 
 // ─── Path metadata ───────────────────────────────────────────────────────────
-const PATH_META: Record<string, { title: string; icon: string; tagline: string }> = {
+const PATH_META: Record<
+  string,
+  { title: string; icon: string; tagline: string }
+> = {
   "web-developer": {
     title: "Développeur Web",
     icon: "💻",
@@ -209,36 +530,41 @@ const PATH_META: Record<string, { title: string; icon: string; tagline: string }
   "programming-languages": {
     title: "Langages de programmation",
     icon: "⌨️",
-    tagline: "Python, Java, C, C++, C# et TypeScript pour choisir l'outil adapté.",
+    tagline:
+      "Python, Java, C, C++, C# et TypeScript pour choisir l'outil adapté.",
   },
-  "algorithms": {
+  algorithms: {
     title: "Algorithmes fondamentaux",
     icon: "🧠",
     tagline: "La logique et les structures qui rendent ton code plus solide.",
   },
 };
 
-const PATH_COPY: Record<Language, {
-  fallbackTitle: string;
-  fallbackDescription: (path: string) => string;
-  backToPaths: string;
-  levels: string;
-  modules: string;
-  projects: string;
-  freePlural: string;
-  level: string;
-  free: string;
-  open: string;
-  pathGoal: string;
-  pathGoalDescription: string;
-  viewMissions: string;
-  lesson: string;
-  exercise: string;
-  project: string;
-}> = {
+const PATH_COPY: Record<
+  Language,
+  {
+    fallbackTitle: string;
+    fallbackDescription: (path: string) => string;
+    backToPaths: string;
+    levels: string;
+    modules: string;
+    projects: string;
+    freePlural: string;
+    level: string;
+    free: string;
+    open: string;
+    pathGoal: string;
+    pathGoalDescription: string;
+    viewMissions: string;
+    lesson: string;
+    exercise: string;
+    project: string;
+  }
+> = {
   fr: {
     fallbackTitle: "Parcours",
-    fallbackDescription: (path) => `Parcours d'apprentissage ${path} sur JuniorCode.`,
+    fallbackDescription: (path) =>
+      `Parcours d'apprentissage ${path} sur JuniorCode.`,
     backToPaths: "Retour aux parcours",
     levels: "Niveaux",
     modules: "Modules",
@@ -295,7 +621,10 @@ const PATH_COPY: Record<Language, {
   },
 };
 
-const PATH_META_TRANSLATIONS: Record<string, Record<Language, { title: string; tagline: string }>> = {
+const PATH_META_TRANSLATIONS: Record<
+  string,
+  Record<Language, { title: string; tagline: string }>
+> = {
   "web-developer": {
     fr: {
       title: "Développeur Web",
@@ -341,18 +670,21 @@ const PATH_META_TRANSLATIONS: Record<string, Record<Language, { title: string; t
   "programming-languages": {
     fr: {
       title: "Langages de programmation",
-      tagline: "Python, Java, C, C++, C# et TypeScript pour choisir l'outil adapté.",
+      tagline:
+        "Python, Java, C, C++, C# et TypeScript pour choisir l'outil adapté.",
     },
     en: {
       title: "Programming Languages",
-      tagline: "Python, Java, C, C++, C#, and TypeScript so you can pick the right tool.",
+      tagline:
+        "Python, Java, C, C++, C#, and TypeScript so you can pick the right tool.",
     },
     es: {
       title: "Lenguajes de programación",
-      tagline: "Python, Java, C, C++, C# y TypeScript para elegir la herramienta adecuada.",
+      tagline:
+        "Python, Java, C, C++, C# y TypeScript para elegir la herramienta adecuada.",
     },
   },
-  "algorithms": {
+  algorithms: {
     fr: {
       title: "Algorithmes fondamentaux",
       tagline: "La logique et les structures qui rendent ton code plus solide.",
@@ -420,10 +752,10 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "js-dom": "Advanced JavaScript — Events & fetch",
     "todo-app": "🔨 Complete to-do app",
     "react-intro": "Introduction to React",
-    "portfolio": "🔨 Personal portfolio with React",
+    portfolio: "🔨 Personal portfolio with React",
     "read-offer": "How to read a mission brief",
-    "apply": "Apply and talk to a client",
-    "quote": "Create a simple quote",
+    apply: "Apply and talk to a client",
+    quote: "Create a simple quote",
     "marketplace-intro": "Access Junior-Only projects",
     "design-thinking": "Design Thinking — Core principles",
     "color-theory": "Color theory & typography",
@@ -440,12 +772,12 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "pandas-intro": "Pandas — Load and explore data",
     "first-analysis": "🔨 Analyze a real CSV dataset",
     "data-cleaning": "Data cleaning — Key techniques",
-    "matplotlib": "Matplotlib & Seaborn — Charts",
-    "plotly": "Plotly — Interactive charts",
-    "dashboard": "🔨 Interactive dashboard with Plotly Dash",
+    matplotlib: "Matplotlib & Seaborn — Charts",
+    plotly: "Plotly — Interactive charts",
+    dashboard: "🔨 Interactive dashboard with Plotly Dash",
     "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
     "sql-advanced": "Advanced SQL — Subqueries & windows",
-    "report": "🔨 Complete analysis report",
+    report: "🔨 Complete analysis report",
     "data-marketplace": "Access data missions",
     "language-choice": "Choose the right language for your goal",
     "python-programming": "Python — Automation, scripts & logic",
@@ -459,7 +791,7 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "arrays-strings": "Arrays & strings — Traverse, search, transform",
     "hashmaps-sets": "Hash maps & sets — Find things fast",
     "stacks-queues": "Stacks & queues — Order, history, lines",
-    "recursion": "Recursion — Break a problem down",
+    recursion: "Recursion — Break a problem down",
     "sorting-searching": "Sorting & searching — Useful classics",
     "trees-graphs": "Trees & graphs — Explore relationships",
     "dynamic-programming-intro": "Dynamic programming — Simple memoization",
@@ -475,10 +807,10 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "js-dom": "JavaScript avanzado — Eventos y fetch",
     "todo-app": "🔨 To-do app completa",
     "react-intro": "Introducción a React",
-    "portfolio": "🔨 Portfolio personal con React",
+    portfolio: "🔨 Portfolio personal con React",
     "read-offer": "Cómo leer una oferta de misión",
-    "apply": "Postular y hablar con un cliente",
-    "quote": "Crear un presupuesto simple",
+    apply: "Postular y hablar con un cliente",
+    quote: "Crear un presupuesto simple",
     "marketplace-intro": "Acceso a proyectos Junior-Only",
     "design-thinking": "Design Thinking — Principios fundamentales",
     "color-theory": "Teoría del color y tipografía",
@@ -495,12 +827,12 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "pandas-intro": "Pandas — Cargar y explorar datos",
     "first-analysis": "🔨 Analizar un dataset CSV real",
     "data-cleaning": "Limpieza de datos — Técnicas clave",
-    "matplotlib": "Matplotlib y Seaborn — Gráficos",
-    "plotly": "Plotly — Gráficos interactivos",
-    "dashboard": "🔨 Dashboard interactivo con Plotly Dash",
+    matplotlib: "Matplotlib y Seaborn — Gráficos",
+    plotly: "Plotly — Gráficos interactivos",
+    dashboard: "🔨 Dashboard interactivo con Plotly Dash",
     "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
     "sql-advanced": "SQL avanzado — Subconsultas y ventanas",
-    "report": "🔨 Reporte de análisis completo",
+    report: "🔨 Reporte de análisis completo",
     "data-marketplace": "Acceso a misiones data",
     "language-choice": "Elegir el lenguaje correcto para tu objetivo",
     "python-programming": "Python — Automatización, scripts y lógica",
@@ -509,12 +841,13 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "csharp-programming": "C# — Apps, APIs y ecosistema .NET",
     "c-programming": "C — Memoria, punteros y bases de sistema",
     "cpp-programming": "C++ — Rendimiento, objetos y STL",
-    "algorithmic-thinking": "Pensamiento algorítmico — Resolver antes de codificar",
+    "algorithmic-thinking":
+      "Pensamiento algorítmico — Resolver antes de codificar",
     "complexity-big-o": "Complejidad Big O — Tiempo y memoria",
     "arrays-strings": "Arrays y strings — Recorrer, buscar, transformar",
     "hashmaps-sets": "Hash maps y sets — Encontrar rápido",
     "stacks-queues": "Stacks y queues — Orden, historial, colas",
-    "recursion": "Recursión — Descomponer un problema",
+    recursion: "Recursión — Descomponer un problema",
     "sorting-searching": "Ordenación y búsqueda — Clásicos útiles",
     "trees-graphs": "Árboles y grafos — Explorar relaciones",
     "dynamic-programming-intro": "Programación dinámica — Memoización simple",
@@ -523,7 +856,10 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
 };
 
 function getRequestLanguage(): Language {
-  const languageCookie = cookies().get("juniorcode-language")?.value?.toLowerCase().slice(0, 2);
+  const languageCookie = cookies()
+    .get("juniorcode-language")
+    ?.value?.toLowerCase()
+    .slice(0, 2);
   return SUPPORTED_LANGUAGES.includes(languageCookie as Language)
     ? (languageCookie as Language)
     : "fr";
@@ -540,7 +876,9 @@ function getPathMeta(path: string, language: Language) {
 }
 
 function getLevelTitle(path: string, level: LevelData, language: Language) {
-  return LEVEL_TITLE_TRANSLATIONS[language][`${path}:${level.level}`] ?? level.title;
+  return (
+    LEVEL_TITLE_TRANSLATIONS[language][`${path}:${level.level}`] ?? level.title
+  );
 }
 
 function getModuleTitle(module: Module, language: Language) {
@@ -574,16 +912,21 @@ export default async function LearningPathPage({
   if (!curriculum) notFound();
 
   const meta = getPathMeta(path, language);
-  const totalModules  = curriculum.reduce((s, l) => s + l.modules.length, 0);
-  const totalProjects = curriculum.reduce((s, l) => s + l.modules.filter((m) => m.type === "project").length, 0);
-  const freeModules   = curriculum.reduce((s, l) => s + l.modules.filter((m) => m.free).length, 0);
+  const totalModules = curriculum.reduce((s, l) => s + l.modules.length, 0);
+  const totalProjects = curriculum.reduce(
+    (s, l) => s + l.modules.filter((m) => m.type === "project").length,
+    0,
+  );
+  const freeModules = curriculum.reduce(
+    (s, l) => s + l.modules.filter((m) => m.free).length,
+    0,
+  );
 
   return (
     <div className="min-h-screen bg-[#070b16] text-white">
       <Navbar />
 
       <div className="mx-auto max-w-4xl px-4 py-10 sm:py-14">
-
         {/* Header card */}
         <div className="mb-10 rounded-3xl border border-white/15 bg-white/[0.05] p-6 sm:p-8">
           <Link
@@ -596,7 +939,9 @@ export default async function LearningPathPage({
           <div className="flex items-center gap-4 mb-3">
             <span className="text-4xl">{meta.icon}</span>
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-white/45">JuniorCode Learn</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-white/45">
+                JuniorCode Learn
+              </p>
               <h1 className="text-2xl sm:text-3xl font-bold">{meta.title}</h1>
             </div>
           </div>
@@ -604,14 +949,19 @@ export default async function LearningPathPage({
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
-              { label: copy.levels,  value: curriculum.length },
-              { label: copy.modules,  value: totalModules },
-              { label: copy.projects,  value: totalProjects },
+              { label: copy.levels, value: curriculum.length },
+              { label: copy.modules, value: totalModules },
+              { label: copy.projects, value: totalProjects },
               { label: copy.freePlural, value: freeModules },
             ].map(({ label, value }) => (
-              <div key={label} className="rounded-xl border border-white/10 bg-white/[0.04] p-4 text-center">
+              <div
+                key={label}
+                className="rounded-xl border border-white/10 bg-white/[0.04] p-4 text-center"
+              >
                 <p className="text-2xl font-bold">{value}</p>
-                <p className="mt-1 text-xs uppercase tracking-wider text-white/45">{label}</p>
+                <p className="mt-1 text-xs uppercase tracking-wider text-white/45">
+                  {label}
+                </p>
               </div>
             ))}
           </div>
@@ -620,12 +970,18 @@ export default async function LearningPathPage({
         {/* Curriculum */}
         <div className="space-y-6">
           {curriculum.map((level) => (
-            <div key={level.level} className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.03]">
+            <div
+              key={level.level}
+              className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.03]"
+            >
               <div className="border-b border-white/10 px-6 py-4 bg-white/[0.04] flex items-center gap-3">
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-600/70 text-xs font-bold">
                   {level.level}
                 </div>
-                <h2 className="font-semibold">{copy.level} {level.level} — {getLevelTitle(path, level, language)}</h2>
+                <h2 className="font-semibold">
+                  {copy.level} {level.level} —{" "}
+                  {getLevelTitle(path, level, language)}
+                </h2>
               </div>
 
               <div className="divide-y divide-white/10">
@@ -639,13 +995,17 @@ export default async function LearningPathPage({
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium group-hover:text-white transition-colors">{getModuleTitle(module, language)}</p>
+                      <p className="text-sm font-medium group-hover:text-white transition-colors">
+                        {getModuleTitle(module, language)}
+                      </p>
                       <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-white/40">
                         <Clock3 className="h-3 w-3" />
                         {module.duration}
                       </p>
                     </div>
-                    <span className={`flex-shrink-0 rounded-full px-2 py-1 text-xs ${getModuleBadgeClass(module.type)}`}>
+                    <span
+                      className={`flex-shrink-0 rounded-full px-2 py-1 text-xs ${getModuleBadgeClass(module.type)}`}
+                    >
                       {getModuleTypeLabel(module.type, language)}
                     </span>
                     {module.free ? (
@@ -691,13 +1051,13 @@ export default async function LearningPathPage({
 
 function getModuleTypeLabel(type: Module["type"], language: Language) {
   const copy = PATH_COPY[language];
-  if (type === "project")  return copy.project;
+  if (type === "project") return copy.project;
   if (type === "exercise") return copy.exercise;
   return copy.lesson;
 }
 
 function getModuleBadgeClass(type: Module["type"]) {
-  if (type === "project")  return "bg-brand-500/25 text-brand-300";
+  if (type === "project") return "bg-brand-500/25 text-brand-300";
   if (type === "exercise") return "bg-learn-500/25 text-learn-300";
   return "bg-white/10 text-white/60";
 }

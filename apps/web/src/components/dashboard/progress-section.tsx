@@ -12,23 +12,27 @@ interface ProgressSectionProps {
 
 const TOTAL_MODULES_PER_LEVEL = [1, 6, 2, 3, 1]; // Niveau 0 → 4
 
-const COPY: Record<Language, {
-  myPath: string;
-  noPath: string;
-  choosePath: string;
-  seeAll: string;
-  level: string;
-  completedModules: (completed: number, total: number) => string;
-  continuePath: string;
-  levels: Array<{ label: string; color: string }>;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    myPath: string;
+    noPath: string;
+    choosePath: string;
+    seeAll: string;
+    level: string;
+    completedModules: (completed: number, total: number) => string;
+    continuePath: string;
+    levels: Array<{ label: string; color: string }>;
+  }
+> = {
   fr: {
     myPath: "Mon parcours",
     noPath: "Tu n'as pas encore choisi de parcours.",
     choosePath: "Choisir mon parcours",
     seeAll: "Voir tout",
     level: "Niveau",
-    completedModules: (completed, total) => `${completed} / ${total} modules terminés`,
+    completedModules: (completed, total) =>
+      `${completed} / ${total} modules terminés`,
     continuePath: "Continuer le parcours",
     levels: [
       { label: "Onboarding", color: "bg-gray-400" },
@@ -44,7 +48,8 @@ const COPY: Record<Language, {
     choosePath: "Choose my path",
     seeAll: "See all",
     level: "Level",
-    completedModules: (completed, total) => `${completed} / ${total} modules completed`,
+    completedModules: (completed, total) =>
+      `${completed} / ${total} modules completed`,
     continuePath: "Continue path",
     levels: [
       { label: "Onboarding", color: "bg-gray-400" },
@@ -60,7 +65,8 @@ const COPY: Record<Language, {
     choosePath: "Elegir mi ruta",
     seeAll: "Ver todo",
     level: "Nivel",
-    completedModules: (completed, total) => `${completed} / ${total} módulos terminados`,
+    completedModules: (completed, total) =>
+      `${completed} / ${total} módulos terminados`,
     continuePath: "Continuar la ruta",
     levels: [
       { label: "Onboarding", color: "bg-gray-400" },
@@ -72,7 +78,11 @@ const COPY: Record<Language, {
   },
 };
 
-export function ProgressSection({ language, learnerProfile, recentProgress }: ProgressSectionProps) {
+export function ProgressSection({
+  language,
+  learnerProfile,
+  recentProgress,
+}: ProgressSectionProps) {
   const copy = COPY[language];
 
   if (!learnerProfile) {
@@ -115,14 +125,19 @@ export function ProgressSection({ language, learnerProfile, recentProgress }: Pr
       {/* Level progress */}
       <div className="flex items-center gap-3 mb-5">
         {LEVELS.map((level, idx) => (
-          <div key={level.label} className="flex-1 flex flex-col items-center gap-1.5">
-            <div className={`h-2.5 w-full rounded-full transition-all ${
-              idx < currentLevel
-                ? level.color
-                : idx === currentLevel
-                ? "bg-slate-200"
-                : "bg-slate-100"
-            }`}>
+          <div
+            key={level.label}
+            className="flex-1 flex flex-col items-center gap-1.5"
+          >
+            <div
+              className={`h-2.5 w-full rounded-full transition-all ${
+                idx < currentLevel
+                  ? level.color
+                  : idx === currentLevel
+                    ? "bg-slate-200"
+                    : "bg-slate-100"
+              }`}
+            >
               {idx === currentLevel && (
                 <div
                   className={`h-full rounded-full transition-all ${level.color}`}
@@ -148,7 +163,9 @@ export function ProgressSection({ language, learnerProfile, recentProgress }: Pr
           </p>
         </div>
         <div className="text-right">
-          <span className="text-2xl font-extrabold text-slate-950">{progressPercent}%</span>
+          <span className="text-2xl font-extrabold text-slate-950">
+            {progressPercent}%
+          </span>
         </div>
       </div>
 

@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 import { User, Globe, Lock, Trash2, Save, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { getMockUserBrowser, saveMockUser, type MockUser } from "@/lib/mock-auth";
+import {
+  getMockUserBrowser,
+  saveMockUser,
+  type MockUser,
+} from "@/lib/mock-auth";
 
 const COPY = {
   fr: {
@@ -151,9 +155,21 @@ export default function SettingsPage() {
   if (!user) return null;
 
   const tabs: Array<{ key: Tab; label: string; icon: React.ReactNode }> = [
-    { key: "profile", label: copy.profileTab, icon: <User className="h-4 w-4" /> },
-    { key: "language", label: copy.languageTab, icon: <Globe className="h-4 w-4" /> },
-    { key: "account", label: copy.accountTab, icon: <Lock className="h-4 w-4" /> },
+    {
+      key: "profile",
+      label: copy.profileTab,
+      icon: <User className="h-4 w-4" />,
+    },
+    {
+      key: "language",
+      label: copy.languageTab,
+      icon: <Globe className="h-4 w-4" />,
+    },
+    {
+      key: "account",
+      label: copy.accountTab,
+      icon: <Lock className="h-4 w-4" />,
+    },
   ];
 
   return (
@@ -161,7 +177,9 @@ export default function SettingsPage() {
       <Navbar />
       <main className="min-h-screen bg-gray-50">
         <div className="max-w-2xl mx-auto px-4 py-10">
-          <h1 className="text-2xl font-extrabold text-gray-900 mb-6">{copy.title}</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 mb-6">
+            {copy.title}
+          </h1>
 
           {/* Tabs */}
           <div className="flex gap-1 bg-gray-100 p-1 rounded-xl mb-6">
@@ -171,7 +189,9 @@ export default function SettingsPage() {
                 type="button"
                 onClick={() => setTab(t.key)}
                 className={`flex-1 flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold py-2 rounded-lg transition-colors ${
-                  tab === t.key ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                  tab === t.key
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
                 }`}
               >
                 {t.icon}
@@ -184,7 +204,9 @@ export default function SettingsPage() {
           {tab === "profile" && (
             <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">{copy.fullName}</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                  {copy.fullName}
+                </label>
                 <input
                   type="text"
                   value={fullName}
@@ -193,7 +215,9 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">{copy.email}</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                  {copy.email}
+                </label>
                 <input
                   type="email"
                   value={user.email}
@@ -202,7 +226,9 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">{copy.bio}</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                  {copy.bio}
+                </label>
                 <textarea
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
@@ -212,7 +238,9 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">{copy.githubUrl}</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                  {copy.githubUrl}
+                </label>
                 <input
                   type="url"
                   value={githubUrl}
@@ -222,7 +250,9 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">{copy.portfolioUrl}</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                  {copy.portfolioUrl}
+                </label>
                 <input
                   type="url"
                   value={portfolioUrl}
@@ -252,7 +282,9 @@ export default function SettingsPage() {
           {/* ── Language tab ── */}
           {tab === "language" && (
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
-              <p className="text-sm font-semibold text-gray-700 mb-4">{copy.language}</p>
+              <p className="text-sm font-semibold text-gray-700 mb-4">
+                {copy.language}
+              </p>
               <div className="space-y-2">
                 {(["fr", "en", "es"] as Lang[]).map((lang) => (
                   <button
@@ -265,8 +297,29 @@ export default function SettingsPage() {
                         : "border-gray-200 text-gray-700 hover:border-gray-300"
                     }`}
                   >
-                    <span>{({ fr: "🇫🇷 ", en: "🇬🇧 ", es: "🇪🇸 " } as Record<Lang, string>)[lang]}{copy[`lang${lang.charAt(0).toUpperCase() + lang.slice(1)}` as "langFr" | "langEn" | "langEs"]}</span>
-                    {language === lang && <span className="text-brand-500 text-xs font-bold">{"✓"} Actif</span>}
+                    <span>
+                      {
+                        (
+                          { fr: "🇫🇷 ", en: "🇬🇧 ", es: "🇪🇸 " } as Record<
+                            Lang,
+                            string
+                          >
+                        )[lang]
+                      }
+                      {
+                        copy[
+                          `lang${lang.charAt(0).toUpperCase() + lang.slice(1)}` as
+                            | "langFr"
+                            | "langEn"
+                            | "langEs"
+                        ]
+                      }
+                    </span>
+                    {language === lang && (
+                      <span className="text-brand-500 text-xs font-bold">
+                        {"✓"} Actif
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -278,7 +331,9 @@ export default function SettingsPage() {
             <div className="space-y-6">
               <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{copy.currentPassword}</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                    {copy.currentPassword}
+                  </label>
                   <div className="relative">
                     <input
                       type={showCurrentPwd ? "text" : "password"}
@@ -289,12 +344,18 @@ export default function SettingsPage() {
                       onClick={() => setShowCurrentPwd((v) => !v)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      {showCurrentPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showCurrentPwd ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                     </button>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{copy.newPassword}</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                    {copy.newPassword}
+                  </label>
                   <div className="relative">
                     <input
                       type={showNewPwd ? "text" : "password"}
@@ -305,7 +366,11 @@ export default function SettingsPage() {
                       onClick={() => setShowNewPwd((v) => !v)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      {showNewPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showNewPwd ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -319,7 +384,9 @@ export default function SettingsPage() {
               </div>
 
               <div className="bg-red-50 rounded-2xl border border-red-200 p-6">
-                <h3 className="text-sm font-bold text-red-800 mb-3">{copy.dangerZone}</h3>
+                <h3 className="text-sm font-bold text-red-800 mb-3">
+                  {copy.dangerZone}
+                </h3>
                 {deleteConfirm ? (
                   <div className="space-y-3">
                     <p className="text-sm text-red-700">{copy.deleteConfirm}</p>

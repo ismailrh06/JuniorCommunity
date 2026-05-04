@@ -17,7 +17,13 @@ async function getBrowserSupabase() {
 
 // ── Security event logging ──────────────────────────────────────────────────
 type SecurityLogPayload = {
-  type: "brute_force" | "suspicious_ip" | "role_escalation" | "mass_request" | "invalid_token" | "scraping";
+  type:
+    | "brute_force"
+    | "suspicious_ip"
+    | "role_escalation"
+    | "mass_request"
+    | "invalid_token"
+    | "scraping";
   severity: "critical" | "high" | "medium" | "low";
   description: string;
   email?: string;
@@ -53,21 +59,23 @@ const loginSchema = z.object({
   password: z.string().min(8, "Minimum 8 caractères"),
 });
 
-const registerSchema = z.object({
-  full_name: z.string().min(2, "Minimum 2 caractères"),
-  email: z.string().email("Email invalide"),
-  password: z.string().min(8, "Minimum 8 caractères"),
-  confirmPassword: z.string(),
-  role: z.enum(["learner", "student", "client"]),
-}).superRefine(({ password, confirmPassword }, ctx) => {
-  if (password !== confirmPassword) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "Les mots de passe ne correspondent pas",
-      path: ["confirmPassword"],
-    });
-  }
-});
+const registerSchema = z
+  .object({
+    full_name: z.string().min(2, "Minimum 2 caractères"),
+    email: z.string().email("Email invalide"),
+    password: z.string().min(8, "Minimum 8 caractères"),
+    confirmPassword: z.string(),
+    role: z.enum(["learner", "student", "client"]),
+  })
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Les mots de passe ne correspondent pas",
+        path: ["confirmPassword"],
+      });
+    }
+  });
 
 type LoginForm = z.infer<typeof loginSchema>;
 type RegisterForm = z.infer<typeof registerSchema>;
@@ -117,7 +125,8 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     passwordMismatch: "Les mots de passe ne correspondent pas",
     wrongCredentials: "Email ou mot de passe incorrect.",
     emailAlreadyUsed: "Cet email est déjà utilisé. Essaie de te connecter.",
-    rateLimitExceeded: "Trop de tentatives avec cet email. Attends quelques minutes, puis réessaie. Si tu viens de créer le compte, vérifie aussi ta boîte mail.",
+    rateLimitExceeded:
+      "Trop de tentatives avec cet email. Attends quelques minutes, puis réessaie. Si tu viens de créer le compte, vérifie aussi ta boîte mail.",
     networkError: "Erreur réseau. Vérifie ta connexion.",
     divider: "ou",
     fullName: "Nom complet",
@@ -150,7 +159,8 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     passwordMismatch: "Passwords do not match",
     wrongCredentials: "Incorrect email or password.",
     emailAlreadyUsed: "This email is already in use. Try signing in.",
-    rateLimitExceeded: "Too many attempts with this email. Wait a few minutes, then try again. If you just created the account, also check your inbox.",
+    rateLimitExceeded:
+      "Too many attempts with this email. Wait a few minutes, then try again. If you just created the account, also check your inbox.",
     networkError: "Network error. Check your connection.",
     divider: "or",
     fullName: "Full name",
@@ -183,7 +193,8 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     passwordMismatch: "Las contraseñas no coinciden",
     wrongCredentials: "Correo o contraseña incorrectos.",
     emailAlreadyUsed: "Este correo ya está en uso. Intenta iniciar sesión.",
-    rateLimitExceeded: "Demasiados intentos con este correo. Espera unos minutos y vuelve a intentarlo. Si acabas de crear la cuenta, revisa también tu bandeja de entrada.",
+    rateLimitExceeded:
+      "Demasiados intentos con este correo. Espera unos minutos y vuelve a intentarlo. Si acabas de crear la cuenta, revisa también tu bandeja de entrada.",
     networkError: "Error de red. Comprueba tu conexión.",
     divider: "o",
     fullName: "Nombre completo",
@@ -228,28 +239,30 @@ export function AuthForm({ mode }: AuthFormProps) {
       z.object({
         email: z.string().email(copy.invalidEmail),
         password: z.string().min(8, copy.min8Chars),
-      })
+      }),
     ),
   });
 
   // ── Register form ───────────────────────────────────────
   const registerForm = useForm<RegisterForm>({
     resolver: zodResolver(
-      z.object({
-        full_name: z.string().min(2, copy.min2Chars),
-        email: z.string().email(copy.invalidEmail),
-        password: z.string().min(8, copy.min8Chars),
-        confirmPassword: z.string(),
-        role: z.enum(["learner", "student", "client"]),
-      }).superRefine(({ password, confirmPassword }, ctx) => {
-        if (password !== confirmPassword) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: copy.passwordMismatch,
-            path: ["confirmPassword"],
-          });
-        }
-      })
+      z
+        .object({
+          full_name: z.string().min(2, copy.min2Chars),
+          email: z.string().email(copy.invalidEmail),
+          password: z.string().min(8, copy.min8Chars),
+          confirmPassword: z.string(),
+          role: z.enum(["learner", "student", "client"]),
+        })
+        .superRefine(({ password, confirmPassword }, ctx) => {
+          if (password !== confirmPassword) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: copy.passwordMismatch,
+              path: ["confirmPassword"],
+            });
+          }
+        }),
     ),
     defaultValues: { role: "learner" },
   });
@@ -289,7 +302,11 @@ export function AuthForm({ mode }: AuthFormProps) {
     if (error) {
       const code = error.code ?? "";
       const msg = error.message.toLowerCase();
-      if (code === "over_email_send_rate_limit" || code === "over_request_rate_limit" || msg.includes("rate limit")) {
+      if (
+        code === "over_email_send_rate_limit" ||
+        code === "over_request_rate_limit" ||
+        msg.includes("rate limit")
+      ) {
         setAuthError(copy.rateLimitExceeded);
         await logSecurityEvent({
           type: "brute_force",
@@ -297,7 +314,11 @@ export function AuthForm({ mode }: AuthFormProps) {
           description: `Limite de taux dépassée lors de la connexion pour "${data.email}".`,
           email: data.email,
         });
-      } else if (code === "invalid_credentials" || code === "bad_jwt" || code === "user_not_found") {
+      } else if (
+        code === "invalid_credentials" ||
+        code === "bad_jwt" ||
+        code === "user_not_found"
+      ) {
         setAuthError(copy.wrongCredentials);
         await logSecurityEvent({
           type: "brute_force",
@@ -305,7 +326,11 @@ export function AuthForm({ mode }: AuthFormProps) {
           description: `Tentative de connexion échouée (identifiants invalides) pour "${data.email}".`,
           email: data.email,
         });
-      } else if (code === "bad_jwt" || msg.includes("jwt") || msg.includes("token")) {
+      } else if (
+        code === "bad_jwt" ||
+        msg.includes("jwt") ||
+        msg.includes("token")
+      ) {
         setAuthError(copy.wrongCredentials);
         await logSecurityEvent({
           type: "invalid_token",
@@ -358,9 +383,17 @@ export function AuthForm({ mode }: AuthFormProps) {
     });
     if (error) {
       const msg = error.message.toLowerCase();
-      if (msg.includes("already registered") || msg.includes("already in use") || msg.includes("user already")) {
+      if (
+        msg.includes("already registered") ||
+        msg.includes("already in use") ||
+        msg.includes("user already")
+      ) {
         setAuthError(copy.emailAlreadyUsed);
-      } else if ((error.code ?? "") === "over_email_send_rate_limit" || (error.code ?? "") === "over_request_rate_limit" || msg.includes("rate limit")) {
+      } else if (
+        (error.code ?? "") === "over_email_send_rate_limit" ||
+        (error.code ?? "") === "over_request_rate_limit" ||
+        msg.includes("rate limit")
+      ) {
         setAuthError(copy.rateLimitExceeded);
       } else if (msg.includes("password")) {
         setAuthError(copy.min8Chars);
@@ -404,12 +437,13 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   return (
     <div className="space-y-4">
-
       {/* ── Email confirmation screen (shown after successful register) ── */}
       {emailSent && (
         <div className="text-center py-4 space-y-4">
           <div className="text-4xl">📧</div>
-          <h2 className="text-xl font-bold text-gray-900">{copy.emailSentTitle}</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            {copy.emailSentTitle}
+          </h2>
           <p className="text-sm text-gray-500 leading-relaxed">
             {copy.emailSentDesc(emailSent)}
           </p>
@@ -425,179 +459,215 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       {!emailSent && (
         <>
-      {/* OAuth buttons */}
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          type="button"
-          onClick={() => handleOAuth("github")}
-          disabled={!!oauthLoading}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
-        >
-          {oauthLoading === "github" ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <span className="font-bold text-xs">GH</span>
-          )}
-          GitHub
-        </button>
-        <button
-          type="button"
-          onClick={() => handleOAuth("google")}
-          disabled={!!oauthLoading}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
-        >
-          {oauthLoading === "google" ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Mail className="h-4 w-4" />
-          )}
-          Google
-        </button>
-      </div>
-
-      {/* Divider */}
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-gray-200" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-gray-400">{copy.divider}</span>
-        </div>
-      </div>
-
-      {/* Form */}
-      <form onSubmit={onSubmit} className="space-y-4">
-        {/* Full name (register only) */}
-        {mode === "register" && (
-          <div>
-            <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-1.5">
-              {copy.fullName}
-            </label>
-            <input
-              id="full_name"
-              type="text"
-              placeholder={copy.fullNamePlaceholder}
-              {...registerForm.register("full_name")}
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-            />
-            {registerForm.formState.errors.full_name && (
-              <p className="text-xs text-red-500 mt-1">
-                {registerForm.formState.errors.full_name.message}
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Email */}
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
-            {copy.email}
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder={copy.emailPlaceholder}
-              {...form.register("email")}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-          />
-          {form.formState.errors.email && (
-            <p className="text-xs text-red-500 mt-1">
-              {form.formState.errors.email?.message as string}
-            </p>
-          )}
-        </div>
-
-        {/* Password */}
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
-            {copy.passwordLabel}
-          </label>
-          <div className="relative">
-            <input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="••••••••"
-              {...form.register("password")}
-              className="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-            />
+          {/* OAuth buttons */}
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
-              onClick={() => setShowPassword((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              aria-label={showPassword ? copy.hidePassword : copy.showPassword}
+              onClick={() => handleOAuth("github")}
+              disabled={!!oauthLoading}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
             >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {oauthLoading === "github" ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <span className="font-bold text-xs">GH</span>
+              )}
+              GitHub
+            </button>
+            <button
+              type="button"
+              onClick={() => handleOAuth("google")}
+              disabled={!!oauthLoading}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              {oauthLoading === "google" ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Mail className="h-4 w-4" />
+              )}
+              Google
             </button>
           </div>
-          {form.formState.errors.password && (
-            <p className="text-xs text-red-500 mt-1">
-              {form.formState.errors.password?.message as string}
-            </p>
-          )}
-          {mode === "register" && (
-            <p className="text-xs text-gray-400 mt-1">{copy.passwordHint}</p>
-          )}
-        </div>
 
-        {/* Confirm password (register only) */}
-        {mode === "register" && (
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1.5">
-              {copy.confirmPasswordLabel}
-            </label>
-            <div className="relative">
-              <input
-                id="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder="••••••••"
-                {...registerForm.register("confirmPassword")}
-                className="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                aria-label={showConfirmPassword ? copy.hidePassword : copy.showPassword}
-              >
-                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-gray-200" />
             </div>
-            {registerForm.formState.errors.confirmPassword && (
-              <p className="text-xs text-red-500 mt-1">
-                {registerForm.formState.errors.confirmPassword?.message as string}
-              </p>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-2 text-gray-400">
+                {copy.divider}
+              </span>
+            </div>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={onSubmit} className="space-y-4">
+            {/* Full name (register only) */}
+            {mode === "register" && (
+              <div>
+                <label
+                  htmlFor="full_name"
+                  className="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  {copy.fullName}
+                </label>
+                <input
+                  id="full_name"
+                  type="text"
+                  placeholder={copy.fullNamePlaceholder}
+                  {...registerForm.register("full_name")}
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                />
+                {registerForm.formState.errors.full_name && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {registerForm.formState.errors.full_name.message}
+                  </p>
+                )}
+              </div>
             )}
-          </div>
-        )}
 
-        {/* Forgot password (login only) */}
-        {isLogin && (
-          <div className="text-right">
-            <a href="/auth/forgot-password" className="text-xs text-brand-600 hover:underline">
-              {copy.forgotPassword}
-            </a>
-          </div>
-        )}
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                {copy.email}
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder={copy.emailPlaceholder}
+                {...form.register("email")}
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+              />
+              {form.formState.errors.email && (
+                <p className="text-xs text-red-500 mt-1">
+                  {form.formState.errors.email?.message as string}
+                </p>
+              )}
+            </div>
 
-        {/* Global error */}
-        {authError && (
-          <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-600">
-            {authError}
-          </div>
-        )}
+            {/* Password */}
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                {copy.passwordLabel}
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  {...form.register("password")}
+                  className="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  aria-label={
+                    showPassword ? copy.hidePassword : copy.showPassword
+                  }
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+              {form.formState.errors.password && (
+                <p className="text-xs text-red-500 mt-1">
+                  {form.formState.errors.password?.message as string}
+                </p>
+              )}
+              {mode === "register" && (
+                <p className="text-xs text-gray-400 mt-1">
+                  {copy.passwordHint}
+                </p>
+              )}
+            </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={form.formState.isSubmitting}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {form.formState.isSubmitting && (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          )}
-          {isLogin ? copy.submitLogin : copy.submitRegister}
-        </button>
-      </form>
+            {/* Confirm password (register only) */}
+            {mode === "register" && (
+              <div>
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  {copy.confirmPasswordLabel}
+                </label>
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    {...registerForm.register("confirmPassword")}
+                    className="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    aria-label={
+                      showConfirmPassword
+                        ? copy.hidePassword
+                        : copy.showPassword
+                    }
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                {registerForm.formState.errors.confirmPassword && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {
+                      registerForm.formState.errors.confirmPassword
+                        ?.message as string
+                    }
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Forgot password (login only) */}
+            {isLogin && (
+              <div className="text-right">
+                <a
+                  href="/auth/forgot-password"
+                  className="text-xs text-brand-600 hover:underline"
+                >
+                  {copy.forgotPassword}
+                </a>
+              </div>
+            )}
+
+            {/* Global error */}
+            {authError && (
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-600">
+                {authError}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
+              {isLogin ? copy.submitLogin : copy.submitRegister}
+            </button>
+          </form>
         </>
       )}
     </div>

@@ -6,16 +6,19 @@ import { AuthForm } from "@/components/auth/auth-form";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { Language } from "@/lib/i18n/translations";
 
-const COPY: Record<Language, {
-  subtitle: string;
-  title: string;
-  alreadyRegistered: string;
-  login: string;
-  legalPrefix: string;
-  terms: string;
-  legalAnd: string;
-  privacy: string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    subtitle: string;
+    title: string;
+    alreadyRegistered: string;
+    login: string;
+    legalPrefix: string;
+    terms: string;
+    legalAnd: string;
+    privacy: string;
+  }
+> = {
   fr: {
     subtitle: "Commence ton parcours 🚀",
     title: "Créer un compte",
@@ -57,7 +60,10 @@ export default function RegisterPage() {
       <h1 className="text-2xl font-bold text-gray-900 mb-1">{copy.title}</h1>
       <p className="text-gray-500 text-sm mb-6">
         {copy.alreadyRegistered}{" "}
-        <Link href="/auth/login" className="text-brand-600 font-medium hover:underline">
+        <Link
+          href="/auth/login"
+          className="text-brand-600 font-medium hover:underline"
+        >
           {copy.login}
         </Link>
       </p>
@@ -66,9 +72,14 @@ export default function RegisterPage() {
 
       <p className="text-center text-xs text-gray-400 mt-6">
         {copy.legalPrefix}{" "}
-        <Link href="/legal/terms" className="underline hover:text-gray-600">{copy.terms}</Link>
-        {" "}{copy.legalAnd}{" "}
-        <Link href="/legal/privacy" className="underline hover:text-gray-600">{copy.privacy}</Link>.
+        <Link href="/legal/terms" className="underline hover:text-gray-600">
+          {copy.terms}
+        </Link>{" "}
+        {copy.legalAnd}{" "}
+        <Link href="/legal/privacy" className="underline hover:text-gray-600">
+          {copy.privacy}
+        </Link>
+        .
       </p>
     </AuthShell>
   );

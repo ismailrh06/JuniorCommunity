@@ -46,7 +46,9 @@ test.describe("Auth — login page", () => {
     await page.goto("/auth/login");
     await expect(page.locator("input[type='email']")).toBeVisible();
     await expect(page.locator("input[type='password']")).toBeVisible();
-    await expect(page.getByRole("button", { name: /connexion|log in|sign in/i })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /connexion|log in|sign in/i }),
+    ).toBeVisible();
   });
 
   test("shows link to register page", async ({ page }) => {
@@ -55,8 +57,14 @@ test.describe("Auth — login page", () => {
     await expect(link).toBeVisible();
   });
 
-  test("redirects already-logged-in user away from login page", async ({ page, context }) => {
-    await setMockUser(context, { email: "test@test.com", full_name: "Test User" });
+  test("redirects already-logged-in user away from login page", async ({
+    page,
+    context,
+  }) => {
+    await setMockUser(context, {
+      email: "test@test.com",
+      full_name: "Test User",
+    });
     await page.goto("/auth/login");
     // Should redirect to /dashboard or stay (depending on middleware)
     await expect(page).toHaveURL(/\/(dashboard|learn|marketplace|onboarding)/);
@@ -79,23 +87,36 @@ test.describe("Auth — register page", () => {
 });
 
 test.describe("Auth — protected routes", () => {
-  test("unauthenticated user is redirected from /dashboard to login", async ({ page }) => {
+  test("unauthenticated user is redirected from /dashboard to login", async ({
+    page,
+  }) => {
     await page.goto("/dashboard");
     await expect(page).toHaveURL(/\/auth\/login/);
   });
 
-  test("unauthenticated user is redirected from /settings to login", async ({ page }) => {
+  test("unauthenticated user is redirected from /settings to login", async ({
+    page,
+  }) => {
     await page.goto("/settings");
     await expect(page).toHaveURL(/\/auth\/login/);
   });
 
-  test("unauthenticated user is redirected from /admin to login", async ({ page }) => {
+  test("unauthenticated user is redirected from /admin to login", async ({
+    page,
+  }) => {
     await page.goto("/admin");
     await expect(page).toHaveURL(/\/auth\/login/);
   });
 
-  test("non-admin user is redirected from /admin to /dashboard", async ({ page, context }) => {
-    await setMockUser(context, { email: "learner@test.com", full_name: "Learner", role: "learner" });
+  test("non-admin user is redirected from /admin to /dashboard", async ({
+    page,
+    context,
+  }) => {
+    await setMockUser(context, {
+      email: "learner@test.com",
+      full_name: "Learner",
+      role: "learner",
+    });
     await page.goto("/admin");
     await expect(page).toHaveURL(/\/dashboard/);
     await clearMockUser(context);
@@ -103,12 +124,20 @@ test.describe("Auth — protected routes", () => {
 });
 
 test.describe("Auth — logout", () => {
-  test("clicking logout clears session and redirects home", async ({ page, context }) => {
-    await setMockUser(context, { email: "test@test.com", full_name: "Test User" });
+  test("clicking logout clears session and redirects home", async ({
+    page,
+    context,
+  }) => {
+    await setMockUser(context, {
+      email: "test@test.com",
+      full_name: "Test User",
+    });
     await page.goto("/dashboard");
 
     // Find and click logout button in navbar
-    const logoutBtn = page.getByRole("button", { name: /d[eé]connexion|logout|sign out/i });
+    const logoutBtn = page.getByRole("button", {
+      name: /d[eé]connexion|logout|sign out/i,
+    });
     if (await logoutBtn.isVisible()) {
       await logoutBtn.click();
       await expect(page).toHaveURL(/^\//);

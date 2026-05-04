@@ -66,6 +66,7 @@ JuniorCode/
 ## 🔄 Flux utilisateur
 
 ### Flux Learn → Marketplace
+
 ```
 Débutant arrive sur /learn
     ↓
@@ -92,19 +93,19 @@ Reçoit avis → renforce son profil
 
 ### Tables principales
 
-| Table | Description |
-|-------|-------------|
-| `profiles` | Extension de auth.users — tous les utilisateurs |
+| Table              | Description                                         |
+| ------------------ | --------------------------------------------------- |
+| `profiles`         | Extension de auth.users — tous les utilisateurs     |
 | `learner_profiles` | Données spécifiques apprenants (XP, streak, niveau) |
-| `learning_paths` | Parcours disponibles (Web, Design, Data) |
-| `lessons` | Modules/leçons avec contenu MDX |
-| `user_progress` | Progression par leçon |
-| `badges` | Badges disponibles |
-| `user_badges` | Badges obtenus par utilisateur |
-| `projects` | Projets marketplace |
-| `applications` | Candidatures |
-| `reviews` | Avis post-projet |
-| `payments` | Paiements Stripe |
+| `learning_paths`   | Parcours disponibles (Web, Design, Data)            |
+| `lessons`          | Modules/leçons avec contenu MDX                     |
+| `user_progress`    | Progression par leçon                               |
+| `badges`           | Badges disponibles                                  |
+| `user_badges`      | Badges obtenus par utilisateur                      |
+| `projects`         | Projets marketplace                                 |
+| `applications`     | Candidatures                                        |
+| `reviews`          | Avis post-projet                                    |
+| `payments`         | Paiements Stripe                                    |
 
 ---
 
@@ -120,30 +121,30 @@ Reçoit avis → renforce son profil
 
 ## 🌐 Routes API (Supabase Edge Functions)
 
-| Route | Méthode | Description |
-|-------|---------|-------------|
-| `/functions/v1/award-badge` | POST | Attribuer un badge à un utilisateur |
-| `/functions/v1/complete-lesson` | POST | Marquer une leçon comme complétée |
-| `/functions/v1/create-payment` | POST | Initier un paiement Stripe |
-| `/functions/v1/send-notification` | POST | Envoyer un email (Resend) |
+| Route                             | Méthode | Description                         |
+| --------------------------------- | ------- | ----------------------------------- |
+| `/functions/v1/award-badge`       | POST    | Attribuer un badge à un utilisateur |
+| `/functions/v1/complete-lesson`   | POST    | Marquer une leçon comme complétée   |
+| `/functions/v1/create-payment`    | POST    | Initier un paiement Stripe          |
+| `/functions/v1/send-notification` | POST    | Envoyer un email (Resend)           |
 
 ---
 
 ## 📦 Stack complète
 
-| Couche | Technologie | Raison |
-|--------|-------------|--------|
-| Framework | Next.js 14 (App Router) | SSR, RSC, performance |
-| Language | TypeScript | Sécurité types, DX |
-| Styling | Tailwind CSS + shadcn/ui | Rapidité, cohérence |
-| BaaS | Supabase | Auth + DB + Storage + Realtime |
-| State | Zustand | Simple, léger |
-| Data Fetching | TanStack Query | Cache, mutations, optimistic UI |
-| Formulaires | React Hook Form + Zod | Validation robuste |
-| Paiements | Stripe | Standard industrie |
-| Emails | Resend | Delivrabilité excellente |
-| Monorepo | Turborepo | Build cache, DX |
-| Package Manager | pnpm | Performance, disk space |
-| Déploiement | Vercel | Intégration Next.js parfaite |
-| CI/CD | GitHub Actions | Gratuit, intégré |
-| Tests | Vitest + Playwright | Unitaires + E2E |
+| Couche          | Technologie              | Raison                          |
+| --------------- | ------------------------ | ------------------------------- |
+| Framework       | Next.js 14 (App Router)  | SSR, RSC, performance           |
+| Language        | TypeScript               | Sécurité types, DX              |
+| Styling         | Tailwind CSS + shadcn/ui | Rapidité, cohérence             |
+| BaaS            | Supabase                 | Auth + DB + Storage + Realtime  |
+| State           | Zustand                  | Simple, léger                   |
+| Data Fetching   | TanStack Query           | Cache, mutations, optimistic UI |
+| Formulaires     | React Hook Form + Zod    | Validation robuste              |
+| Paiements       | Stripe                   | Standard industrie              |
+| Emails          | Resend                   | Delivrabilité excellente        |
+| Monorepo        | Turborepo                | Build cache, DX                 |
+| Package Manager | pnpm                     | Performance, disk space         |
+| Déploiement     | Vercel                   | Intégration Next.js parfaite    |
+| CI/CD           | GitHub Actions           | Gratuit, intégré                |
+| Tests           | Vitest + Playwright      | Unitaires + E2E                 |

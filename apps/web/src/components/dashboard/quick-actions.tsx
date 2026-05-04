@@ -8,16 +8,19 @@ interface QuickActionsProps {
   readyJunior: boolean;
 }
 
-const COPY: Record<Language, {
-  title: string;
-  continueLearning: string;
-  continueDescription: string;
-  seeProjects: string;
-  applyProjects: string;
-  settings: string;
-  settingsDescription: string;
-  unlockAtLevel: (currentLevel: number) => string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    title: string;
+    continueLearning: string;
+    continueDescription: string;
+    seeProjects: string;
+    applyProjects: string;
+    settings: string;
+    settingsDescription: string;
+    unlockAtLevel: (currentLevel: number) => string;
+  }
+> = {
   fr: {
     title: "Actions rapides",
     continueLearning: "Continuer d'apprendre",
@@ -26,7 +29,8 @@ const COPY: Record<Language, {
     applyProjects: "Postule à des projets réels",
     settings: "Compléter mon profil",
     settingsDescription: "Ajoute portfolio, bio et liens utiles",
-    unlockAtLevel: (currentLevel) => `Débloque au niveau 4 (niveau actuel : ${currentLevel})`,
+    unlockAtLevel: (currentLevel) =>
+      `Débloque au niveau 4 (niveau actuel : ${currentLevel})`,
   },
   en: {
     title: "Quick actions",
@@ -36,7 +40,8 @@ const COPY: Record<Language, {
     applyProjects: "Apply to real projects",
     settings: "Complete profile",
     settingsDescription: "Add portfolio, bio and useful links",
-    unlockAtLevel: (currentLevel) => `Unlocks at level 4 (current level: ${currentLevel})`,
+    unlockAtLevel: (currentLevel) =>
+      `Unlocks at level 4 (current level: ${currentLevel})`,
   },
   es: {
     title: "Acciones rápidas",
@@ -46,11 +51,16 @@ const COPY: Record<Language, {
     applyProjects: "Postúlate a proyectos reales",
     settings: "Completar perfil",
     settingsDescription: "Añade portfolio, bio y enlaces útiles",
-    unlockAtLevel: (currentLevel) => `Se desbloquea en el nivel 4 (nivel actual: ${currentLevel})`,
+    unlockAtLevel: (currentLevel) =>
+      `Se desbloquea en el nivel 4 (nivel actual: ${currentLevel})`,
   },
 };
 
-export function QuickActions({ language, currentLevel, readyJunior }: QuickActionsProps) {
+export function QuickActions({
+  language,
+  currentLevel,
+  readyJunior,
+}: QuickActionsProps) {
   const copy = COPY[language];
   const actions = [
     {
@@ -81,7 +91,9 @@ export function QuickActions({ language, currentLevel, readyJunior }: QuickActio
       color: readyJunior
         ? "border-market-200 hover:border-market-400 hover:bg-market-50"
         : "border-gray-200 opacity-50 cursor-not-allowed",
-      iconColor: readyJunior ? "bg-market-100 text-market-600" : "bg-gray-100 text-gray-400",
+      iconColor: readyJunior
+        ? "bg-market-100 text-market-600"
+        : "bg-gray-100 text-gray-400",
       locked: !readyJunior,
     },
   ];
@@ -99,12 +111,22 @@ export function QuickActions({ language, currentLevel, readyJunior }: QuickActio
               aria-disabled={action.locked}
               className={`flex items-center gap-3 rounded-lg border p-3 transition-all group ${action.color}`}
             >
-              <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${action.iconColor}`}>
-                {action.locked ? <Lock className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+              <div
+                className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${action.iconColor}`}
+              >
+                {action.locked ? (
+                  <Lock className="h-4 w-4" />
+                ) : (
+                  <Icon className="h-4 w-4" />
+                )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-950 truncate">{action.label}</p>
-                <p className="text-xs text-slate-400 truncate">{action.description}</p>
+                <p className="text-sm font-semibold text-slate-950 truncate">
+                  {action.label}
+                </p>
+                <p className="text-xs text-slate-400 truncate">
+                  {action.description}
+                </p>
               </div>
               {!action.locked && (
                 <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-600 transition-colors flex-shrink-0" />

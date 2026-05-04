@@ -56,47 +56,50 @@ type InteractiveModuleProps = {
   nextModule?: { id: string; title: string } | null;
 };
 
-const COPY: Record<Language, {
-  room: string;
-  missionBrief: string;
-  tasks: string;
-  task: string;
-  understand: string;
-  keyDetails: string;
-  guidedExample: string;
-  practice: string;
-  lab: string;
-  checkpoint: string;
-  progress: string;
-  completed: string;
-  markDone: string;
-  completedTask: string;
-  answerPlaceholder: string;
-  checkAnswer: string;
-  correct: string;
-  tryAgain: string;
-  hint: string;
-  playground: string;
-  playgroundIntro: string;
-  runChecks: string;
-  resetLab: string;
-  labPassed: string;
-  labNeedsWork: string;
-  applyPrompt: string;
-  applyPlaceholder: string;
-  submitReflection: string;
-  reflectionSaved: string;
-  objectives: string;
-  resources: string;
-  previous: string;
-  next: string;
-  backToPath: string;
-  viewMissions: string;
-  lesson: string;
-  exercise: string;
-  project: string;
-  xp: string;
-}> = {
+const COPY: Record<
+  Language,
+  {
+    room: string;
+    missionBrief: string;
+    tasks: string;
+    task: string;
+    understand: string;
+    keyDetails: string;
+    guidedExample: string;
+    practice: string;
+    lab: string;
+    checkpoint: string;
+    progress: string;
+    completed: string;
+    markDone: string;
+    completedTask: string;
+    answerPlaceholder: string;
+    checkAnswer: string;
+    correct: string;
+    tryAgain: string;
+    hint: string;
+    playground: string;
+    playgroundIntro: string;
+    runChecks: string;
+    resetLab: string;
+    labPassed: string;
+    labNeedsWork: string;
+    applyPrompt: string;
+    applyPlaceholder: string;
+    submitReflection: string;
+    reflectionSaved: string;
+    objectives: string;
+    resources: string;
+    previous: string;
+    next: string;
+    backToPath: string;
+    viewMissions: string;
+    lesson: string;
+    exercise: string;
+    project: string;
+    xp: string;
+  }
+> = {
   fr: {
     room: "Room",
     missionBrief: "Brief de mission",
@@ -123,7 +126,8 @@ const COPY: Record<Language, {
     resetLab: "Reset",
     labPassed: "Lab validé. Tu as appliqué le concept.",
     labNeedsWork: "Il manque encore un élément demandé.",
-    applyPrompt: "Explique en 1 phrase comment tu appliquerais ça dans ton projet.",
+    applyPrompt:
+      "Explique en 1 phrase comment tu appliquerais ça dans ton projet.",
     applyPlaceholder: "Ex: J'utiliserais...",
     submitReflection: "Sauvegarder",
     reflectionSaved: "Réponse sauvegardée.",
@@ -164,7 +168,8 @@ const COPY: Record<Language, {
     resetLab: "Reset",
     labPassed: "Lab passed. You applied the concept.",
     labNeedsWork: "One required element is still missing.",
-    applyPrompt: "In one sentence, explain how you would use this in your project.",
+    applyPrompt:
+      "In one sentence, explain how you would use this in your project.",
     applyPlaceholder: "Example: I would use...",
     submitReflection: "Save",
     reflectionSaved: "Answer saved.",
@@ -255,22 +260,61 @@ const HTML_STARTER: Record<Language, string> = {
 </html>`,
 };
 
-const CHECKPOINTS: Record<string, Record<Language, Array<{ question: string; answers: string[]; hint: string }>>> = {
+const CHECKPOINTS: Record<
+  string,
+  Record<Language, Array<{ question: string; answers: string[]; hint: string }>>
+> = {
   "html-basics": {
     fr: [
-      { question: "Quel attribut indique la langue de la page ?", answers: ["lang"], hint: "Il se place souvent sur la balise <html>." },
-      { question: "Quelle balise contient le contenu principal unique ?", answers: ["main"], hint: "Une seule par page." },
-      { question: "Quel attribut décrit une image ?", answers: ["alt"], hint: "Très important pour l'accessibilité." },
+      {
+        question: "Quel attribut indique la langue de la page ?",
+        answers: ["lang"],
+        hint: "Il se place souvent sur la balise <html>.",
+      },
+      {
+        question: "Quelle balise contient le contenu principal unique ?",
+        answers: ["main"],
+        hint: "Une seule par page.",
+      },
+      {
+        question: "Quel attribut décrit une image ?",
+        answers: ["alt"],
+        hint: "Très important pour l'accessibilité.",
+      },
     ],
     en: [
-      { question: "Which attribute declares the page language?", answers: ["lang"], hint: "It is often placed on the <html> tag." },
-      { question: "Which tag contains the unique main content?", answers: ["main"], hint: "Use only one per page." },
-      { question: "Which attribute describes an image?", answers: ["alt"], hint: "Very important for accessibility." },
+      {
+        question: "Which attribute declares the page language?",
+        answers: ["lang"],
+        hint: "It is often placed on the <html> tag.",
+      },
+      {
+        question: "Which tag contains the unique main content?",
+        answers: ["main"],
+        hint: "Use only one per page.",
+      },
+      {
+        question: "Which attribute describes an image?",
+        answers: ["alt"],
+        hint: "Very important for accessibility.",
+      },
     ],
     es: [
-      { question: "Qué atributo indica el idioma de la página?", answers: ["lang"], hint: "Suele ir en la etiqueta <html>." },
-      { question: "Qué etiqueta contiene el contenido principal único?", answers: ["main"], hint: "Usa solo una por página." },
-      { question: "Qué atributo describe una imagen?", answers: ["alt"], hint: "Muy importante para accesibilidad." },
+      {
+        question: "Qué atributo indica el idioma de la página?",
+        answers: ["lang"],
+        hint: "Suele ir en la etiqueta <html>.",
+      },
+      {
+        question: "Qué etiqueta contiene el contenido principal único?",
+        answers: ["main"],
+        hint: "Usa solo una por página.",
+      },
+      {
+        question: "Qué atributo describe una imagen?",
+        answers: ["alt"],
+        hint: "Muy importante para accesibilidad.",
+      },
     ],
   },
 };
@@ -287,7 +331,9 @@ export function InteractiveModule({
   const [activeTask, setActiveTask] = useState(0);
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [answerStatus, setAnswerStatus] = useState<Record<number, "correct" | "wrong">>({});
+  const [answerStatus, setAnswerStatus] = useState<
+    Record<number, "correct" | "wrong">
+  >({});
   const [labCode, setLabCode] = useState(HTML_STARTER[language]);
   const [labPassed, setLabPassed] = useState<boolean | null>(null);
   const [reflection, setReflection] = useState("");
@@ -295,19 +341,28 @@ export function InteractiveModule({
 
   const checkpoints = CHECKPOINTS[module.id]?.[language] ?? [];
   const completedCount = completedTasks.length;
-  const progress = Math.round((completedCount / Math.max(module.steps.length, 1)) * 100);
+  const progress = Math.round(
+    (completedCount / Math.max(module.steps.length, 1)) * 100,
+  );
   const activeStep = module.steps[activeTask] ?? module.steps[0];
   const stepDetails = activeStep.details?.length
     ? activeStep.details
     : getDefaultDetails(module.type, language, Boolean(activeStep.code));
-  const guidedExample = activeStep.example ?? getDefaultExample(module.type, language, Boolean(activeStep.code));
+  const guidedExample =
+    activeStep.example ??
+    getDefaultExample(module.type, language, Boolean(activeStep.code));
 
   const typeLabel = getTypeLabel(module.type, copy);
-  const xp = useMemo(() => module.steps.length * 25 + checkpoints.length * 10, [checkpoints.length, module.steps.length]);
+  const xp = useMemo(
+    () => module.steps.length * 25 + checkpoints.length * 10,
+    [checkpoints.length, module.steps.length],
+  );
 
   function markTaskComplete(index: number) {
     const id = `${module.id}:${index}`;
-    setCompletedTasks((current) => current.includes(id) ? current : [...current, id]);
+    setCompletedTasks((current) =>
+      current.includes(id) ? current : [...current, id],
+    );
     setActiveTask((current) => Math.min(current + 1, module.steps.length - 1));
   }
 
@@ -318,8 +373,13 @@ export function InteractiveModule({
   function checkAnswer(index: number) {
     const checkpoint = checkpoints[index];
     const value = (answers[index] ?? "").trim().toLowerCase();
-    const ok = checkpoint.answers.some((answer) => answer.toLowerCase() === value);
-    setAnswerStatus((current) => ({ ...current, [index]: ok ? "correct" : "wrong" }));
+    const ok = checkpoint.answers.some(
+      (answer) => answer.toLowerCase() === value,
+    );
+    setAnswerStatus((current) => ({
+      ...current,
+      [index]: ok ? "correct" : "wrong",
+    }));
   }
 
   function runLabChecks() {
@@ -338,9 +398,14 @@ export function InteractiveModule({
     <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <nav className="flex items-center gap-2 text-sm text-white/50">
-          <Link href="/learn" className="hover:text-white transition-colors">Learn</Link>
+          <Link href="/learn" className="hover:text-white transition-colors">
+            Learn
+          </Link>
           <span>/</span>
-          <Link href={`/learn/${path}`} className="hover:text-white transition-colors">
+          <Link
+            href={`/learn/${path}`}
+            className="hover:text-white transition-colors"
+          >
             {pathLabel}
           </Link>
           <span>/</span>
@@ -358,7 +423,9 @@ export function InteractiveModule({
           <div className="overflow-hidden rounded-2xl border border-white/15 bg-white/[0.04]">
             <div className="border-b border-white/10 p-5">
               <div className="mb-3 flex items-center gap-2">
-                <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs ${getTypeClass(module.type)}`}>
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs ${getTypeClass(module.type)}`}
+                >
                   {getTypeIcon(module.type)}
                   {typeLabel}
                 </span>
@@ -367,7 +434,9 @@ export function InteractiveModule({
                   {module.duration}
                 </span>
               </div>
-              <h1 className="text-xl font-bold leading-tight">{module.title}</h1>
+              <h1 className="text-xl font-bold leading-tight">
+                {module.title}
+              </h1>
               <p className="mt-3 text-sm text-white/60">{module.intro}</p>
             </div>
 
@@ -377,7 +446,10 @@ export function InteractiveModule({
                 <span>{progress}%</span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                <div className="h-full rounded-full bg-learn-400 transition-all" style={{ width: `${progress}%` }} />
+                <div
+                  className="h-full rounded-full bg-learn-400 transition-all"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
               <p className="mt-2 text-xs text-white/45">
                 {completedCount} / {module.steps.length} {copy.completed}
@@ -385,7 +457,9 @@ export function InteractiveModule({
             </div>
 
             <div className="p-3">
-              <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-white/40">{copy.tasks}</p>
+              <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-white/40">
+                {copy.tasks}
+              </p>
               <div className="space-y-1">
                 {module.steps.map((step, index) => {
                   const done = isTaskComplete(index);
@@ -395,10 +469,16 @@ export function InteractiveModule({
                       type="button"
                       onClick={() => setActiveTask(index)}
                       className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition ${
-                        activeTask === index ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/[0.06] hover:text-white"
+                        activeTask === index
+                          ? "bg-white/10 text-white"
+                          : "text-white/60 hover:bg-white/[0.06] hover:text-white"
                       }`}
                     >
-                      {done ? <CheckCircle2 className="h-4 w-4 text-learn-300" /> : <Circle className="h-4 w-4" />}
+                      {done ? (
+                        <CheckCircle2 className="h-4 w-4 text-learn-300" />
+                      ) : (
+                        <Circle className="h-4 w-4" />
+                      )}
                       <span className="min-w-0 flex-1 truncate text-sm">
                         {index + 1}. {step.title}
                       </span>
@@ -416,10 +496,15 @@ export function InteractiveModule({
               <Flag className="h-5 w-5 text-brand-300" />
               <h2 className="font-semibold">{copy.missionBrief}</h2>
             </div>
-            <p className="text-sm leading-relaxed text-white/70">{module.intro}</p>
+            <p className="text-sm leading-relaxed text-white/70">
+              {module.intro}
+            </p>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {module.objectives.map((objective) => (
-                <div key={objective} className="flex items-start gap-3 rounded-xl border border-white/10 bg-black/15 p-3 text-sm text-white/70">
+                <div
+                  key={objective}
+                  className="flex items-start gap-3 rounded-xl border border-white/10 bg-black/15 p-3 text-sm text-white/70"
+                >
                   <Target className="mt-0.5 h-4 w-4 flex-shrink-0 text-learn-300" />
                   {objective}
                 </div>
@@ -434,7 +519,9 @@ export function InteractiveModule({
                   {activeTask + 1}
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-white/40">{copy.task}</p>
+                  <p className="text-xs uppercase tracking-wider text-white/40">
+                    {copy.task}
+                  </p>
                   <h2 className="font-semibold">{activeStep.title}</h2>
                 </div>
               </div>
@@ -451,7 +538,9 @@ export function InteractiveModule({
                   <BookOpen className="h-4 w-4 text-brand-300" />
                   <h3 className="text-sm font-semibold">{copy.understand}</h3>
                 </div>
-                <p className="text-sm leading-relaxed text-white/72">{activeStep.content}</p>
+                <p className="text-sm leading-relaxed text-white/72">
+                  {activeStep.content}
+                </p>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
@@ -476,7 +565,9 @@ export function InteractiveModule({
                     {copy.guidedExample}
                   </span>
                 </div>
-                <p className={`${activeStep.code ? "border-b border-white/10" : ""} bg-black/20 px-4 py-3 text-sm leading-relaxed text-white/68`}>
+                <p
+                  className={`${activeStep.code ? "border-b border-white/10" : ""} bg-black/20 px-4 py-3 text-sm leading-relaxed text-white/68`}
+                >
                   {guidedExample}
                 </p>
                 {activeStep.code && (
@@ -489,9 +580,16 @@ export function InteractiveModule({
               <div className="flex items-start gap-3 rounded-xl border border-learn-500/25 bg-learn-500/10 px-4 py-3">
                 <Hammer className="mt-0.5 h-4 w-4 flex-shrink-0 text-learn-300" />
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-learn-200/75">{copy.practice}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-learn-200/75">
+                    {copy.practice}
+                  </p>
                   <p className="mt-1 text-sm leading-relaxed text-white/75">
-                    {activeStep.practice ?? getPracticePrompt(module.type, language, Boolean(activeStep.code))}
+                    {activeStep.practice ??
+                      getPracticePrompt(
+                        module.type,
+                        language,
+                        Boolean(activeStep.code),
+                      )}
                   </p>
                 </div>
               </div>
@@ -500,8 +598,12 @@ export function InteractiveModule({
                 <div className="flex items-start gap-3 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3">
                   <Lightbulb className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" />
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-amber-200/70">{copy.hint}</p>
-                    <p className="mt-1 text-sm text-amber-100/90">{activeStep.tip}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-amber-200/70">
+                      {copy.hint}
+                    </p>
+                    <p className="mt-1 text-sm text-amber-100/90">
+                      {activeStep.tip}
+                    </p>
                   </div>
                 </div>
               )}
@@ -512,7 +614,9 @@ export function InteractiveModule({
                 className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
               >
                 <CheckCircle2 className="h-4 w-4" />
-                {isTaskComplete(activeTask) ? copy.completedTask : copy.markDone}
+                {isTaskComplete(activeTask)
+                  ? copy.completedTask
+                  : copy.markDone}
               </button>
             </div>
           </section>
@@ -525,7 +629,9 @@ export function InteractiveModule({
                     <TerminalSquare className="h-5 w-5 text-learn-300" />
                     <h2 className="font-semibold">{copy.playground}</h2>
                   </div>
-                  <p className="mt-1 text-sm text-white/50">{copy.playgroundIntro}</p>
+                  <p className="mt-1 text-sm text-white/50">
+                    {copy.playgroundIntro}
+                  </p>
                 </div>
                 <button
                   type="button"
@@ -556,7 +662,9 @@ export function InteractiveModule({
                   {copy.runChecks}
                 </button>
                 {labPassed !== null && (
-                  <span className={`text-sm ${labPassed ? "text-learn-300" : "text-amber-200"}`}>
+                  <span
+                    className={`text-sm ${labPassed ? "text-learn-300" : "text-amber-200"}`}
+                  >
                     {labPassed ? copy.labPassed : copy.labNeedsWork}
                   </span>
                 )}
@@ -572,13 +680,23 @@ export function InteractiveModule({
               </div>
               <div className="space-y-4">
                 {checkpoints.map((checkpoint, index) => (
-                  <div key={checkpoint.question} className="rounded-xl border border-white/10 bg-black/15 p-4">
+                  <div
+                    key={checkpoint.question}
+                    className="rounded-xl border border-white/10 bg-black/15 p-4"
+                  >
                     <p className="text-sm font-medium">{checkpoint.question}</p>
-                    <p className="mt-1 text-xs text-white/45">{copy.hint}: {checkpoint.hint}</p>
+                    <p className="mt-1 text-xs text-white/45">
+                      {copy.hint}: {checkpoint.hint}
+                    </p>
                     <div className="mt-3 flex flex-col gap-2 sm:flex-row">
                       <input
                         value={answers[index] ?? ""}
-                        onChange={(event) => setAnswers((current) => ({ ...current, [index]: event.target.value }))}
+                        onChange={(event) =>
+                          setAnswers((current) => ({
+                            ...current,
+                            [index]: event.target.value,
+                          }))
+                        }
                         placeholder={copy.answerPlaceholder}
                         className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-brand-300"
                       />
@@ -592,8 +710,12 @@ export function InteractiveModule({
                       </button>
                     </div>
                     {answerStatus[index] && (
-                      <p className={`mt-2 text-sm ${answerStatus[index] === "correct" ? "text-learn-300" : "text-amber-200"}`}>
-                        {answerStatus[index] === "correct" ? copy.correct : copy.tryAgain}
+                      <p
+                        className={`mt-2 text-sm ${answerStatus[index] === "correct" ? "text-learn-300" : "text-amber-200"}`}
+                      >
+                        {answerStatus[index] === "correct"
+                          ? copy.correct
+                          : copy.tryAgain}
                       </p>
                     )}
                   </div>
@@ -631,7 +753,11 @@ export function InteractiveModule({
                 <CheckCircle2 className="h-4 w-4" />
                 {copy.submitReflection}
               </button>
-              {reflectionSaved && <span className="text-sm text-learn-300">{copy.reflectionSaved}</span>}
+              {reflectionSaved && (
+                <span className="text-sm text-learn-300">
+                  {copy.reflectionSaved}
+                </span>
+              )}
             </div>
           </section>
 
@@ -665,13 +791,18 @@ export function InteractiveModule({
                     className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2.5 text-sm text-white/70 transition hover:bg-white/10 hover:text-white"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                    <span className="hidden max-w-[170px] truncate sm:block">{prevModule.title}</span>
+                    <span className="hidden max-w-[170px] truncate sm:block">
+                      {prevModule.title}
+                    </span>
                     <span className="sm:hidden">{copy.previous}</span>
                   </Link>
                 )}
               </div>
 
-              <Link href={`/learn/${path}`} className="text-sm text-white/50 transition hover:text-white">
+              <Link
+                href={`/learn/${path}`}
+                className="text-sm text-white/50 transition hover:text-white"
+              >
                 {copy.backToPath}
               </Link>
 
@@ -681,7 +812,9 @@ export function InteractiveModule({
                     href={`/learn/${path}/${nextModule.id}`}
                     className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
                   >
-                    <span className="hidden max-w-[170px] truncate sm:block">{nextModule.title}</span>
+                    <span className="hidden max-w-[170px] truncate sm:block">
+                      {nextModule.title}
+                    </span>
                     <span className="sm:hidden">{copy.next}</span>
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -703,7 +836,7 @@ export function InteractiveModule({
   );
 }
 
-function getTypeLabel(type: ModuleType, copy: typeof COPY[Language]) {
+function getTypeLabel(type: ModuleType, copy: (typeof COPY)[Language]) {
   if (type === "project") return copy.project;
   if (type === "exercise") return copy.exercise;
   return copy.lesson;
@@ -716,12 +849,18 @@ function getTypeIcon(type: ModuleType) {
 }
 
 function getTypeClass(type: ModuleType) {
-  if (type === "project") return "border-brand-500/30 bg-brand-500/20 text-brand-300";
-  if (type === "exercise") return "border-learn-500/30 bg-learn-500/20 text-learn-300";
+  if (type === "project")
+    return "border-brand-500/30 bg-brand-500/20 text-brand-300";
+  if (type === "exercise")
+    return "border-learn-500/30 bg-learn-500/20 text-learn-300";
   return "border-white/20 bg-white/10 text-white/70";
 }
 
-function getDefaultDetails(type: ModuleType, language: Language, hasCode: boolean) {
+function getDefaultDetails(
+  type: ModuleType,
+  language: Language,
+  hasCode: boolean,
+) {
   const details: Record<Language, Record<ModuleType, string[]>> = {
     fr: {
       lesson: [
@@ -785,7 +924,11 @@ function getDefaultDetails(type: ModuleType, language: Language, hasCode: boolea
   return details[language][type];
 }
 
-function getDefaultExample(type: ModuleType, language: Language, hasCode: boolean) {
+function getDefaultExample(
+  type: ModuleType,
+  language: Language,
+  hasCode: boolean,
+) {
   const examples: Record<Language, Record<ModuleType, string>> = {
     fr: {
       lesson: hasCode
@@ -819,28 +962,38 @@ function getDefaultExample(type: ModuleType, language: Language, hasCode: boolea
   return examples[language][type];
 }
 
-function getPracticePrompt(type: ModuleType, language: Language, hasCode: boolean) {
+function getPracticePrompt(
+  type: ModuleType,
+  language: Language,
+  hasCode: boolean,
+) {
   const prompts: Record<Language, Record<ModuleType, string>> = {
     fr: {
       lesson: hasCode
         ? "Reproduis l'exemple dans un petit fichier, change deux valeurs, puis explique ce qui a changé avec tes mots."
         : "Prends un cas réel de ton projet et applique le concept en 5 minutes. Note ce qui est clair et ce qui bloque encore.",
-      exercise: "Réalise l'action demandée sur ton propre projet, puis vérifie le résultat comme si tu devais le livrer à un client.",
-      project: "Intègre cette étape dans ton livrable final. Garde une version propre que tu pourrais montrer dans ton portfolio.",
+      exercise:
+        "Réalise l'action demandée sur ton propre projet, puis vérifie le résultat comme si tu devais le livrer à un client.",
+      project:
+        "Intègre cette étape dans ton livrable final. Garde une version propre que tu pourrais montrer dans ton portfolio.",
     },
     en: {
       lesson: hasCode
         ? "Recreate the example in a small file, change two values, then explain what changed in your own words."
         : "Pick a real case from your project and apply the concept for 5 minutes. Note what is clear and what still feels blocked.",
-      exercise: "Do the requested action in your own project, then check the result as if you were handing it to a client.",
-      project: "Add this step to your final deliverable. Keep a clean version you could show in your portfolio.",
+      exercise:
+        "Do the requested action in your own project, then check the result as if you were handing it to a client.",
+      project:
+        "Add this step to your final deliverable. Keep a clean version you could show in your portfolio.",
     },
     es: {
       lesson: hasCode
         ? "Reproduce el ejemplo en un archivo pequeño, cambia dos valores y explica con tus palabras qué cambió."
         : "Toma un caso real de tu proyecto y aplica el concepto durante 5 minutos. Anota qué está claro y qué sigue bloqueado.",
-      exercise: "Haz la acción pedida en tu propio proyecto y revisa el resultado como si fueras a entregarlo a un cliente.",
-      project: "Integra este paso en tu entregable final. Guarda una versión limpia que puedas mostrar en tu portfolio.",
+      exercise:
+        "Haz la acción pedida en tu propio proyecto y revisa el resultado como si fueras a entregarlo a un cliente.",
+      project:
+        "Integra este paso en tu entregable final. Guarda una versión limpia que puedas mostrar en tu portfolio.",
     },
   };
 
