@@ -16,6 +16,11 @@ apps/**/.next/
 *.tsbuildinfo
 # Security event log (runtime data, not tracked in git)
 apps/web/data/security-events.json
+
+# Playwright reports
+apps/**/playwright-report/
+apps/**/test-results/
+apps/**/.tmp-*.png
 .vercel/output
 .vercel/cache
 .vercel

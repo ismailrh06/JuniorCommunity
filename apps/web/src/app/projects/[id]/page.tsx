@@ -51,7 +51,7 @@ const COPY: Record<
     back: "← Retour au Marketplace",
     apply: "Postuler à ce projet",
     loginToApply: "Connectez-vous pour postuler",
-    juniorOnly: "Projet Junior-Only ✅",
+    juniorOnly: "Projet Junior-Only",
     requiredBadge: "Badge requis",
     client: "Client",
     budget: "Budget",
@@ -70,7 +70,7 @@ const COPY: Record<
     back: "← Back to Marketplace",
     apply: "Apply to this project",
     loginToApply: "Log in to apply",
-    juniorOnly: "Junior-Only Project ✅",
+    juniorOnly: "Junior-Only Project",
     requiredBadge: "Required badge",
     client: "Client",
     budget: "Budget",
@@ -89,7 +89,7 @@ const COPY: Record<
     back: "← Volver al Marketplace",
     apply: "Postularse a este proyecto",
     loginToApply: "Inicia sesión para postularte",
-    juniorOnly: "Proyecto Junior-Only ✅",
+    juniorOnly: "Proyecto Junior-Only",
     requiredBadge: "Insignia requerida",
     client: "Cliente",
     budget: "Presupuesto",
@@ -140,7 +140,7 @@ const MOCK_PROJECTS: Project[] = [
     category: "Web",
     tags: ["Next.js", "Tailwind", "Figma"],
     juniorOnly: true,
-    requiredBadge: "🌐 Web Developer L1",
+    requiredBadge: "Web Developer L1",
     description: {
       fr: "Nous cherchons un développeur web junior pour créer la landing page marketing de notre application de paiement entre particuliers. Le design Figma est déjà prêt, il faut l'intégrer en Next.js avec des animations légères et un formulaire d'inscription en liste d'attente.",
       en: "We're looking for a junior web developer to create the marketing landing page for our peer-to-peer payment app. The Figma design is ready — you'll integrate it in Next.js with light animations and a waitlist signup form.",
@@ -196,7 +196,7 @@ const MOCK_PROJECTS: Project[] = [
     category: "Design",
     tags: ["Figma", "UX", "Design System"],
     juniorOnly: false,
-    requiredBadge: "🎨 UI Designer L1",
+    requiredBadge: "UI Designer L1",
     description: {
       fr: "Notre app mobile de suivi alimentaire a besoin d'une refonte complète de son interface. Nous cherchons un designer junior capable de proposer un nouveau design system, des maquettes Figma pour les 10 écrans principaux, et un prototype cliquable.",
       en: "Our food tracking mobile app needs a complete UI overhaul. We're looking for a junior designer to propose a new design system, Figma mockups for the 10 main screens, and a clickable prototype.",
@@ -252,7 +252,7 @@ const MOCK_PROJECTS: Project[] = [
     category: "Data",
     tags: ["Python", "Pandas", "Streamlit"],
     juniorOnly: true,
-    requiredBadge: "📊 Data Analyst L1",
+    requiredBadge: "Data Analyst L1",
     description: {
       fr: "Nous sommes une association culturelle parisienne et nous avons besoin d'un tableau de bord simple pour visualiser nos données de fréquentation (fichiers CSV). Streamlit ou équivalent, déployé sur Streamlit Cloud.",
       en: "We're a Paris cultural nonprofit needing a simple dashboard to visualize our attendance data (CSV files). Streamlit or equivalent, deployed on Streamlit Cloud.",
@@ -288,7 +288,7 @@ export default async function ProjectDetailPage({
   params,
 }: Readonly<{ params: Promise<{ id: string }> }>) {
   const { id } = await params;
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const langRaw = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()

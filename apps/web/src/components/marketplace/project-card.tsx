@@ -34,7 +34,7 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         {project.junior_only && (
           <span className="text-xs bg-learn-100 text-learn-700 px-2 py-0.5 rounded-full font-medium">
-            🟢 Junior Only
+             Junior Only
           </span>
         )}
         {project.is_sponsored && (

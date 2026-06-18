@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
+import { getSupabaseServerClient } from "@juniorcode/db/server";
 import {
   getSecurityEvents,
   logSecurityEvent,
@@ -18,6 +19,22 @@ import {
   type SecurityEventType,
   type SecuritySeverity,
 } from "@/lib/security-store";
+
+const VALID_EVENT_TYPES = new Set<SecurityEventType>([
+  "brute_force",
+  "suspicious_ip",
+  "role_escalation",
+  "mass_request",
+  "invalid_token",
+  "scraping",
+]);
+
+const VALID_SEVERITIES = new Set<SecuritySeverity>([
+  "critical",
+  "high",
+  "medium",
+  "low",
+]);
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -29,19 +46,46 @@ function getIp(req: NextRequest): string {
   );
 }
 
+function isMockMode(): boolean {
+  if (process.env.NODE_ENV === "production") return false;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+  return supabaseUrl === "" || supabaseUrl.includes("placeholder");
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 async function isAdmin(): Promise<boolean> {
-  // eslint-disable-next-line @typescript-eslint/await-thenable
-  const cookieStore = cookies();
-  const raw = cookieStore.get("jc-mock-user")?.value;
-  if (!raw) return false;
-  try {
-    const user = JSON.parse(Buffer.from(raw, "base64").toString("utf-8")) as {
-      role?: string;
-    };
-    return user.role === "admin";
-  } catch {
-    return false;
+  if (isMockMode()) {
+    const cookieStore = await cookies();
+    const raw = cookieStore.get("jc-mock-user")?.value;
+    if (!raw) return false;
+    try {
+      const user = JSON.parse(Buffer.from(raw, "base64").toString("utf-8")) as {
+        role?: string;
+      };
+      return user.role === "admin";
+    } catch {
+      return false;
+    }
   }
+
+  const supabase = await getSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  // Generated DB types can lag behind local migrations.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await (supabase as any)
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  return profile?.role === "admin";
 }
 
 // ── GET ────────────────────────────────────────────────────────────────────
@@ -68,16 +112,46 @@ type LogPayload = {
 export async function POST(req: NextRequest) {
   const ip = getIp(req);
 
-  let body: LogPayload;
+  let body: unknown;
   try {
-    body = (await req.json()) as LogPayload;
+    body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  // Validate required fields
-  if (!body.type || !body.severity || !body.description) {
+  if (!isRecord(body)) {
+    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  }
+
+  const eventType = body.type;
+  const severityValue = body.severity;
+  const rawDescription = body.description;
+
+  if (
+    typeof eventType !== "string" ||
+    !VALID_EVENT_TYPES.has(eventType as SecurityEventType) ||
+    typeof severityValue !== "string" ||
+    !VALID_SEVERITIES.has(severityValue as SecuritySeverity) ||
+    typeof rawDescription !== "string" ||
+    rawDescription.trim().length < 8 ||
+    rawDescription.length > 1000
+  ) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+  }
+
+  const rawEmail = body.email;
+  const rawUserId = body.user_id;
+
+  if (rawEmail !== undefined && typeof rawEmail !== "string") {
+    return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+  }
+
+  if (rawEmail && rawEmail.length > 320) {
+    return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+  }
+
+  if (rawUserId !== undefined && typeof rawUserId !== "string") {
+    return NextResponse.json({ error: "Invalid user_id" }, { status: 400 });
   }
 
   // Rate-limit the security API itself to prevent log flooding
@@ -87,23 +161,25 @@ export async function POST(req: NextRequest) {
   }
 
   // For brute_force events: use in-memory tracker to auto-escalate severity
-  let { type, severity, description } = body;
+  let type = eventType as SecurityEventType;
+  let severity = severityValue as SecuritySeverity;
+  let description = rawDescription.trim();
 
-  if (type === "brute_force" && body.email) {
-    const { count, isBruteForce } = trackFailedLogin(ip, body.email);
+  if (type === "brute_force" && rawEmail) {
+    const { count, isBruteForce } = trackFailedLogin(ip, rawEmail);
     if (isBruteForce) {
       severity = "critical";
-      description = `${count} tentatives de connexion échouées depuis ${ip} pour l'email "${body.email}" en moins de 5 min.`;
+      description = `${count} tentatives de connexion échouées depuis ${ip} pour l'email "${rawEmail}" en moins de 5 min.`;
     } else if (count >= 3) {
       severity = "high";
-      description = `${count} tentatives de connexion échouées depuis ${ip} pour l'email "${body.email}".`;
+      description = `${count} tentatives de connexion échouées depuis ${ip} pour l'email "${rawEmail}".`;
     }
   }
 
   const event = logSecurityEvent({
     type,
     severity,
-    user_id: body.user_id ?? null,
+    user_id: rawUserId ?? null,
     ip,
     description,
   });

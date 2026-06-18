@@ -61,7 +61,7 @@ const COPY: Record<
     startPath: string;
     paths: Record<
       string,
-      { label: string; emoji: string; firstModule: string }
+      { label: string; marker: string; firstModule: string }
     >;
   }
 > = {
@@ -101,22 +101,22 @@ const COPY: Record<
     paths: {
       "web-developer": {
         label: "Développeur Web",
-        emoji: "💻",
+        marker: "WEB",
         firstModule: "HTML & CSS Fondamentaux",
       },
       "ui-designer": {
         label: "Designer UI",
-        emoji: "🎨",
+        marker: "UI",
         firstModule: "Design System & Figma",
       },
       "data-analyst": {
         label: "Data Analyst",
-        emoji: "📊",
+        marker: "DATA",
         firstModule: "Python & Pandas Intro",
       },
       algorithms: {
         label: "Algorithmique",
-        emoji: "🧠",
+        marker: "ALG",
         firstModule: "Structures de données",
       },
     },
@@ -154,22 +154,22 @@ const COPY: Record<
     paths: {
       "web-developer": {
         label: "Web Developer",
-        emoji: "💻",
+        marker: "WEB",
         firstModule: "HTML & CSS Fundamentals",
       },
       "ui-designer": {
         label: "UI Designer",
-        emoji: "🎨",
+        marker: "UI",
         firstModule: "Design System & Figma",
       },
       "data-analyst": {
         label: "Data Analyst",
-        emoji: "📊",
+        marker: "DATA",
         firstModule: "Python & Pandas Intro",
       },
       algorithms: {
         label: "Algorithms",
-        emoji: "🧠",
+        marker: "ALG",
         firstModule: "Data Structures",
       },
     },
@@ -209,22 +209,22 @@ const COPY: Record<
     paths: {
       "web-developer": {
         label: "Desarrollador Web",
-        emoji: "💻",
+        marker: "WEB",
         firstModule: "HTML & CSS Fundamentos",
       },
       "ui-designer": {
         label: "Diseñador UI",
-        emoji: "🎨",
+        marker: "UI",
         firstModule: "Design System & Figma",
       },
       "data-analyst": {
         label: "Analista de Datos",
-        emoji: "📊",
+        marker: "DATA",
         firstModule: "Python & Pandas Intro",
       },
       algorithms: {
         label: "Algoritmia",
-        emoji: "🧠",
+        marker: "ALG",
         firstModule: "Estructuras de datos",
       },
     },
@@ -233,7 +233,7 @@ const COPY: Record<
 
 /** Read the mock user cookie server-side */
 function getMockUserFromCookies(
-  cookieStore: ReturnType<typeof cookies>,
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
 ): { full_name: string; email: string; role: string } | null {
   const raw = cookieStore.get("jc-mock-user")?.value;
   if (!raw) return null;
@@ -443,7 +443,7 @@ function DashboardShell({
 }
 
 export default async function DashboardPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const languageCookie = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
@@ -521,7 +521,10 @@ export default async function DashboardPage() {
                 {copy.recommendedPath}
               </p>
               <h2 className="mt-2 font-bold text-slate-950">
-                {pathInfo.emoji} {pathInfo.label}
+                <span className="mr-2 inline-flex h-7 w-9 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.06] font-mono text-[10px] text-emerald-200">
+                  {pathInfo.marker}
+                </span>
+                {pathInfo.label}
               </h2>
               <p className="mt-1 text-sm text-slate-500">
                 Module 1 - {pathInfo.firstModule}
@@ -661,7 +664,9 @@ export default async function DashboardPage() {
           {realData.streakDays > 0 && (
             <div className="rounded-lg border border-orange-200 bg-orange-50 p-5 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🔥</div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-[8px] border border-orange-300/20 bg-orange-300/10 font-mono text-xs font-semibold text-orange-200">
+                  STR
+                </div>
                 <div>
                   <p className="text-2xl font-extrabold text-orange-700">
                     {realData.streakDays}

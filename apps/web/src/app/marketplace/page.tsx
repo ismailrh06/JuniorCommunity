@@ -144,18 +144,20 @@ const COPY: Record<
 };
 
 type MarketplacePageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     category?: ProjectCategory | "all";
     difficulty?: ProjectDifficulty | "all";
     junior?: "all" | "true";
     q?: string;
-  };
+  }>;
 };
 
 export default async function MarketplacePage({
   searchParams,
 }: Readonly<MarketplacePageProps>) {
-  const languageCookie = cookies()
+  const resolvedSearchParams = await searchParams;
+  const cookieStore = await cookies();
+  const languageCookie = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
     .slice(0, 2);
@@ -165,10 +167,10 @@ export default async function MarketplacePage({
   const copy = COPY[language];
   const categoryLabels = CATEGORY_LABELS_BY_LANGUAGE[language];
 
-  const category = searchParams?.category ?? "all";
-  const difficulty = searchParams?.difficulty ?? "all";
-  const junior = searchParams?.junior ?? "all";
-  const q = (searchParams?.q ?? "").trim().toLowerCase();
+  const category = resolvedSearchParams?.category ?? "all";
+  const difficulty = resolvedSearchParams?.difficulty ?? "all";
+  const junior = resolvedSearchParams?.junior ?? "all";
+  const q = (resolvedSearchParams?.q ?? "").trim().toLowerCase();
 
   const filteredProjects: ProjectListItem[] = await getProjects({
     category,
@@ -206,7 +208,7 @@ export default async function MarketplacePage({
               href="/profile/alex-martin"
               className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-xs text-white/65 transition hover:bg-white/10"
             >
-              👤 Voir un exemple de profil junior certifié →
+              Voir un exemple de profil junior certifié →
             </Link>
           </div>
         </div>
@@ -222,7 +224,7 @@ export default async function MarketplacePage({
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
               <input
                 name="q"
-                defaultValue={searchParams?.q ?? ""}
+                defaultValue={resolvedSearchParams?.q ?? ""}
                 placeholder={copy.searchPlaceholder}
                 className="w-full rounded-xl border border-white/15 bg-black/20 py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-brand-400"
               />
@@ -268,7 +270,7 @@ export default async function MarketplacePage({
                           category: cat,
                           difficulty,
                           junior,
-                          q: searchParams?.q,
+                          q: resolvedSearchParams?.q,
                         });
                         const isActive = category === cat;
                         return (
@@ -300,7 +302,7 @@ export default async function MarketplacePage({
                           category,
                           difficulty: level,
                           junior,
-                          q: searchParams?.q,
+                          q: resolvedSearchParams?.q,
                         });
                         const isActive = difficulty === level;
                         return (
@@ -331,7 +333,7 @@ export default async function MarketplacePage({
                         category,
                         difficulty,
                         junior: value,
-                        q: searchParams?.q,
+                        q: resolvedSearchParams?.q,
                       });
                       const isActive = junior === value;
                       return (
@@ -374,7 +376,7 @@ export default async function MarketplacePage({
                       <div className="flex items-center gap-2 mb-2">
                         {project.juniorOnly && (
                           <span className="rounded-full bg-learn-500/25 px-2 py-0.5 text-xs font-medium text-learn-200">
-                            🟢 Junior Only
+                            Junior Only
                           </span>
                         )}
                         <span className="text-xs text-white/45">
@@ -408,7 +410,6 @@ export default async function MarketplacePage({
                       <div className="flex flex-col items-end gap-2">
                         {project.requiredBadge ? (
                           <span className="flex items-center gap-1 rounded-full border border-brand-400/40 bg-brand-500/15 px-2.5 py-1 text-xs font-medium text-brand-200">
-                            <span>🏅</span>
                             <span className="hidden sm:inline">
                               {copy.requiredBadgeLabel} :{" "}
                             </span>

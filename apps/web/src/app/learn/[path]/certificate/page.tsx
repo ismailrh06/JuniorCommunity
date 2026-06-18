@@ -38,7 +38,7 @@ const COPY: Record<
   }
 > = {
   fr: {
-    congrats: "🎉 Félicitations !",
+    congrats: "Félicitations",
     certifies: "JuniorCode certifie que",
     hasCompleted: "a complété avec succès le parcours",
     badgeEarned: "Badge obtenu",
@@ -55,7 +55,7 @@ const COPY: Record<
     backToLearn: "← Retour aux parcours",
   },
   en: {
-    congrats: "🎉 Congratulations!",
+    congrats: "Congratulations",
     certifies: "JuniorCode certifies that",
     hasCompleted: "has successfully completed the",
     badgeEarned: "Badge earned",
@@ -72,7 +72,7 @@ const COPY: Record<
     backToLearn: "← Back to paths",
   },
   es: {
-    congrats: "🎉 ¡Felicitaciones!",
+    congrats: "Felicitaciones",
     certifies: "JuniorCode certifica que",
     hasCompleted: "ha completado exitosamente el camino",
     badgeEarned: "Insignia obtenida",
@@ -94,7 +94,7 @@ const PATHS: Record<
   string,
   {
     name: Record<Language, string>;
-    emoji: string;
+    marker: string;
     badge: string;
     color: string;
     gradient: string;
@@ -106,22 +106,22 @@ const PATHS: Record<
       en: "Web Developer",
       es: "Desarrollador Web",
     },
-    emoji: "🌐",
-    badge: "🌐 Web Developer L1",
+    marker: "WEB",
+    badge: "Web Developer L1",
     color: "blue",
     gradient: "from-blue-500 to-indigo-600",
   },
   "ui-designer": {
     name: { fr: "UI Designer", en: "UI Designer", es: "UI Designer" },
-    emoji: "🎨",
-    badge: "🎨 UI Designer L1",
+    marker: "UI",
+    badge: "UI Designer L1",
     color: "purple",
     gradient: "from-purple-500 to-pink-600",
   },
   "data-analyst": {
     name: { fr: "Data Analyst", en: "Data Analyst", es: "Data Analyst" },
-    emoji: "📊",
-    badge: "📊 Data Analyst L1",
+    marker: "DATA",
+    badge: "Data Analyst L1",
     color: "orange",
     gradient: "from-orange-500 to-red-600",
   },
@@ -131,8 +131,8 @@ const PATHS: Record<
       en: "Algorithms & Logic",
       es: "Algoritmos y Lógica",
     },
-    emoji: "🧠",
-    badge: "🧠 Algorithm Thinker",
+    marker: "ALG",
+    badge: "Algorithm Thinker",
     color: "green",
     gradient: "from-green-500 to-teal-600",
   },
@@ -142,7 +142,7 @@ export default async function CertificatePage({
   params,
 }: Readonly<{ params: Promise<{ path: string }> }>) {
   const { path } = await params;
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const langRaw = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
@@ -187,9 +187,7 @@ export default async function CertificatePage({
           {pathData ? (
             <div className="space-y-6">
               {/* ── Certificate card ── */}
-              <div
-                className={`relative bg-gradient-to-br ${pathData.gradient} rounded-2xl p-8 text-white text-center shadow-xl overflow-hidden`}
-              >
+              <div className="relative overflow-hidden rounded-[8px] border border-emerald-300/20 bg-[linear-gradient(135deg,rgba(16,185,129,0.2),rgba(34,211,238,0.12))] p-8 text-center text-white shadow-[0_24px_100px_rgba(0,0,0,0.32)]">
                 {/* Decorative rings */}
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute top-6 left-6 w-32 h-32 rounded-full border-4 border-white" />
@@ -206,7 +204,7 @@ export default async function CertificatePage({
                     {copy.congrats}
                   </h1>
 
-                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-5 mb-4">
+                  <div className="mb-4 rounded-[8px] border border-white/10 bg-white/[0.08] p-5 backdrop-blur-sm">
                     <p className="text-sm opacity-75 mb-1">{copy.certifies}</p>
                     <p className="text-2xl font-bold">{userName}</p>
                     <p className="text-sm opacity-75 mt-1">
@@ -217,7 +215,9 @@ export default async function CertificatePage({
                     </p>
                   </div>
 
-                  <div className="text-3xl mb-3">{pathData.emoji}</div>
+                  <div className="mx-auto mb-3 flex h-11 w-14 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.08] font-mono text-xs font-semibold text-emerald-100">
+                    {pathData.marker}
+                  </div>
                   <p className="text-sm opacity-75">
                     {copy.issuedOn} {issuedDate}
                   </p>
@@ -227,8 +227,8 @@ export default async function CertificatePage({
 
               {/* ── Badge earned ── */}
               <div className="bg-white rounded-2xl border border-gray-200 p-6 flex items-center gap-4">
-                <div className="w-14 h-14 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-2xl shrink-0">
-                  {pathData.badge.split(" ")[0]}
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[8px] border border-emerald-300/20 bg-emerald-300/[0.08] font-mono text-xs font-semibold text-emerald-200">
+                  {pathData.marker}
                 </div>
                 <div>
                   <p className="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-0.5">
@@ -288,7 +288,9 @@ export default async function CertificatePage({
             </div>
           ) : (
             <div className="text-center py-24">
-              <p className="text-4xl mb-4">🎓</p>
+              <p className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.06] font-mono text-xs text-emerald-200">
+                CERT
+              </p>
               <h1 className="text-xl font-bold text-gray-800">
                 {copy.notFound}
               </h1>

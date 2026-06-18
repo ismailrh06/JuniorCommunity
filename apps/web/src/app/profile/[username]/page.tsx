@@ -127,7 +127,7 @@ const MOCK_PROFILES: Record<
     reviewCount: number;
     avgRating: number;
     badges: Array<{
-      emoji: string;
+      marker: string;
       name: string;
       earnedAt: string;
       projectUrl: string | null;
@@ -170,19 +170,19 @@ const MOCK_PROFILES: Record<
     avgRating: 4.5,
     badges: [
       {
-        emoji: "🟢",
+        marker: "HTML",
         name: "HTML Basics",
         earnedAt: "2026-01-15",
         projectUrl: "https://github.com/alex-martin/html-project",
       },
       {
-        emoji: "🔵",
+        marker: "GIT",
         name: "Git Ready",
         earnedAt: "2026-02-10",
         projectUrl: "https://github.com/alex-martin",
       },
       {
-        emoji: "🟣",
+        marker: "JS",
         name: "JS Starter",
         earnedAt: "2026-03-20",
         projectUrl: "https://github.com/alex-martin/js-quiz",
@@ -221,7 +221,7 @@ export default async function ProfilePage({
   params: Promise<{ username: string }>;
 }>) {
   const { username } = await params;
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const langRaw = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
@@ -299,7 +299,7 @@ export default async function ProfilePage({
                     <div className="mt-3 flex items-center gap-3 flex-wrap">
                       {profile.available && (
                         <span className="text-xs bg-brand-50 text-brand-700 border border-brand-200 px-2.5 py-1 rounded-full font-medium">
-                          ✅ {copy.openToMissions}
+                          {copy.openToMissions}
                         </span>
                       )}
                       <span className="text-xs text-gray-500">
@@ -382,7 +382,9 @@ export default async function ProfilePage({
                       className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl">{badge.emoji}</span>
+                        <span className="flex h-10 w-12 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.06] font-mono text-[10px] font-semibold text-emerald-200">
+                          {badge.marker}
+                        </span>
                         <div>
                           <p className="text-sm font-semibold text-gray-900">
                             {badge.name}
@@ -477,7 +479,9 @@ export default async function ProfilePage({
             </div>
           ) : (
             <div className="text-center py-24">
-              <p className="text-4xl mb-4">👤</p>
+              <p className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.06] font-mono text-xs text-emerald-200">
+                USER
+              </p>
               <h1 className="text-xl font-bold text-gray-800">
                 {copy.notFound}
               </h1>

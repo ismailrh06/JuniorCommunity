@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@juniorcode/db/server";
 
@@ -14,10 +13,27 @@ const VALID_EVENTS = new Set([
 ]);
 
 type AnalyticsPayload = {
-  event: string;
+  event: AnalyticsEvent;
   properties?: Record<string, unknown>;
   sessionId?: string;
 };
+
+type AnalyticsEvent =
+  | "signup"
+  | "path_started"
+  | "module_started"
+  | "module_completed"
+  | "project_applied"
+  | "page_view"
+  | "badge_earned";
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isAnalyticsEvent(value: unknown): value is AnalyticsEvent {
+  return typeof value === "string" && VALID_EVENTS.has(value);
+}
 
 /**
  * POST /api/analytics
@@ -28,11 +44,30 @@ type AnalyticsPayload = {
  * In real mode, events are stored in the analytics_events table via RPC.
  */
 export async function POST(request: Request) {
-  const body = (await request.json()) as AnalyticsPayload;
-  const { event, properties = {}, sessionId } = body;
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-  if (!event || !VALID_EVENTS.has(event)) {
+  if (!isRecord(body) || !isAnalyticsEvent(body.event)) {
     return NextResponse.json({ error: "Invalid event" }, { status: 400 });
+  }
+
+  const event = body.event as AnalyticsEvent;
+  const properties = body.properties ?? {};
+  const sessionId = body.sessionId;
+
+  if (!isRecord(properties) || JSON.stringify(properties).length > 8192) {
+    return NextResponse.json({ error: "Invalid properties" }, { status: 400 });
+  }
+
+  if (
+    sessionId !== undefined &&
+    (typeof sessionId !== "string" || sessionId.length > 128)
+  ) {
+    return NextResponse.json({ error: "Invalid sessionId" }, { status: 400 });
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
@@ -51,7 +86,7 @@ export async function POST(request: Request) {
     await (supabase as any).rpc("track_event", {
       p_event: event,
       p_properties: properties,
-      p_session_id: sessionId ?? null,
+      p_session_id: typeof sessionId === "string" ? sessionId : null,
     });
 
     return NextResponse.json({ ok: true });

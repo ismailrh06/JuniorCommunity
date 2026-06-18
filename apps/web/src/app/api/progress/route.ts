@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@juniorcode/db/server";
 
+const VALID_ITEM_TYPES = new Set(["mission", "step", "daily"]);
+const VALID_STATUSES = new Set(["in_progress", "completed"]);
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 /**
  * POST /api/progress
  * Body:
@@ -9,21 +16,33 @@ import { getSupabaseServerClient } from "@juniorcode/db/server";
  * Saves gamified progress, increments XP once per item, and updates streak.
  */
 export async function POST(request: Request) {
-  const body = (await request.json()) as {
-    lessonId?: string;
-    itemId?: string;
-    itemType?: "mission" | "step" | "daily";
-    xp?: number;
-    status?: "in_progress" | "completed";
-  };
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-  const itemId = body.itemId ?? body.lessonId;
-  const itemType = body.itemType ?? "mission";
-  const status = body.status ?? "completed";
-  const xp = Math.max(0, Math.min(body.xp ?? 10, 1000));
+  if (!isRecord(body)) {
+    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  }
 
-  if (!itemId) {
+  const rawItemId = body.itemId ?? body.lessonId;
+  const itemId = typeof rawItemId === "string" ? rawItemId.trim() : "";
+  const itemType = typeof body.itemType === "string" ? body.itemType : "mission";
+  const status = typeof body.status === "string" ? body.status : "completed";
+  const rawXp =
+    typeof body.xp === "number" && Number.isFinite(body.xp) ? body.xp : 10;
+  const xp = Math.max(0, Math.min(rawXp, 1000));
+
+  if (!itemId || itemId.length > 160) {
     return NextResponse.json({ error: "itemId required" }, { status: 400 });
+  }
+  if (!VALID_ITEM_TYPES.has(itemType) || !VALID_STATUSES.has(status)) {
+    return NextResponse.json(
+      { error: "Invalid progress state" },
+      { status: 400 },
+    );
   }
 
   // Mock mode — nothing to persist (client already updates local state)

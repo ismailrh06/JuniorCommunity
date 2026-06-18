@@ -430,8 +430,9 @@ const MOCK_DATA: AdminData = {
   ],
 };
 
-function getLanguage() {
-  const langRaw = cookies()
+async function getLanguage() {
+  const cookieStore = await cookies();
+  const langRaw = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
     .slice(0, 2);
@@ -440,8 +441,9 @@ function getLanguage() {
     : "fr";
 }
 
-function getMockRole() {
-  const userRaw = cookies().get("jc-mock-user")?.value;
+async function getMockRole() {
+  const cookieStore = await cookies();
+  const userRaw = cookieStore.get("jc-mock-user")?.value;
   if (!userRaw) return null;
 
   try {
@@ -493,7 +495,7 @@ async function getAdminData(): Promise<AdminData> {
   const isMockMode = supabaseUrl.includes("placeholder") || supabaseUrl === "";
 
   if (isMockMode) {
-    const role = getMockRole();
+    const role = await getMockRole();
     if (!role) redirect("/auth/login");
     if (role !== "admin") redirect("/dashboard");
     return { ...MOCK_DATA, securityEvents: getSecurityEvents() };
@@ -562,7 +564,7 @@ async function resolveEventAction(formData: FormData) {
 }
 
 export default async function AdminPage() {
-  const language = getLanguage();
+  const language = await getLanguage();
   const copy = COPY[language];
   const data = await getAdminData();
 
@@ -1078,10 +1080,10 @@ export default async function AdminPage() {
                         low: "bg-slate-50 text-slate-600 border-slate-200",
                       };
                       const typeLabel: Record<string, string> = {
-                        brute_force: "🔨 Brute force",
+                        brute_force: "Brute force",
                         suspicious_ip: "🌍 IP suspecte",
                         role_escalation: "⬆️ Escalade rôle",
-                        mass_request: "⚡ Mass request",
+                        mass_request: "FAST Mass request",
                         invalid_token: "🔑 Token invalide",
                         scraping: "🕷️ Scraping",
                       };

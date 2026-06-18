@@ -11,7 +11,7 @@ type AuthShellProps = {
 
 export function AuthShell({ subtitle, children }: AuthShellProps) {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#070b16] px-4 py-10 text-slate-950">
+    <div className="relative min-h-screen overflow-hidden bg-[#070b16] px-4 py-10 text-slate-100">
       <div className="pointer-events-none absolute inset-0">
         <motion.div
           aria-hidden="true"
@@ -69,7 +69,7 @@ export function AuthShell({ subtitle, children }: AuthShellProps) {
           </motion.div>
 
           <motion.div
-            className="rounded-[1.75rem] border border-white/20 bg-white/90 p-5 sm:p-8 shadow-2xl shadow-black/30 backdrop-blur-xl"
+            className="premium-auth-card rounded-[8px] border border-white/12 bg-white/[0.07] p-5 shadow-[0_24px_100px_rgba(0,0,0,0.38)] backdrop-blur-xl sm:p-8"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}

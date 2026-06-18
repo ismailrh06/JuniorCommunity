@@ -16,19 +16,19 @@ const COPY: Record<
   }
 > = {
   fr: {
-    subtitle: "Bon retour 👋",
+    subtitle: "Bon retour",
     title: "Connexion",
     noAccount: "Pas encore de compte ?",
     createAccount: "Créer un compte",
   },
   en: {
-    subtitle: "Welcome back 👋",
+    subtitle: "Welcome back",
     title: "Login",
     noAccount: "No account yet?",
     createAccount: "Create an account",
   },
   es: {
-    subtitle: "Qué bueno verte 👋",
+    subtitle: "Qué bueno verte",
     title: "Iniciar sesión",
     noAccount: "¿Aún no tienes cuenta?",
     createAccount: "Crear una cuenta",

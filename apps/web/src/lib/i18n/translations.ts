@@ -97,12 +97,12 @@ export const translations: Record<Language, Messages> = {
       logout: "Se déconnecter",
     },
     home: {
-      waitlist: "🚀 Bientôt disponible — Rejoins la liste d'attente",
-      titlePrefix: "La fabrique de",
-      titleGradient: "juniors employables",
+      waitlist: "Bêta privée — Cohorte 01",
+      titlePrefix: "Deviens junior",
+      titleGradient: "avec des preuves concrètes",
       subtitle:
         "Apprends en construisant, pratique sur des missions réelles, décroche tes premiers revenus avec une expérience qui te rend recrutable.",
-      subtitleStrong: "Apprendre → Pratiquer → Être payé.",
+      subtitleStrong: "Apprendre / Pratiquer / Postuler",
       ctaLearn: "Commencer à apprendre",
       ctaMarketplace: "Explorer la marketplace",
       platformTag: "Plateforme hybride",
@@ -125,28 +125,28 @@ export const translations: Record<Language, Messages> = {
       journeySteps: [
         {
           step: 1,
-          icon: "📚",
+          icon: "01",
           title: "Apprendre",
           desc: "Suis un parcours structuré : vidéos, exercices, mini-projets guidés étape par étape.",
           tag: "JC Learn",
         },
         {
           step: 2,
-          icon: "🔨",
+          icon: "02",
           title: "Construire",
           desc: "Réalise des projets concrets qui alimentent ton portfolio — landing page, app, dashboard.",
           tag: "JC Learn",
         },
         {
           step: 3,
-          icon: "🏅",
+          icon: "03",
           title: "Être certifié",
           desc: "Obtiens ton badge Verified Junior validé par nos mentors. C'est ta preuve pour les clients.",
           tag: "Badge",
         },
         {
           step: 4,
-          icon: "💼",
+          icon: "04",
           title: "Postuler",
           desc: "Accède aux missions Junior-Only et décroche tes premiers projets rémunérés.",
           tag: "Marketplace",
@@ -157,18 +157,18 @@ export const translations: Record<Language, Messages> = {
         "Chaque badge certifie une compétence réelle. Les clients voient tes badges sur ton profil avant de te choisir.",
       badgeProofItems: [
         {
-          emoji: "🌐",
+          emoji: "WD",
           title: "Web Developer L1",
           proof: "A livré une landing page responsive et déployée en ligne.",
         },
         {
-          emoji: "⚛️",
+          emoji: "RE",
           title: "React Developer",
           proof:
             "A construit une SPA complète avec composants, état et routing.",
         },
         {
-          emoji: "📊",
+          emoji: "DA",
           title: "Data Analyst",
           proof:
             "A analysé un dataset réel et produit un dashboard interactif.",
@@ -189,7 +189,7 @@ export const translations: Record<Language, Messages> = {
       tagline:
         "La fabrique de juniors employables.\nApprendre → Pratiquer → Être payé.",
       copyright: "Tous droits réservés.",
-      madeForJuniors: "Fait avec ❤️ pour les juniors",
+      madeForJuniors: "Construit pour les juniors ambitieux",
       sections: {
         product: "Produit",
         learn: "Apprendre",
@@ -227,12 +227,12 @@ export const translations: Record<Language, Messages> = {
       logout: "Sign out",
     },
     home: {
-      waitlist: "🚀 Coming soon — Join the waitlist",
-      titlePrefix: "The studio for",
-      titleGradient: "job-ready juniors",
+      waitlist: "Private beta — Cohort 01",
+      titlePrefix: "Become a junior",
+      titleGradient: "with concrete proof",
       subtitle:
         "Learn by building, practice on real missions, and earn your first income with work that makes you hireable.",
-      subtitleStrong: "Learn → Practice → Get paid.",
+      subtitleStrong: "Learn / Practice / Apply",
       ctaLearn: "Start learning",
       ctaMarketplace: "Explore marketplace",
       platformTag: "Hybrid platform",
@@ -255,28 +255,28 @@ export const translations: Record<Language, Messages> = {
       journeySteps: [
         {
           step: 1,
-          icon: "📚",
+          icon: "01",
           title: "Learn",
           desc: "Follow a structured path: videos, exercises, and guided mini-projects step by step.",
           tag: "JC Learn",
         },
         {
           step: 2,
-          icon: "🔨",
+          icon: "02",
           title: "Build",
           desc: "Ship real projects that fill your portfolio — landing page, app, dashboard.",
           tag: "JC Learn",
         },
         {
           step: 3,
-          icon: "🏅",
+          icon: "03",
           title: "Get certified",
           desc: "Earn your Verified Junior badge validated by our mentors. That's your proof for clients.",
           tag: "Badge",
         },
         {
           step: 4,
-          icon: "💼",
+          icon: "04",
           title: "Apply",
           desc: "Access Junior-Only missions and land your first paid projects.",
           tag: "Marketplace",
@@ -287,17 +287,17 @@ export const translations: Record<Language, Messages> = {
         "Each badge certifies a real skill. Clients see your badges on your profile before choosing you.",
       badgeProofItems: [
         {
-          emoji: "🌐",
+          emoji: "WD",
           title: "Web Developer L1",
           proof: "Delivered a responsive landing page deployed online.",
         },
         {
-          emoji: "⚛️",
+          emoji: "RE",
           title: "React Developer",
           proof: "Built a complete SPA with components, state and routing.",
         },
         {
-          emoji: "📊",
+          emoji: "DA",
           title: "Data Analyst",
           proof: "Analysed a real dataset and built an interactive dashboard.",
         },
@@ -317,7 +317,7 @@ export const translations: Record<Language, Messages> = {
       tagline:
         "The studio for job-ready juniors.\nLearn → Practice → Get paid.",
       copyright: "All rights reserved.",
-      madeForJuniors: "Built with ❤️ for juniors",
+      madeForJuniors: "Built for ambitious juniors",
       sections: {
         product: "Product",
         learn: "Learn",
@@ -355,12 +355,12 @@ export const translations: Record<Language, Messages> = {
       logout: "Cerrar sesión",
     },
     home: {
-      waitlist: "🚀 Muy pronto — Únete a la lista de espera",
-      titlePrefix: "La fábrica de",
-      titleGradient: "juniors empleables",
+      waitlist: "Beta privada — Cohorte 01",
+      titlePrefix: "Conviértete en junior",
+      titleGradient: "con pruebas concretas",
       subtitle:
         "Aprende construyendo, practica en misiones reales y gana tus primeros ingresos con experiencia que te hace contrat-able.",
-      subtitleStrong: "Aprender → Practicar → Cobrar.",
+      subtitleStrong: "Aprender / Practicar / Postular",
       ctaLearn: "Empezar a aprender",
       ctaMarketplace: "Explorar marketplace",
       platformTag: "Plataforma híbrida",
@@ -383,28 +383,28 @@ export const translations: Record<Language, Messages> = {
       journeySteps: [
         {
           step: 1,
-          icon: "📚",
+          icon: "01",
           title: "Aprender",
           desc: "Sigue una ruta estructurada: vídeos, ejercicios y mini-proyectos guiados paso a paso.",
           tag: "JC Learn",
         },
         {
           step: 2,
-          icon: "🔨",
+          icon: "02",
           title: "Construir",
           desc: "Entrega proyectos reales para tu portfolio — landing page, app, dashboard.",
           tag: "JC Learn",
         },
         {
           step: 3,
-          icon: "🏅",
+          icon: "03",
           title: "Certificarte",
           desc: "Obtén tu badge Verified Junior validado por nuestros mentores. Es tu prueba ante los clientes.",
           tag: "Badge",
         },
         {
           step: 4,
-          icon: "💼",
+          icon: "04",
           title: "Postular",
           desc: "Accede a misiones Junior-Only y consigue tus primeros proyectos pagados.",
           tag: "Marketplace",
@@ -415,19 +415,19 @@ export const translations: Record<Language, Messages> = {
         "Cada badge certifica una habilidad real. Los clientes ven tus badges en tu perfil antes de elegirte.",
       badgeProofItems: [
         {
-          emoji: "🌐",
+          emoji: "WD",
           title: "Web Developer L1",
           proof:
             "Ha entregado una landing page responsive desplegada en línea.",
         },
         {
-          emoji: "⚛️",
+          emoji: "RE",
           title: "React Developer",
           proof:
             "Ha construido una SPA completa con componentes, estado y routing.",
         },
         {
-          emoji: "📊",
+          emoji: "DA",
           title: "Data Analyst",
           proof:
             "Ha analizado un dataset real y creado un dashboard interactivo.",
@@ -448,7 +448,7 @@ export const translations: Record<Language, Messages> = {
       tagline:
         "La fábrica de juniors empleables.\nAprender → Practicar → Cobrar.",
       copyright: "Todos los derechos reservados.",
-      madeForJuniors: "Hecho con ❤️ para juniors",
+      madeForJuniors: "Construido para juniors ambiciosos",
       sections: {
         product: "Producto",
         learn: "Aprender",

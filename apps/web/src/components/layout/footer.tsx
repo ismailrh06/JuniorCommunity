@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BookOpen, Briefcase } from "lucide-react";
+import { BookOpen, Briefcase, GitBranch } from "lucide-react";
 import { useI18n } from "@/components/providers/i18n-provider";
 
 type FooterSection = {
@@ -55,25 +55,25 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
+    <footer className="border-t border-white/10 bg-[linear-gradient(180deg,#070a10_0%,#05070b_100%)]">
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link
               href="/"
-              className="flex items-center gap-2 font-bold text-gray-900 mb-4"
+              className="flex items-center gap-2 font-semibold text-slate-100 mb-4"
             >
               <Image
                 src="/brand/new_logo.png"
                 alt="JuniorCode"
                 width={60}
                 height={60}
-                className="rounded-xl object-contain"
+                className="rounded-md object-contain"
               />
               JuniorCode
             </Link>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm leading-6 text-slate-500 mb-4">
               {messages.footer.tagline.split("\n")[0]}
               <br />
               {messages.footer.tagline.split("\n")[1]}
@@ -83,19 +83,19 @@ export function Footer() {
                 href="https://github.com/juniorcode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                className="flex h-9 w-9 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.04] transition-colors hover:border-white/25 hover:bg-white/[0.07]"
                 aria-label="GitHub"
               >
-                <span className="text-xs font-bold text-gray-600">GH</span>
+                <span className="text-xs font-bold text-slate-400">GH</span>
               </a>
               <a
                 href="https://twitter.com/juniorcode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                className="flex h-9 w-9 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.04] transition-colors hover:border-white/25 hover:bg-white/[0.07]"
                 aria-label="Twitter / X"
               >
-                <span className="text-xs font-bold text-gray-600">X</span>
+                <span className="text-xs font-bold text-slate-400">X</span>
               </a>
             </div>
           </div>
@@ -103,7 +103,7 @@ export function Footer() {
           {/* Links */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">
+              <h3 className="text-sm font-semibold text-slate-200 mb-3">
                 {section.title}
               </h3>
               <ul className="space-y-2">
@@ -111,7 +111,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                      className="text-sm text-slate-500 hover:text-slate-200 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -122,17 +122,18 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4 text-xs text-gray-400">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
+          <div className="flex items-center gap-4 text-xs text-slate-600">
             <BookOpen className="h-4 w-4" />
             <span>
               © {new Date().getFullYear()} JuniorCode.{" "}
               {messages.footer.copyright}
             </span>
           </div>
-          <div className="flex items-center gap-1 text-xs text-gray-400">
+          <div className="flex items-center gap-2 text-xs text-slate-600">
+            <GitBranch className="h-3.5 w-3.5" />
             <span>{messages.footer.madeForJuniors}</span>
-            <Briefcase className="h-3.5 w-3.5 ml-1" />
+            <Briefcase className="h-3.5 w-3.5" />
           </div>
         </div>
       </div>

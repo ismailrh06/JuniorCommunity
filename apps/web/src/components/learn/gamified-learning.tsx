@@ -564,9 +564,11 @@ export function InteractiveCodeBlock({
           />
         </div>
         <div className="min-h-[340px] bg-white p-4 text-slate-950">
-          <div
+          <iframe
+            title="HTML preview"
+            sandbox=""
+            srcDoc={previewHtml}
             className="h-full rounded-xl border border-slate-200 p-4"
-            dangerouslySetInnerHTML={{ __html: previewHtml }}
           />
         </div>
       </div>

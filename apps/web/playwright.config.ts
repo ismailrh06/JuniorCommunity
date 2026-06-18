@@ -6,6 +6,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./tests/e2e",
+  timeout: 60_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -37,7 +38,8 @@ export default defineConfig({
 
   // Start the Next.js dev server before running tests
   webServer: {
-    command: "pnpm --filter web dev",
+    command:
+      "NEXT_PUBLIC_SUPABASE_URL=placeholder NEXT_PUBLIC_SUPABASE_ANON_KEY=placeholder pnpm --filter @juniorcode/web dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

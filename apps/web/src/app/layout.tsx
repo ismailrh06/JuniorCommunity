@@ -57,12 +57,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   readonly children: React.ReactNode;
 }) {
-  const languageCookie = cookies()
+  const cookieStore = await cookies();
+  const languageCookie = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
     .slice(0, 2);
@@ -73,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang={language} suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} premium-theme font-sans antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <I18nProvider initialLanguage={language}>

@@ -3,17 +3,17 @@ import type { Language } from "@/lib/i18n/translations";
 
 const BADGE_CONFIG = {
   "html-basics": {
-    icon: "🟢",
+    icon: "",
     label: "HTML Basics",
     color: "bg-green-100 text-green-700 border-green-200",
   },
   "git-ready": {
-    icon: "🔵",
+    icon: "",
     label: "Git Ready",
     color: "bg-blue-100 text-blue-700 border-blue-200",
   },
   "js-starter": {
-    icon: "🟣",
+    icon: "",
     label: "JS Starter",
     color: "bg-purple-100 text-purple-700 border-purple-200",
   },

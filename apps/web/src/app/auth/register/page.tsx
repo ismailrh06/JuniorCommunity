@@ -20,7 +20,7 @@ const COPY: Record<
   }
 > = {
   fr: {
-    subtitle: "Commence ton parcours 🚀",
+    subtitle: "Commence ton parcours",
     title: "Créer un compte",
     alreadyRegistered: "Déjà inscrit ?",
     login: "Se connecter",
@@ -30,7 +30,7 @@ const COPY: Record<
     privacy: "politique de confidentialité",
   },
   en: {
-    subtitle: "Start your journey 🚀",
+    subtitle: "Start your journey",
     title: "Create an account",
     alreadyRegistered: "Already registered?",
     login: "Sign in",
@@ -40,7 +40,7 @@ const COPY: Record<
     privacy: "privacy policy",
   },
   es: {
-    subtitle: "Empieza tu camino 🚀",
+    subtitle: "Empieza tu camino",
     title: "Crear una cuenta",
     alreadyRegistered: "¿Ya tienes cuenta?",
     login: "Iniciar sesión",

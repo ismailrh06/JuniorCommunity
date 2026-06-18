@@ -54,7 +54,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "first-landing",
-          title: "🔨 Projet : Ta première landing page",
+          title: "Projet : Ta première landing page",
           duration: "90 min",
           type: "project",
           free: true,
@@ -68,7 +68,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "github-publish",
-          title: "🔨 Publier sur GitHub Pages",
+          title: "Publier sur GitHub Pages",
           duration: "30 min",
           type: "exercise",
           free: true,
@@ -95,7 +95,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "todo-app",
-          title: "🔨 To-do app complète",
+          title: "To-do app complète",
           duration: "3h",
           type: "project",
           free: false,
@@ -109,7 +109,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "portfolio",
-          title: "🔨 Portfolio personnel avec React",
+          title: "Portfolio personnel avec React",
           duration: "4h",
           type: "project",
           free: false,
@@ -186,7 +186,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "first-wireframe",
-          title: "🔨 Premier wireframe d'une app mobile",
+          title: "Premier wireframe d'une app mobile",
           duration: "90 min",
           type: "project",
           free: true,
@@ -213,14 +213,14 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "ui-kit",
-          title: "🔨 Design Kit complet (boutons, cards…)",
+          title: "Design Kit complet (boutons, cards…)",
           duration: "3h",
           type: "project",
           free: false,
         },
         {
           id: "dark-mode",
-          title: "🔨 Passer ton UI en dark mode",
+          title: "Passer ton UI en dark mode",
           duration: "2h",
           type: "exercise",
           free: false,
@@ -240,7 +240,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "portfolio-design",
-          title: "🔨 Portfolio Behance / Figma Community",
+          title: "Portfolio Behance / Figma Community",
           duration: "4h",
           type: "project",
           free: false,
@@ -277,7 +277,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "first-analysis",
-          title: "🔨 Analyser un dataset CSV réel",
+          title: "Analyser un dataset CSV réel",
           duration: "2h",
           type: "project",
           free: true,
@@ -311,7 +311,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "dashboard",
-          title: "🔨 Dashboard interactif avec Plotly Dash",
+          title: "Dashboard interactif avec Plotly Dash",
           duration: "3h",
           type: "project",
           free: false,
@@ -338,7 +338,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "report",
-          title: "🔨 Rapport d'analyse complet",
+          title: "Rapport d'analyse complet",
           duration: "4h",
           type: "project",
           free: false,
@@ -506,7 +506,7 @@ const CURRICULUM: Record<string, LevelData[]> = {
         },
         {
           id: "algorithm-challenges",
-          title: "🔨 Sprint d'exercices algorithmiques",
+          title: "Sprint d'exercices algorithmiques",
           duration: "3h",
           type: "project",
           free: false,
@@ -523,17 +523,17 @@ const PATH_META: Record<
 > = {
   "web-developer": {
     title: "Développeur Web",
-    icon: "💻",
+    icon: "WEB",
     tagline: "De zéro à ton premier projet web live.",
   },
   "ui-designer": {
     title: "Designer UI",
-    icon: "🎨",
+    icon: "UI",
     tagline: "De Figma débutant à designer portfolio.",
   },
   "data-analyst": {
     title: "Data Analyst Junior",
-    icon: "📊",
+    icon: "DATA",
     tagline: "Python, pandas, SQL — tout pour décrocher ta première mission.",
   },
   "programming-languages": {
@@ -544,7 +544,7 @@ const PATH_META: Record<
   },
   algorithms: {
     title: "Algorithmes fondamentaux",
-    icon: "🧠",
+    icon: "ALG",
     tagline: "La logique et les structures qui rendent ton code plus solide.",
   },
 };
@@ -754,14 +754,14 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
   en: {
     "html-basics": "HTML — Structure & semantics",
     "css-basics": "CSS — Styles & layout",
-    "first-landing": "🔨 Project: Your first landing page",
+    "first-landing": "Project: Your first landing page",
     "git-basics": "Git & GitHub — The basics",
-    "github-publish": "🔨 Publish on GitHub Pages",
+    "github-publish": "Publish on GitHub Pages",
     "js-basics": "JavaScript — Variables, functions, DOM",
     "js-dom": "Advanced JavaScript — Events & fetch",
-    "todo-app": "🔨 Complete to-do app",
+    "todo-app": "Complete to-do app",
     "react-intro": "Introduction to React",
-    portfolio: "🔨 Personal portfolio with React",
+    portfolio: "Personal portfolio with React",
     "read-offer": "How to read a mission brief",
     apply: "Apply and talk to a client",
     quote: "Create a simple quote",
@@ -769,24 +769,24 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "design-thinking": "Design Thinking — Core principles",
     "color-theory": "Color theory & typography",
     "figma-intro": "Figma — Complete beginner guide",
-    "first-wireframe": "🔨 First wireframe for a mobile app",
+    "first-wireframe": "First wireframe for a mobile app",
     "ui-components": "Create a Figma component system",
     "spacing-grid": "Grids, spacing & alignment",
-    "ui-kit": "🔨 Complete design kit (buttons, cards...)",
-    "dark-mode": "🔨 Turn your UI into dark mode",
+    "ui-kit": "Complete design kit (buttons, cards...)",
+    "dark-mode": "Turn your UI into dark mode",
     "case-study": "Write a convincing case study",
-    "portfolio-design": "🔨 Behance / Figma Community portfolio",
+    "portfolio-design": "Behance / Figma Community portfolio",
     "client-pitch": "Present your design to a client",
     "python-intro": "Python — Variables, lists, functions",
     "pandas-intro": "Pandas — Load and explore data",
-    "first-analysis": "🔨 Analyze a real CSV dataset",
+    "first-analysis": "Analyze a real CSV dataset",
     "data-cleaning": "Data cleaning — Key techniques",
     matplotlib: "Matplotlib & Seaborn — Charts",
     plotly: "Plotly — Interactive charts",
-    dashboard: "🔨 Interactive dashboard with Plotly Dash",
+    dashboard: "Interactive dashboard with Plotly Dash",
     "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
     "sql-advanced": "Advanced SQL — Subqueries & windows",
-    report: "🔨 Complete analysis report",
+    report: "Complete analysis report",
     "data-marketplace": "Access data missions",
     "language-choice": "Choose the right language for your goal",
     "python-programming": "Python — Automation, scripts & logic",
@@ -804,19 +804,19 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "sorting-searching": "Sorting & searching — Useful classics",
     "trees-graphs": "Trees & graphs — Explore relationships",
     "dynamic-programming-intro": "Dynamic programming — Simple memoization",
-    "algorithm-challenges": "🔨 Algorithm practice sprint",
+    "algorithm-challenges": "Algorithm practice sprint",
   },
   es: {
     "html-basics": "HTML — Estructura y semántica",
     "css-basics": "CSS — Estilos y maquetación",
-    "first-landing": "🔨 Proyecto: tu primera landing page",
+    "first-landing": "Proyecto: tu primera landing page",
     "git-basics": "Git y GitHub — Las bases",
-    "github-publish": "🔨 Publicar en GitHub Pages",
+    "github-publish": "Publicar en GitHub Pages",
     "js-basics": "JavaScript — Variables, funciones, DOM",
     "js-dom": "JavaScript avanzado — Eventos y fetch",
-    "todo-app": "🔨 To-do app completa",
+    "todo-app": "To-do app completa",
     "react-intro": "Introducción a React",
-    portfolio: "🔨 Portfolio personal con React",
+    portfolio: "Portfolio personal con React",
     "read-offer": "Cómo leer una oferta de misión",
     apply: "Postular y hablar con un cliente",
     quote: "Crear un presupuesto simple",
@@ -824,24 +824,24 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "design-thinking": "Design Thinking — Principios fundamentales",
     "color-theory": "Teoría del color y tipografía",
     "figma-intro": "Figma — Guía completa para empezar",
-    "first-wireframe": "🔨 Primer wireframe de una app móvil",
+    "first-wireframe": "Primer wireframe de una app móvil",
     "ui-components": "Crear un sistema de componentes Figma",
     "spacing-grid": "Grillas, espaciado y alineación",
-    "ui-kit": "🔨 Design kit completo (botones, cards...)",
-    "dark-mode": "🔨 Convertir tu UI a dark mode",
+    "ui-kit": "Design kit completo (botones, cards...)",
+    "dark-mode": "Convertir tu UI a dark mode",
     "case-study": "Redactar un case study convincente",
-    "portfolio-design": "🔨 Portfolio Behance / Figma Community",
+    "portfolio-design": "Portfolio Behance / Figma Community",
     "client-pitch": "Presentar tu diseño a un cliente",
     "python-intro": "Python — Variables, listas, funciones",
     "pandas-intro": "Pandas — Cargar y explorar datos",
-    "first-analysis": "🔨 Analizar un dataset CSV real",
+    "first-analysis": "Analizar un dataset CSV real",
     "data-cleaning": "Limpieza de datos — Técnicas clave",
     matplotlib: "Matplotlib y Seaborn — Gráficos",
     plotly: "Plotly — Gráficos interactivos",
-    dashboard: "🔨 Dashboard interactivo con Plotly Dash",
+    dashboard: "Dashboard interactivo con Plotly Dash",
     "sql-basics": "SQL — SELECT, JOIN, GROUP BY",
     "sql-advanced": "SQL avanzado — Subconsultas y ventanas",
-    report: "🔨 Reporte de análisis completo",
+    report: "Reporte de análisis completo",
     "data-marketplace": "Acceso a misiones data",
     "language-choice": "Elegir el lenguaje correcto para tu objetivo",
     "python-programming": "Python — Automatización, scripts y lógica",
@@ -860,12 +860,13 @@ const MODULE_TITLE_TRANSLATIONS: Record<Language, Record<string, string>> = {
     "sorting-searching": "Ordenación y búsqueda — Clásicos útiles",
     "trees-graphs": "Árboles y grafos — Explorar relaciones",
     "dynamic-programming-intro": "Programación dinámica — Memoización simple",
-    "algorithm-challenges": "🔨 Sprint de ejercicios algorítmicos",
+    "algorithm-challenges": "Sprint de ejercicios algorítmicos",
   },
 };
 
-function getRequestLanguage(): Language {
-  const languageCookie = cookies()
+async function getRequestLanguage(): Promise<Language> {
+  const cookieStore = await cookies();
+  const languageCookie = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
     .slice(0, 2);
@@ -875,7 +876,7 @@ function getRequestLanguage(): Language {
 }
 
 function getPathMeta(path: string, language: Language) {
-  const base = PATH_META[path] ?? { title: path, icon: "📚", tagline: "" };
+  const base = PATH_META[path] ?? { title: path, icon: "LEARN", tagline: "" };
   const translated = PATH_META_TRANSLATIONS[path]?.[language];
   return {
     icon: base.icon,
@@ -899,7 +900,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ path: string }>;
 }): Promise<Metadata> {
-  const language = getRequestLanguage();
+  const language = await getRequestLanguage();
   const copy = PATH_COPY[language];
   const { path } = await params;
   const meta = getPathMeta(path, language);
@@ -914,7 +915,7 @@ export default async function LearningPathPage({
 }: {
   readonly params: Promise<{ path: string }>;
 }) {
-  const language = getRequestLanguage();
+  const language = await getRequestLanguage();
   const copy = PATH_COPY[language];
   const { path } = await params;
   const curriculum = CURRICULUM[path];
@@ -935,7 +936,7 @@ export default async function LearningPathPage({
   );
   const missions: MissionCardData[] = flatModules.slice(0, 6).map((module, index) => ({
     href: `/learn/${path}/${module.id}`,
-    title: `${module.type === "project" ? "Build session" : module.type === "exercise" ? "Challenge" : "Mission"} ${index + 1} - ${getModuleTitle(module, language).replace("🔨 ", "")}`,
+    title: `${module.type === "project" ? "Build session" : module.type === "exercise" ? "Challenge" : "Mission"} ${index + 1} - ${getModuleTitle(module, language).replace("", "")}`,
     intro:
       module.type === "project"
         ? "Ship a portfolio-ready artifact with visible proof."
@@ -1050,7 +1051,7 @@ export default async function LearningPathPage({
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium transition-colors group-hover:text-white">
-                            {getModuleTitle(module, language).replace("🔨 ", "")}
+                            {getModuleTitle(module, language).replace("", "")}
                           </p>
                           <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-white/40">
                             <Clock3 className="h-3 w-3" />

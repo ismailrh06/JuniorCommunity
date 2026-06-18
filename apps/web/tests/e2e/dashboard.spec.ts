@@ -23,8 +23,7 @@ async function setMockUser(
     {
       name: "jc-mock-user",
       value: encodeMockUser(user),
-      domain: "localhost",
-      path: "/",
+      url: "http://localhost:3000",
     },
   ]);
 }
@@ -60,16 +59,24 @@ test.describe("Dashboard — authenticated", () => {
 
   test("shows user's name on the dashboard", async ({ page }) => {
     await page.goto("/dashboard");
-    // The page should contain the user's full name or first name
-    await expect(page.getByText(/alice/i)).toBeVisible();
+    await expect(page.getByText(/alice/i).first()).toBeVisible();
   });
 
   test("shows navigation to Learn and Marketplace", async ({ page }) => {
     await page.goto("/dashboard");
-    const learnLink = page.getByRole("link", { name: /learn|apprendre/i });
-    const marketplaceLink = page.getByRole("link", {
-      name: /marketplace|missions/i,
-    });
+    let learnLink = page.locator("a[href='/learn']:visible").first();
+    let marketplaceLink = page
+      .locator("a[href='/marketplace']:visible")
+      .first();
+
+    if (!(await marketplaceLink.isVisible().catch(() => false))) {
+      await page.locator("button[aria-label='Menu']").click({ force: true });
+      learnLink = page.locator("a[href='/learn']:visible").first();
+      marketplaceLink = page
+        .locator("a[href='/marketplace']:visible")
+        .first();
+    }
+
     await expect(learnLink).toBeVisible();
     await expect(marketplaceLink).toBeVisible();
   });

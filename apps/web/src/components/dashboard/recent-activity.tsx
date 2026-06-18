@@ -25,19 +25,19 @@ const COPY: Record<
 > = {
   fr: {
     title: "Activité récente",
-    empty: "Aucune activité pour l'instant. Commence un module ! 🚀",
+    empty: "Aucune activité pour l'instant. Commence un module ! ",
     completedModule: "Module terminé",
     completed: "Terminé",
   },
   en: {
     title: "Recent activity",
-    empty: "No activity yet. Start a module! 🚀",
+    empty: "No activity yet. Start a module! ",
     completedModule: "Completed module",
     completed: "Completed",
   },
   es: {
     title: "Actividad reciente",
-    empty: "Aún no hay actividad. Empieza un módulo! 🚀",
+    empty: "Aún no hay actividad. Empieza un módulo! ",
     completedModule: "Módulo terminado",
     completed: "Terminado",
   },

@@ -83,19 +83,19 @@ const COPY: Record<
     goals: [
       {
         id: "learn",
-        emoji: "📚",
+        emoji: "LEARN",
         title: "Apprendre une compétence",
         desc: "Je veux maîtriser le développement web, le design ou la data.",
       },
       {
         id: "mission",
-        emoji: "💼",
+        emoji: "WORK",
         title: "Trouver une première mission",
         desc: "Je veux décrocher un projet réel rémunéré rapidement.",
       },
       {
         id: "portfolio",
-        emoji: "🎨",
+        emoji: "UI",
         title: "Construire mon portfolio",
         desc: "Je veux avoir des projets concrets à montrer à des recruteurs.",
       },
@@ -106,19 +106,19 @@ const COPY: Record<
     levels: [
       {
         id: "beginner",
-        emoji: "🌱",
+        emoji: "L0",
         title: "Débutant complet",
         desc: "Je n'ai jamais codé ou presque. Tout est nouveau pour moi.",
       },
       {
         id: "some",
-        emoji: "🌿",
+        emoji: "L1",
         title: "Quelques bases",
         desc: "J'ai vu du HTML/CSS, quelques tutos vidéo, mais sans projets finis.",
       },
       {
         id: "experienced",
-        emoji: "🌳",
+        emoji: "L2",
         title: "J'ai déjà des projets",
         desc: "J'ai livré des choses, j'ai un GitHub, je cherche à progresser.",
       },
@@ -129,35 +129,35 @@ const COPY: Record<
     paths: [
       {
         id: "web-developer",
-        emoji: "💻",
+        emoji: "WEB",
         title: "Développeur Web",
         desc: "HTML, CSS, JavaScript, React. De zéro à ton premier projet live.",
         duration: "6–8 semaines",
       },
       {
         id: "ui-designer",
-        emoji: "🎨",
+        emoji: "UI",
         title: "Designer UI",
         desc: "Figma, principes design, maquettes et design systems.",
         duration: "4–6 semaines",
       },
       {
         id: "data-analyst",
-        emoji: "📊",
+        emoji: "DATA",
         title: "Data Analyst",
         desc: "Python, Pandas, SQL et dashboards interactifs.",
         duration: "6–8 semaines",
       },
       {
         id: "algorithms",
-        emoji: "🧠",
+        emoji: "ALG",
         title: "Algorithmique",
         desc: "Big O, structures de données, logique et résolution de problèmes.",
         duration: "4–5 semaines",
       },
     ],
 
-    step4Title: (name) => `Tu es prêt, ${name} 🎉`,
+    step4Title: (name) => `Tu es prêt, ${name} `,
     step4Subtitle:
       "Voici ton plan personnalisé. On t'a configuré un dashboard adapté à tes objectifs.",
     step4Cta: "Accéder à mon dashboard",
@@ -178,19 +178,19 @@ const COPY: Record<
     goals: [
       {
         id: "learn",
-        emoji: "📚",
+        emoji: "LEARN",
         title: "Learn a new skill",
         desc: "I want to master web development, design or data.",
       },
       {
         id: "mission",
-        emoji: "💼",
+        emoji: "WORK",
         title: "Find my first mission",
         desc: "I want to land a real paid project quickly.",
       },
       {
         id: "portfolio",
-        emoji: "🎨",
+        emoji: "UI",
         title: "Build my portfolio",
         desc: "I want concrete projects to show recruiters.",
       },
@@ -201,19 +201,19 @@ const COPY: Record<
     levels: [
       {
         id: "beginner",
-        emoji: "🌱",
+        emoji: "L0",
         title: "Complete beginner",
         desc: "I've never coded or barely. Everything is new to me.",
       },
       {
         id: "some",
-        emoji: "🌿",
+        emoji: "L1",
         title: "Some basics",
         desc: "I've seen some HTML/CSS, a few video tutorials, but no finished projects.",
       },
       {
         id: "experienced",
-        emoji: "🌳",
+        emoji: "L2",
         title: "I have projects",
         desc: "I've shipped things, I have a GitHub, I'm looking to level up.",
       },
@@ -224,35 +224,35 @@ const COPY: Record<
     paths: [
       {
         id: "web-developer",
-        emoji: "💻",
+        emoji: "WEB",
         title: "Web Developer",
         desc: "HTML, CSS, JavaScript, React. From zero to your first live project.",
         duration: "6–8 weeks",
       },
       {
         id: "ui-designer",
-        emoji: "🎨",
+        emoji: "UI",
         title: "UI Designer",
         desc: "Figma, design principles, wireframes and design systems.",
         duration: "4–6 weeks",
       },
       {
         id: "data-analyst",
-        emoji: "📊",
+        emoji: "DATA",
         title: "Data Analyst",
         desc: "Python, Pandas, SQL and interactive dashboards.",
         duration: "6–8 weeks",
       },
       {
         id: "algorithms",
-        emoji: "🧠",
+        emoji: "ALG",
         title: "Algorithms",
         desc: "Big O, data structures, logic and problem-solving.",
         duration: "4–5 weeks",
       },
     ],
 
-    step4Title: (name) => `You're all set, ${name} 🎉`,
+    step4Title: (name) => `You're all set, ${name} `,
     step4Subtitle:
       "Here's your personalized plan. We've set up a dashboard tailored to your goals.",
     step4Cta: "Go to my dashboard",
@@ -273,19 +273,19 @@ const COPY: Record<
     goals: [
       {
         id: "learn",
-        emoji: "📚",
+        emoji: "LEARN",
         title: "Aprender una habilidad",
         desc: "Quiero dominar el desarrollo web, diseño o datos.",
       },
       {
         id: "mission",
-        emoji: "💼",
+        emoji: "WORK",
         title: "Encontrar mi primera misión",
         desc: "Quiero conseguir un proyecto real pagado rápidamente.",
       },
       {
         id: "portfolio",
-        emoji: "🎨",
+        emoji: "UI",
         title: "Construir mi portfolio",
         desc: "Quiero proyectos concretos para mostrar a reclutadores.",
       },
@@ -296,19 +296,19 @@ const COPY: Record<
     levels: [
       {
         id: "beginner",
-        emoji: "🌱",
+        emoji: "L0",
         title: "Principiante completo",
         desc: "Nunca he programado o casi. Todo es nuevo para mí.",
       },
       {
         id: "some",
-        emoji: "🌿",
+        emoji: "L1",
         title: "Algunas bases",
         desc: "He visto algo de HTML/CSS, algunos tutoriales, pero sin proyectos terminados.",
       },
       {
         id: "experienced",
-        emoji: "🌳",
+        emoji: "L2",
         title: "Tengo proyectos",
         desc: "He entregado cosas, tengo GitHub y busco mejorar.",
       },
@@ -319,35 +319,35 @@ const COPY: Record<
     paths: [
       {
         id: "web-developer",
-        emoji: "💻",
+        emoji: "WEB",
         title: "Desarrollador Web",
         desc: "HTML, CSS, JavaScript, React. De cero a tu primer proyecto.",
         duration: "6–8 semanas",
       },
       {
         id: "ui-designer",
-        emoji: "🎨",
+        emoji: "UI",
         title: "Diseñador UI",
         desc: "Figma, principios de diseño, wireframes y design systems.",
         duration: "4–6 semanas",
       },
       {
         id: "data-analyst",
-        emoji: "📊",
+        emoji: "DATA",
         title: "Analista de Datos",
         desc: "Python, Pandas, SQL y dashboards interactivos.",
         duration: "6–8 semanas",
       },
       {
         id: "algorithms",
-        emoji: "🧠",
+        emoji: "ALG",
         title: "Algoritmia",
         desc: "Big O, estructuras de datos, lógica y resolución de problemas.",
         duration: "4–5 semanas",
       },
     ],
 
-    step4Title: (name) => `¡Todo listo, ${name}! 🎉`,
+    step4Title: (name) => `¡Todo listo, ${name}! `,
     step4Subtitle:
       "Aquí está tu plan personalizado. Hemos configurado un panel adaptado a tus objetivos.",
     step4Cta: "Ir a mi panel",
@@ -682,7 +682,7 @@ export default function OnboardingPage() {
                         ease: "easeInOut",
                       }}
                     >
-                      🚀
+                      
                     </motion.div>
                     <h1 className="text-2xl font-black sm:text-3xl">
                       {copy.step4Title(firstName)}

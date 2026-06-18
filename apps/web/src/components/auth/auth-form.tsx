@@ -133,9 +133,9 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     fullNamePlaceholder: "Jean Dupont",
     roleLabel: "Je suis...",
     roles: {
-      learner: { label: "🎓 Apprenant", desc: "Je débute" },
-      student: { label: "👨‍💻 Étudiant", desc: "Je postule" },
-      client: { label: "🏢 Client", desc: "Je recrute" },
+      learner: { label: "Apprenant", desc: "Je débute" },
+      student: { label: "Étudiant", desc: "Je postule" },
+      client: { label: "Client", desc: "Je recrute" },
     },
     email: "Email",
     emailPlaceholder: "jean@example.com",
@@ -147,7 +147,7 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     forgotPassword: "Mot de passe oublié ?",
     submitLogin: "Se connecter",
     submitRegister: "Créer mon compte",
-    emailSentTitle: "📧 Vérifie ta boîte mail !",
+    emailSentTitle: "Vérifie ta boîte mail",
     emailSentDesc: (email: string) =>
       `Un lien de confirmation a été envoyé à ${email}. Clique dessus pour activer ton compte.`,
     backToLogin: "Retour à la connexion",
@@ -167,9 +167,9 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     fullNamePlaceholder: "John Doe",
     roleLabel: "I am...",
     roles: {
-      learner: { label: "🎓 Learner", desc: "I am starting" },
-      student: { label: "👨‍💻 Student", desc: "I apply" },
-      client: { label: "🏢 Client", desc: "I hire" },
+      learner: { label: "Learner", desc: "I am starting" },
+      student: { label: "Student", desc: "I apply" },
+      client: { label: "Client", desc: "I hire" },
     },
     email: "Email",
     emailPlaceholder: "john@example.com",
@@ -181,7 +181,7 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     forgotPassword: "Forgot password?",
     submitLogin: "Sign in",
     submitRegister: "Create account",
-    emailSentTitle: "📧 Check your inbox!",
+    emailSentTitle: "Check your inbox",
     emailSentDesc: (email: string) =>
       `A confirmation link has been sent to ${email}. Click it to activate your account.`,
     backToLogin: "Back to login",
@@ -201,9 +201,9 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     fullNamePlaceholder: "Juan Pérez",
     roleLabel: "Soy...",
     roles: {
-      learner: { label: "🎓 Aprendiz", desc: "Estoy empezando" },
-      student: { label: "👨‍💻 Estudiante", desc: "Me postulo" },
-      client: { label: "🏢 Cliente", desc: "Contrato" },
+      learner: { label: "Aprendiz", desc: "Estoy empezando" },
+      student: { label: "Estudiante", desc: "Me postulo" },
+      client: { label: "Cliente", desc: "Contrato" },
     },
     email: "Correo",
     emailPlaceholder: "juan@example.com",
@@ -215,7 +215,7 @@ const AUTH_COPY: Record<Language, AuthCopy> = {
     forgotPassword: "¿Olvidaste tu contraseña?",
     submitLogin: "Iniciar sesión",
     submitRegister: "Crear cuenta",
-    emailSentTitle: "📧 ¡Revisa tu correo!",
+    emailSentTitle: "Revisa tu correo",
     emailSentDesc: (email: string) =>
       `Se ha enviado un enlace de confirmación a ${email}. Haz clic para activar tu cuenta.`,
     backToLogin: "Volver al inicio de sesión",
@@ -440,7 +440,9 @@ export function AuthForm({ mode }: AuthFormProps) {
       {/* ── Email confirmation screen (shown after successful register) ── */}
       {emailSent && (
         <div className="text-center py-4 space-y-4">
-          <div className="text-4xl">📧</div>
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-[8px] border border-emerald-300/20 bg-emerald-300/[0.08] font-mono text-xs font-semibold text-emerald-200">
+            MAIL
+          </div>
           <h2 className="text-xl font-bold text-gray-900">
             {copy.emailSentTitle}
           </h2>

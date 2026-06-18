@@ -121,7 +121,7 @@ type PlanFeature = { label: Record<Language, string>; included: boolean };
 
 const PLANS: Array<{
   key: string;
-  emoji: string;
+  marker: string;
   name: Record<Language, string>;
   price: Record<Language, string>;
   desc: Record<Language, string>;
@@ -132,7 +132,7 @@ const PLANS: Array<{
 }> = [
   {
     key: "free",
-    emoji: "🌱",
+    marker: "L0",
     name: { fr: "Apprenant", en: "Learner", es: "Aprendiz" },
     price: { fr: "0€", en: "€0", es: "0€" },
     desc: {
@@ -204,7 +204,7 @@ const PLANS: Array<{
   },
   {
     key: "pro",
-    emoji: "⚡",
+    marker: "J+",
     name: { fr: "Junior+", en: "Junior+", es: "Junior+" },
     price: { fr: "19€", en: "€19", es: "19€" },
     desc: {
@@ -276,7 +276,7 @@ const PLANS: Array<{
   },
   {
     key: "client",
-    emoji: "🏢",
+    marker: "HR",
     name: { fr: "Recruteur", en: "Recruiter", es: "Reclutador" },
     price: { fr: "Sur devis", en: "Quote", es: "Presupuesto" },
     desc: {
@@ -349,7 +349,7 @@ const PLANS: Array<{
 ];
 
 export default async function PricingPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const langRaw = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
@@ -362,17 +362,20 @@ export default async function PricingPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen bg-[#070a10]">
         {/* ── Hero ── */}
-        <section className="bg-white border-b border-gray-100 py-16 text-center px-4">
-          <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-5 border border-brand-200">
+        <section className="relative overflow-hidden border-b border-white/10 px-4 py-16 text-center">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.16),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(56,189,248,0.12),transparent_24%)]" />
+          <div className="relative mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/[0.08] px-4 py-1.5 text-sm font-semibold text-emerald-100">
             <Star className="h-4 w-4" />
             Pricing
           </div>
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-3">
+          <h1 className="relative mb-3 text-4xl font-semibold text-white">
             {copy.headline}
           </h1>
-          <p className="text-lg text-gray-500 max-w-xl mx-auto">{copy.sub}</p>
+          <p className="relative mx-auto max-w-xl text-lg text-slate-400">
+            {copy.sub}
+          </p>
         </section>
 
         {/* ── Plans ── */}
@@ -381,28 +384,30 @@ export default async function PricingPage() {
             {PLANS.map((plan) => (
               <div
                 key={plan.key}
-                className={`relative rounded-2xl border p-6 flex flex-col ${
+                className={`relative flex flex-col rounded-[8px] border p-6 shadow-[0_18px_70px_rgba(0,0,0,0.22)] ${
                   plan.highlight
-                    ? "border-brand-500 bg-brand-600 text-white shadow-xl shadow-brand-200"
-                    : "border-gray-200 bg-white"
+                    ? "border-emerald-300/35 bg-[linear-gradient(135deg,rgba(16,185,129,0.18),rgba(34,211,238,0.12))] text-white"
+                    : "border-white/10 bg-white/[0.045]"
                 }`}
               >
                 {plan.highlight && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-4 py-1 rounded-full shadow">
-                      ⭐ {copy.mostPopular}
+                    <span className="rounded-full border border-emerald-300/30 bg-emerald-300 px-4 py-1 text-xs font-bold text-slate-950 shadow-[0_12px_35px_rgba(16,185,129,0.24)]">
+                      {copy.mostPopular}
                     </span>
                   </div>
                 )}
                 <div className="mb-4">
-                  <p className="text-3xl mb-1">{plan.emoji}</p>
+                  <p className="mb-4 flex h-11 w-11 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.06] font-mono text-xs font-semibold text-emerald-200">
+                    {plan.marker}
+                  </p>
                   <h2
-                    className={`text-lg font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}
+                    className={`text-lg font-bold ${plan.highlight ? "text-white" : "text-slate-100"}`}
                   >
                     {plan.name[language]}
                   </h2>
                   <p
-                    className={`text-3xl font-extrabold mt-1 ${plan.highlight ? "text-white" : "text-gray-900"}`}
+                    className={`mt-1 text-3xl font-extrabold ${plan.highlight ? "text-white" : "text-slate-100"}`}
                   >
                     {plan.price[language]}
                     {plan.key !== "client" && (
@@ -414,7 +419,7 @@ export default async function PricingPage() {
                     )}
                   </p>
                   <p
-                    className={`text-sm mt-2 ${plan.highlight ? "text-brand-100" : "text-gray-500"}`}
+                    className={`mt-2 text-sm ${plan.highlight ? "text-slate-300" : "text-slate-400"}`}
                   >
                     {plan.desc[language]}
                   </p>
@@ -440,10 +445,10 @@ export default async function PricingPage() {
                           if (feat.included)
                             return plan.highlight
                               ? "text-white"
-                              : "text-gray-700";
+                              : "text-slate-300";
                           return plan.highlight
-                            ? "text-brand-200 line-through"
-                            : "text-gray-400 line-through";
+                            ? "text-slate-400 line-through"
+                            : "text-slate-500 line-through";
                         })()}
                       >
                         {feat.label[language]}
@@ -454,10 +459,10 @@ export default async function PricingPage() {
 
                 <Link
                   href={plan.ctaHref}
-                  className={`text-center py-2.5 rounded-xl font-semibold text-sm transition-colors ${
+                  className={`rounded-[8px] py-2.5 text-center text-sm font-semibold transition-colors ${
                     plan.highlight
-                      ? "bg-white text-brand-700 hover:bg-brand-50"
-                      : "bg-brand-600 hover:bg-brand-700 text-white"
+                      ? "bg-gradient-to-r from-emerald-300 to-cyan-200 text-slate-950"
+                      : "border border-white/10 bg-white/[0.055] text-slate-100 hover:bg-white/[0.09]"
                   }`}
                 >
                   {copy[plan.ctaKey]}
@@ -468,8 +473,8 @@ export default async function PricingPage() {
         </section>
 
         {/* ── FAQ ── */}
-        <section className="max-w-2xl mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <section className="mx-auto max-w-2xl px-4 py-12">
+          <h2 className="mb-6 text-center text-2xl font-semibold text-white">
             {copy.faq}
           </h2>
           <div className="space-y-4">

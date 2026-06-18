@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply bg-white text-gray-900 antialiased;
+    @apply bg-[#070a10] text-slate-100 antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -27,6 +27,239 @@
   }
 }
 
+.premium-theme {
+  color-scheme: dark;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(16, 185, 129, 0.13), transparent 28%),
+    radial-gradient(circle at 86% 2%, rgba(56, 189, 248, 0.1), transparent 24%),
+    #070a10;
+}
+
+.premium-theme :where(.rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-full:not(.h-1):not(.h-1\.5):not(.h-2):not(.w-1):not(.w-1\.5):not(.w-2)) {
+  border-radius: 8px;
+}
+
+.premium-theme :where(main, [class~="min-h-screen"]) {
+  background-color: #070a10;
+}
+
+.premium-theme :where([class~="bg-white"], [class~="bg-gray-50"], [class~="bg-slate-50"]) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(18px);
+}
+
+.premium-theme :where([class~="bg-gray-100"], [class~="bg-slate-100"]) {
+  background-color: rgba(255, 255, 255, 0.075);
+}
+
+.premium-theme :where([class~="bg-brand-50"], [class~="bg-blue-50"]) {
+  background-color: rgba(59, 130, 246, 0.12);
+}
+
+.premium-theme :where([class~="bg-learn-50"], [class~="bg-green-50"], [class~="bg-emerald-50"]) {
+  background-color: rgba(16, 185, 129, 0.12);
+}
+
+.premium-theme :where([class~="bg-market-50"], [class~="bg-purple-50"]) {
+  background-color: rgba(168, 85, 247, 0.12);
+}
+
+.premium-theme :where([class~="bg-amber-50"], [class~="bg-orange-50"], [class~="bg-yellow-50"]) {
+  background-color: rgba(245, 158, 11, 0.12);
+}
+
+.premium-theme :where([class~="bg-red-50"]) {
+  background-color: rgba(239, 68, 68, 0.11);
+}
+
+.premium-theme :where(
+  [class~="border-gray-100"],
+  [class~="border-gray-200"],
+  [class~="border-gray-300"],
+  [class~="border-slate-100"],
+  [class~="border-slate-200"],
+  [class~="border-slate-300"]
+) {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.premium-theme :where([class~="border-brand-200"], [class~="border-blue-200"]) {
+  border-color: rgba(96, 165, 250, 0.28);
+}
+
+.premium-theme :where([class~="border-learn-200"], [class~="border-green-200"], [class~="border-emerald-200"]) {
+  border-color: rgba(110, 231, 183, 0.26);
+}
+
+.premium-theme :where([class~="border-amber-200"], [class~="border-orange-200"], [class~="border-yellow-200"]) {
+  border-color: rgba(251, 191, 36, 0.28);
+}
+
+.premium-theme :where([class~="border-red-200"]) {
+  border-color: rgba(248, 113, 113, 0.28);
+}
+
+.premium-theme :where(
+  [class~="bg-brand-600"],
+  [class~="bg-brand-500"],
+  [class~="bg-blue-600"],
+  [class~="bg-blue-500"]
+) {
+  background: linear-gradient(to right, #6ee7b7, #a5f3fc);
+  color: #020617;
+  box-shadow: 0 14px 45px rgba(16, 185, 129, 0.22);
+}
+
+.premium-theme :where(
+  [class~="hover:bg-brand-700"],
+  [class~="hover:bg-brand-600"],
+  [class~="hover:bg-brand-500"],
+  [class~="hover:bg-blue-700"],
+  [class~="hover:bg-blue-600"],
+  [class~="hover:bg-blue-500"]
+):hover {
+  background: linear-gradient(to right, #a7f3d0, #cffafe);
+  color: #020617;
+  box-shadow: 0 18px 55px rgba(34, 211, 238, 0.2);
+}
+
+.premium-theme :where([class~="text-brand-600"], [class~="text-brand-500"], [class~="text-blue-600"], [class~="text-blue-500"]) {
+  color: #6ee7b7;
+}
+
+.premium-theme :where([class~="text-brand-300"], [class~="text-brand-200"], [class~="text-blue-300"], [class~="text-blue-200"]) {
+  color: #a5f3fc;
+}
+
+.premium-theme :where([class~="border-brand-300"], [class~="border-brand-400"], [class~="border-blue-300"], [class~="border-blue-400"]) {
+  border-color: rgba(110, 231, 183, 0.35);
+}
+
+.premium-theme :where([class~="bg-learn-500"], [class~="bg-learn-600"]) {
+  background: linear-gradient(to right, #34d399, #22d3ee);
+  color: #020617;
+  box-shadow: 0 14px 45px rgba(16, 185, 129, 0.2);
+}
+
+.premium-theme :where([class~="text-learn-600"], [class~="text-learn-500"], [class~="text-learn-400"], [class~="text-learn-300"], [class~="text-learn-200"]) {
+  color: #6ee7b7;
+}
+
+.premium-theme :where([class~="bg-market-500"], [class~="bg-market-600"], [class~="bg-purple-500"], [class~="bg-purple-600"]) {
+  background: linear-gradient(to right, rgba(45, 212, 191, 0.24), rgba(56, 189, 248, 0.18));
+}
+
+.premium-theme :where([class~="text-market-600"], [class~="text-market-500"], [class~="text-market-400"], [class~="text-market-300"], [class~="text-market-200"]) {
+  color: #a5f3fc;
+}
+
+.premium-theme :where([class~="shadow-brand-500/30"], [class~="shadow-learn-950/30"], [class~="shadow-blue-500/30"]) {
+  --tw-shadow-color: rgba(16, 185, 129, 0.22);
+}
+
+.premium-theme :where(
+  [class~="bg-white/[0.04]"],
+  [class~="bg-white/[0.045]"],
+  [class~="bg-white/[0.055]"],
+  [class~="bg-white/[0.06]"],
+  [class~="bg-white/[0.07]"]
+) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+}
+
+.premium-theme :where([class~="border-white/15"], [class~="border-white/20"]) {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.premium-theme :where([class~="bg-black/20"], [class~="bg-black/25"], [class~="bg-black/30"]) {
+  background-color: rgba(2, 6, 23, 0.55);
+}
+
+.premium-theme :where(
+  [class~="bg-white"],
+  [class~="bg-gray-50"],
+  [class~="bg-slate-50"],
+  [class~="bg-gray-100"],
+  [class~="bg-slate-100"]
+) :where(
+  [class~="text-gray-900"],
+  [class~="text-gray-800"],
+  [class~="text-gray-700"],
+  [class~="text-slate-950"],
+  [class~="text-slate-900"],
+  [class~="text-slate-800"],
+  [class~="text-slate-700"]
+) {
+  color: #f8fafc;
+}
+
+.premium-theme :where(
+  [class~="bg-white"],
+  [class~="bg-gray-50"],
+  [class~="bg-slate-50"],
+  [class~="bg-gray-100"],
+  [class~="bg-slate-100"]
+) :where(
+  [class~="text-gray-600"],
+  [class~="text-gray-500"],
+  [class~="text-slate-600"],
+  [class~="text-slate-500"]
+) {
+  color: #94a3b8;
+}
+
+.premium-theme :where(input, textarea, select) {
+  background-color: rgba(2, 6, 23, 0.55);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+}
+
+.premium-theme :where(input, textarea, select)::placeholder {
+  color: #64748b;
+}
+
+.premium-theme :where(input, textarea, select):focus {
+  border-color: rgba(110, 231, 183, 0.45);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+
+.premium-theme .premium-auth-card :where([class~="text-gray-900"], [class~="text-gray-800"], [class~="text-gray-700"]) {
+  color: #f8fafc;
+}
+
+.premium-theme .premium-auth-card :where([class~="text-gray-500"], [class~="text-gray-400"]) {
+  color: #94a3b8;
+}
+
+.premium-theme .premium-auth-card :where([class~="border-gray-200"]) {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.premium-theme .premium-auth-card :where([class~="bg-gray-50"], [class~="bg-white"]) {
+  background-color: rgba(2, 6, 23, 0.42);
+}
+
+.premium-theme :where(button, a) {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-duration: 180ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .premium-theme main > :where(section, div) {
+    animation: premiumRise 0.5s ease-out both;
+  }
+
+  .premium-theme main :where(a, button):not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+
+  .premium-theme main :where([class*="shadow"], [class*="border"])[class*="rounded"]:hover {
+    box-shadow: 0 22px 80px rgba(0, 0, 0, 0.28);
+  }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -35,4 +268,9 @@
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes premiumRise {
+  from { opacity: 0.96; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -119,28 +119,28 @@ const MISSIONS: MissionCardData[] = [
 const PATHS = [
   {
     href: "/learn/web-developer",
-    icon: "💻",
+    icon: "WEB",
     name: "Web Developer",
     result: "Portfolio, dashboard, auth, marketplace clone",
     progress: "42%",
   },
   {
     href: "/learn/ui-designer",
-    icon: "🎨",
+    icon: "UI",
     name: "UI Designer",
     result: "Mobile wireframe, design system, case study",
     progress: "18%",
   },
   {
     href: "/learn/data-analyst",
-    icon: "📊",
+    icon: "DATA",
     name: "Data Analyst",
     result: "CSV analysis, SQL report, interactive dashboard",
     progress: "9%",
   },
   {
     href: "/learn/algorithms",
-    icon: "🧠",
+    icon: "ALG",
     name: "Algorithms",
     result: "Logic drills, interview patterns, challenge sprint",
     progress: "0%",
@@ -148,7 +148,8 @@ const PATHS = [
 ];
 
 export default async function LearnPage() {
-  const languageCookie = cookies()
+  const cookieStore = await cookies();
+  const languageCookie = cookieStore
     .get("juniorcode-language")
     ?.value?.toLowerCase()
     .slice(0, 2);
@@ -269,7 +270,9 @@ export default async function LearnPage() {
                 className="group rounded-2xl border border-white/10 bg-white/[0.055] p-5 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.08]"
               >
                 <div className="mb-4 flex items-center justify-between gap-3">
-                  <span className="text-4xl">{path.icon}</span>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.06] font-mono text-xs font-semibold text-emerald-200">
+                    {path.icon}
+                  </span>
                   <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs text-white/58">
                     {path.progress}
                   </span>

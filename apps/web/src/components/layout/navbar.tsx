@@ -120,39 +120,23 @@ export function Navbar() {
     setIsLoggedIn(false);
     setUserName("");
     setUserRole("");
-    router.push("/");
-    router.refresh();
+    window.location.assign("/");
   };
 
   const navLinks = [
-    {
-      href: "/learn",
-      label: messages.nav.learn,
-      icon: BookOpen,
-      color: "text-learn-600",
-    },
-    {
-      href: "/marketplace",
-      label: messages.nav.marketplace,
-      icon: Briefcase,
-      color: "text-market-600",
-    },
-    {
-      href: "/dashboard",
-      label: messages.nav.dashboard,
-      icon: LayoutDashboard,
-      color: "text-brand-600",
-    },
+    { href: "/learn", label: messages.nav.learn, icon: BookOpen },
+    { href: "/marketplace", label: messages.nav.marketplace, icon: Briefcase },
+    { href: "/dashboard", label: messages.nav.dashboard, icon: LayoutDashboard },
   ];
   const isAdmin = userRole === "admin";
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#070a10]/86 shadow-[0_1px_0_rgba(255,255,255,0.04),0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 font-bold text-gray-900 text-lg"
+            className="flex items-center gap-2 text-lg font-semibold text-slate-100"
         >
           <Image
             src="/brand/new_logo.png"
@@ -160,22 +144,22 @@ export function Navbar() {
             width={100}
             height={100}
             priority
-            className="rounded-xl object-contain"
+            className="rounded-md object-contain"
           />
           JuniorCode
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map(({ href, label, icon: Icon, color }) => (
+          <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.045] p-1 md:flex">
+          {navLinks.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                "flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-colors",
+                "flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium transition-all",
                 pathname.startsWith(href)
-                  ? `bg-gray-100 ${color}`
-                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50",
+                  ? "bg-white/10 text-emerald-200 shadow-[0_8px_28px_rgba(0,0,0,0.22)]"
+                  : "text-slate-400 hover:bg-white/[0.06] hover:text-slate-100",
               )}
             >
               <Icon className="h-4 w-4" />
@@ -186,17 +170,17 @@ export function Navbar() {
 
         {/* Auth buttons */}
         <div className="hidden md:flex items-center gap-2">
-          <div className="mr-2 flex items-center gap-1 rounded-xl border border-gray-200 bg-white p-1">
+          <div className="mr-2 flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.045] p-1">
             {SUPPORTED_LANGUAGES.map((lang) => (
               <button
                 key={lang}
                 type="button"
                 onClick={() => setLanguage(lang)}
                 className={cn(
-                  "rounded-lg px-2 py-1 text-xs font-semibold transition",
+                  "rounded-full px-2 py-1 text-xs font-semibold transition",
                   language === lang
-                    ? "bg-brand-600 text-white"
-                    : "text-gray-500 hover:bg-gray-100",
+                    ? "bg-emerald-300 text-slate-950"
+                    : "text-slate-500 hover:bg-white/[0.06] hover:text-slate-200",
                 )}
                 aria-label={`${messages.nav.language} ${lang}`}
               >
@@ -211,10 +195,10 @@ export function Navbar() {
                 <Link
                   href="/admin"
                   className={cn(
-                    "flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-colors",
+                    "flex items-center gap-1.5 rounded-[8px] px-3 py-2 text-sm font-medium transition-colors",
                     pathname.startsWith("/admin")
-                      ? "bg-red-50 text-red-700"
-                      : "text-gray-500 hover:text-red-700 hover:bg-red-50",
+                      ? "bg-red-950/50 text-red-300"
+                      : "text-slate-400 hover:bg-red-950/40 hover:text-red-300",
                   )}
                 >
                   <ShieldCheck className="h-4 w-4" />
@@ -223,17 +207,17 @@ export function Navbar() {
               )}
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                className="flex items-center gap-2 rounded-[8px] px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/[0.06] hover:text-slate-100"
               >
-                <div className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center">
-                  <User className="h-4 w-4 text-brand-600" />
+                <div className="flex h-7 w-7 items-center justify-center rounded-[8px] border border-white/10 bg-white/[0.06]">
+                  <User className="h-4 w-4 text-emerald-200" />
                 </div>
                 {userName || messages.nav.profile}
               </Link>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                className="flex items-center gap-1.5 rounded-[8px] px-3 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-red-950/40 hover:text-red-300"
               >
                 <LogOut className="h-4 w-4" />
                 {messages.nav.logout}
@@ -243,13 +227,13 @@ export function Navbar() {
             <>
               <Link
                 href="/auth/login"
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                className="rounded-[8px] px-4 py-2 text-sm font-medium text-slate-400 transition-colors hover:bg-white/[0.06] hover:text-slate-100"
               >
                 {messages.nav.login}
               </Link>
               <Link
                 href="/auth/register"
-                className="px-4 py-2 text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-colors flex items-center gap-1.5"
+                className="flex items-center gap-1.5 rounded-[8px] bg-gradient-to-r from-emerald-300 to-cyan-200 px-4 py-2 text-sm font-semibold text-slate-950 shadow-[0_12px_35px_rgba(16,185,129,0.22)] transition hover:shadow-[0_16px_42px_rgba(34,211,238,0.2)]"
               >
                 <LogIn className="h-4 w-4" />
                 {messages.nav.start}
@@ -261,7 +245,7 @@ export function Navbar() {
         {/* Mobile hamburger */}
         <button
           type="button"
-          className="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
+          className="rounded-[8px] p-2 text-slate-400 transition-colors hover:bg-white/[0.06] hover:text-slate-100 md:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Menu"
         >
@@ -275,18 +259,18 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white px-4 pb-4">
-          <div className="mt-3 flex items-center gap-1 rounded-xl border border-gray-200 bg-white p-1">
+        <div className="border-t border-white/10 bg-[#070a10]/96 px-4 pb-4 backdrop-blur-xl md:hidden">
+          <div className="mt-3 flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.045] p-1">
             {SUPPORTED_LANGUAGES.map((lang) => (
               <button
                 key={lang}
                 type="button"
                 onClick={() => setLanguage(lang)}
                 className={cn(
-                  "rounded-lg px-2 py-1 text-xs font-semibold transition",
+                  "rounded-full px-2 py-1 text-xs font-semibold transition",
                   language === lang
-                    ? "bg-brand-600 text-white"
-                    : "text-gray-500 hover:bg-gray-100",
+                    ? "bg-emerald-300 text-slate-950"
+                    : "text-slate-500 hover:bg-white/[0.06] hover:text-slate-200",
                 )}
                 aria-label={`${messages.nav.language} ${lang}`}
               >
@@ -296,30 +280,30 @@ export function Navbar() {
           </div>
 
           <nav className="flex flex-col gap-1 pt-3">
-            {navLinks.map(({ href, label, icon: Icon, color }) => (
+            {navLinks.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-colors",
+                  "flex items-center gap-2 rounded-[8px] px-4 py-3 text-sm font-medium transition-colors",
                   pathname.startsWith(href)
-                    ? `bg-gray-100 ${color}`
-                    : "text-gray-600 hover:bg-gray-50",
+                    ? "bg-white/10 text-emerald-200"
+                    : "text-slate-400 hover:bg-white/[0.06] hover:text-slate-100",
                 )}
               >
                 <Icon className="h-4 w-4" />
                 {label}
               </Link>
             ))}
-            <div className="border-t border-gray-100 mt-2 pt-3 flex flex-col gap-2">
+            <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-3">
               {isLoggedIn ? (
                 <>
                   {isAdmin && (
                     <Link
                       href="/admin"
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-red-700 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
+                      className="flex items-center gap-2 rounded-[8px] border border-red-900/60 px-4 py-3 text-sm font-medium text-red-300 transition-colors hover:bg-red-950/40"
                     >
                       <ShieldCheck className="h-4 w-4" />
                       Admin
@@ -328,9 +312,9 @@ export function Navbar() {
                   <Link
                     href="/dashboard"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-2 rounded-[8px] border border-white/10 px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/[0.06]"
                   >
-                    <User className="h-4 w-4 text-brand-600" />
+                    <User className="h-4 w-4 text-emerald-200" />
                     {userName || messages.nav.profile}
                   </Link>
                   <button
@@ -339,7 +323,7 @@ export function Navbar() {
                       setMobileOpen(false);
                       handleLogout();
                     }}
-                    className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-red-600 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
+                    className="flex items-center justify-center gap-2 rounded-[8px] border border-red-900/60 px-4 py-3 text-sm font-medium text-red-300 transition-colors hover:bg-red-950/40"
                   >
                     <LogOut className="h-4 w-4" />
                     {messages.nav.logout}
@@ -350,14 +334,14 @@ export function Navbar() {
                   <Link
                     href="/auth/login"
                     onClick={() => setMobileOpen(false)}
-                    className="px-4 py-3 text-sm font-medium text-center text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                    className="rounded-[8px] border border-white/10 px-4 py-3 text-center text-sm font-medium text-slate-300 transition-colors hover:bg-white/[0.06]"
                   >
                     {messages.nav.login}
                   </Link>
                   <Link
                     href="/auth/register"
                     onClick={() => setMobileOpen(false)}
-                    className="px-4 py-3 text-sm font-medium text-center text-white bg-brand-600 rounded-xl hover:bg-brand-700 transition-colors"
+                    className="rounded-[8px] bg-gradient-to-r from-emerald-300 to-cyan-200 px-4 py-3 text-center text-sm font-semibold text-slate-950"
                   >
                     {messages.nav.start}
                   </Link>
